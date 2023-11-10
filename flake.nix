@@ -4,8 +4,9 @@
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.nixos-generators.url = "github:nix-community/nixos-generators";
   inputs.nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-  outputs = inputs @ { self, nixpkgs, flake-utils, nixos-generators }: 
+  outputs = inputs @ { self, nixpkgs, flake-utils, nixos-generators, ... }: 
   let 
     pkgs = nixpkgs.legacyPackages.x86_64-linux;
     common = {
