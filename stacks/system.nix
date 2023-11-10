@@ -1,11 +1,12 @@
 {
-  config,
   pkgs,
   inputs,
   ...
 }:
 
 {
+  system.stateVersion = "23.05";
+
   environment.systemPackages = with pkgs; [
     gitFull
     neovim
@@ -20,10 +21,11 @@
   '';
 
   environment.etc = {
+    # Store the flake that built the system
     sourceFlake.source = builtins.path {
       name = "sourceFlake";
+      # filter out `result`
       path = inputs.self;
-      # filter `result`
     };
   };
 }

@@ -8,27 +8,44 @@
 
   outputs = inputs @ { self, nixpkgs, flake-utils, nixos-generators, ... }: 
   let 
-    pkgs = nixpkgs.legacyPackages.x86_64-linux;
     common = {
-      system = "x86_64-linux";
       modules = [
         ./stacks/users.nix
         ./stacks/system.nix
       ];
-      specialArgs = { inherit inputs pkgs; };
+      specialArgs = { inherit inputs; };
     };
+    chonkerVmConfig = {
+      system = "aarch64-linux";
+      specialArgs = { pkgs = nixpkgs.legacyPackages.aarch64-linux; };
+    } // common;
+    behemothConfig = {
+      system = "x86_64-linux";
+      modules = [
+        ./stacks/behemoth.nix
+      ];
+      specialArgs = { pkgs = nixpkgs.legacyPackages.x86_64-linux; };
+    } // common;
   in
   {
-    nixosConfigurations.chonker2 = nixpkgs.lib.nixosSystem common;
+    nixosModules = {
+      chonker-vm = chonkerVmConfig;
+      behemoth = behemothConfig;
+    };
+    nixosConfigurations = {
+      chonker-vm = nixpkgs.lib.nixosSystem self.nixosModules.chonker-vm;
+      behemoth = nixpkgs.lib.nixosSystem self.nixosModules.behemoth;
+    };
   }
   //
   flake-utils.lib.eachDefaultSystem (system:
     {
-      packages.chonker2-iso = nixos-generators.nixosGenerate ({
+      packages.chonkerVmInstaller = nixos-generators.nixosGenerate ({
         format = "iso";
-      }
-      //
-      common);
+      } // self.nixosModules.chonker-vm);
+      packages.behemothInstaller = nixos-generators.nixosGenerate ({
+        format = "iso";
+      } // self.nixosModules.behemoth);
     }
   );
 
