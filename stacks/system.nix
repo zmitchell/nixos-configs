@@ -8,6 +8,13 @@
   system.stateVersion = "23.05";
   nixpkgs.config.allowUnfree = true;
 
+  # Configure the bootloader
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot";
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 100;
+
+
   # Packages that should be available to all users (including the root user)
   environment.systemPackages = with pkgs; [
     gitFull
