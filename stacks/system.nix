@@ -35,29 +35,29 @@
   services.openssh.enable = true;
 
   # Configure Zsh and its plugins for use as the default shell
-  programs.zsh.enable = true;
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.enableCompletion = true;
-  programs.zsh.autosuggestions.enable = true;
-  programs.starship.enable = true;
-  programs.starship.settings = {
-    format = "\
-    $username\
-    $hostname\
-    $directory\
-    $git_branch\
-    $git_state\
-    $git_status\
-    $python\
-    $cmd_duration\
-    $line_break\
-    $nix_shell\
-    $character
-    ";
-    command_timeout = 3000;
-    nix_shell.heuristic = true;
-    directory.truncate_to_repo = false;
-  };
+  # programs.zsh.enable = true;
+  # programs.zsh.syntaxHighlighting.enable = true;
+  # programs.zsh.enableCompletion = true;
+  # programs.zsh.autosuggestions.enable = true;
+  # programs.starship.enable = false;
+  # programs.starship.settings = {
+  #   format = "\
+  #   $username\
+  #   $hostname\
+  #   $directory\
+  #   $git_branch\
+  #   $git_state\
+  #   $git_status\
+  #   $python\
+  #   $cmd_duration\
+  #   $line_break\
+  #   $nix_shell\
+  #   $character
+  #   ";
+  #   command_timeout = 3000;
+  #   nix_shell.heuristic = true;
+  #   directory.truncate_to_repo = false;
+  # };
   
   # Enable flakes
   nix.extraOptions = ''

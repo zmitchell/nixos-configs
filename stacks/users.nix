@@ -11,7 +11,7 @@
     name = "zmitchell";
     isNormalUser = true;
     initialPassword = "let-me-in";
-    shell = pkgs.zsh;
+    # shell = pkgs.zsh;
     # Gives the user sudo permissions
     extraGroups = ["wheel"];
 

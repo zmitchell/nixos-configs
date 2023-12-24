@@ -17,28 +17,34 @@
       ];
       specialArgs = { inherit inputs; };
     };
-    chonkerVmConfig = {
+    chonkerVmConfig = common // {
       system = "aarch64-linux";
       specialArgs = { pkgs = nixpkgs.legacyPackages.aarch64-linux; };
       modules = [
         disko.nixosModules.disko
-        nixpkgs.legacyPackages.aarch64-linux.lib.callPackage ./stacks/zfs_single_drive.nix {
-          device = "/dev/sda";
+        (import ./stacks/zfs_single_drive.nix {
+          device = "/dev/vda";
           user = "zmitchell";
+        })
+        {
+          networking.hostId = "deadbeef";
+          # boot.loader.grub.devices=["/dev/vda"];
         }
+        (import ./stacks/disko_scripts.nix)
       ];
-    } // common;
-    behemothConfig = {
+    };
+    behemothConfig = common // {
       system = "x86_64-linux";
       modules = [
         ./stacks/behemoth.nix
-        nixpkgs.legacyPackages.x86_64-linux.lib.callPackage ./stacks/zfs_single_drive.nix {
+        # {networking.hostId = "behemoth";}
+        (import ./stacks/zfs_single_drive.nix {
           device = "/dev/sda";
           user = "zmitchell";
-        }
+        })
       ];
       specialArgs = { pkgs = nixpkgs.legacyPackages.x86_64-linux; };
-    } // common;
+    };
   in
   {
     nixosModules = {
@@ -46,7 +52,7 @@
       behemoth = behemothConfig;
     };
     nixosConfigurations = {
-      chonker-vm = nixpkgs.lib.nixosSystem self.nixosModules.chonker-vm // { disko.enableConfig = false; };
+      chonker-vm = nixpkgs.lib.nixosSystem (self.nixosModules.chonker-vm // { disko.enableConfig = false; });
       behemoth = nixpkgs.lib.nixosSystem self.nixosModules.behemoth;
     };
   }
@@ -61,5 +67,4 @@
       } // self.nixosModules.behemoth);
     }
   );
-
 }

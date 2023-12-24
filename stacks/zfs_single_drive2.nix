@@ -66,14 +66,14 @@
               mountpoint = "legacy";
             };
           };
-          "system/root" = {
-            type = "zfs_fs";
-            mountpoint = "/";
-            options = {
-              # NixOS requires mountpoint=legacy for all datasets
-              mountpoint = "legacy";
-            };
-          };
+          # "system/root" = {
+          #   type = "zfs_fs";
+          #   mountpoint = "/";
+          #   options = {
+          #     # NixOS requires mountpoint=legacy for all datasets
+          #     options.mountpoint = "legacy";
+          #   };
+          # };
           user = {
             type = "zfs_fs";
             mountpoint = "/home/${user}";
