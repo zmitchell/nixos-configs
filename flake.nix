@@ -17,11 +17,13 @@
       ];
       specialArgs = { inherit inputs; };
     };
-    chonkerVmConfig = common // {
+    chonkerVmConfig = {
       system = "aarch64-linux";
-      specialArgs = { pkgs = nixpkgs.legacyPackages.aarch64-linux; };
+      specialArgs = { inherit inputs; pkgs = nixpkgs.legacyPackages.aarch64-linux; };
       modules = [
         disko.nixosModules.disko
+        (import ./stacks/users.nix)
+        (import ./stacks/system.nix)
         (import ./stacks/zfs_single_drive.nix {
           device = "/dev/vda";
           user = "zmitchell";

@@ -13,23 +13,26 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 100;
+  boot.initrd.availableKernelModules = [
+    "nvme"
+  ];
 
 
   # Packages that should be available to all users (including the root user)
-  environment.systemPackages = with pkgs; [
-    gitFull
-    neovim
-    just
-    ripgrep
-    bat
-    fd
-    zoxide
-    atuin
-    fzf
-    tealdeer
-    starship
-    jq
-  ];
+  # environment.systemPackages = with pkgs; [
+  #   gitFull
+  #   neovim
+  #   just
+  #   ripgrep
+  #   bat
+  #   fd
+  #   zoxide
+  #   atuin
+  #   fzf
+  #   tealdeer
+  #   starship
+  #   jq
+  # ];
 
   # Enable the OpenSSH server
   services.openssh.enable = true;
