@@ -1,22 +1,37 @@
 {
-  config,
-  options,
-  inputs,
   pkgs,
   ...
 }:
+let
+  gitHelpers = pkgs.callPackage ../command_sets/git.nix {};
+in
+  {
+    users.users.zmitchell = {
+      name = "zmitchell";
+      isNormalUser = true;
 
-{
-  users.users.zmitchell = {
-    name = "zmitchell";
-    isNormalUser = true;
-    initialPassword = "let-me-in";
-    # shell = pkgs.zsh;
-    # Gives the user sudo permissions
-    extraGroups = ["wheel"];
+      # Gives the user sudo permissions
+      extraGroups = ["wheel"];
+      shell = pkgs.fish;
 
-    packages = with pkgs; [
-      # put stuff here
-    ];
-  };
-}
+      packages = with pkgs; [
+        # Packages
+        fish
+        starship
+        ripgrep
+        fd
+        just
+        atuin
+        zoxide
+        eza
+        # System wide language servers
+        nil
+        nodePackages.bash-language-server
+      ] ++ [
+        # Command sets
+        gitHelpers
+      ];
+    };
+
+    environment.variables.EDITOR = pkgs.helix;
+  }
