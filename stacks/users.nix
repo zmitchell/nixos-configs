@@ -34,5 +34,5 @@ in
       ];
     };
 
-    environment.variables.EDITOR = pkgs.helix;
+    environment.variables.EDITOR = pkgs.helix.meta.mainProgram;
   }
