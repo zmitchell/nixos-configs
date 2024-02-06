@@ -15,24 +15,43 @@ in
       shell = pkgs.fish;
 
       packages = with pkgs; [
-        # Packages
+        # Shell interactions
         fish
         fishPlugins.colored-man-pages
         starship
-        ripgrep
-        fd
-        just
         atuin
         zoxide
         eza
-        # System wide language servers
+        # Utilities
+        ripgrep
+        fd
+        just
+        btop
+        difftastic
+        # Fun stuff
+        meme-image-generator
+        imgcat
+        # Nix stuff
+        nix-index
+        nix-init
+        nix-tree
+        nix-eval-jobs
+        nixfmt
+        # Language servers
         nil
         nodePackages.bash-language-server
-      ] ++ [
         # Command sets
         gitHelpers
       ];
     };
 
     environment.variables.EDITOR = pkgs.helix.meta.mainProgram;
+
+    # 'nix-index' enables these by default, even though they're mutually exclusive
+    # with the default  'programs.command-not-found.enable'.
+    # That particular program is broken on flake-based systems anyway, but I'm using
+    # 'flake-programs-sqlite' to solve that issue.
+    programs.nix-index.enableFishIntegration = false;
+    programs.nix-index.enableBashIntegration = false;
+    programs.nix-index.enableZshIntegration = false;
   }

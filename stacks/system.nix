@@ -18,9 +18,10 @@
   # Git config
   programs.git.enable = true;
 
+
+
   # Packages that should be available to all users (including the root user)
   environment.systemPackages = with pkgs; [
-    git
     neovim
     helix
     ripgrep

@@ -4,8 +4,14 @@
   programs.fish.enable = true;
 
   programs.fish.shellAliases = {
+	  # 'ls' stuff
 	  ls = "eza -1";
 		lsall = "eza -al --total-size --smart-group --time-style long-iso";
+		# git-related aliases
+		gs = "git status";
+		gl = "git log --oneline";
+		gp = "git push";
+		# Launch an editor for config files
 		nixconfig = "$EDITOR ~/config/";
 		sshconfig = "$EDITOR ~/.ssh";
 	};
