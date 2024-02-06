@@ -17,6 +17,7 @@ in
       packages = with pkgs; [
         # Packages
         fish
+        fishPlugins.colored-man-pages
         starship
         ripgrep
         fd

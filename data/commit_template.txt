@@ -1,0 +1,15 @@
+# Short description limit (50 characters)
+#------------------------------------------------|
+# Body limit (72 characters)
+#-----------------------------------------------------------------------|
+# <type>[scope]: <description>
+# Types:
+# - feat
+# - fix
+# - chore
+# - perf
+# - docs
+# - style
+# - refactor
+# - test
+

@@ -15,13 +15,18 @@
             {
               virtualisation.vmware.guest.enable = true;
               imports = [
-                ./stacks/vm-hardware-configuration.nix
+                ./hardware/vm.nix
               ];
+            }
+            {
+              networking.hostName = "nixos";
+              networking.domain = "vms.home";
             }
             ./stacks/boot.nix
             ./stacks/system.nix
             ./stacks/users.nix
             ./stacks/shell.nix
+            ./stacks/git.nix
           ];
         };
   in
