@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
 {
   system.stateVersion = "23.11";
@@ -18,13 +15,6 @@
   # Git config
   programs.git.enable = true;
 
-
-
   # Packages that should be available to all users (including the root user)
-  environment.systemPackages = with pkgs; [
-    neovim
-    helix
-    ripgrep
-    jq
-  ];
+  environment.systemPackages = with pkgs; [ neovim helix ripgrep jq ];
 }

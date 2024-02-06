@@ -1,4 +1,4 @@
-{symlinkJoin, writeShellScriptBin, writeShellApplication, git, ...}:
+{ symlinkJoin, writeShellScriptBin, writeShellApplication, git, ... }:
 let
   usage-if-no-args = writeShellScriptBin "usage-if-no-args" ''
     n_args="$1"
@@ -11,7 +11,7 @@ let
 
   gh-clone = writeShellApplication {
     name = "gh-clone";
-    runtimeInputs = [git usage-if-no-args];
+    runtimeInputs = [ git usage-if-no-args ];
 
     text = ''
       usage="Usage: gh-clone <owner>/<repo>"
@@ -24,8 +24,8 @@ let
 
   fetch-rebase = writeShellApplication {
     name = "fetch-rebase";
-    runtimeInputs = [git usage-if-no-args];
-    
+    runtimeInputs = [ git usage-if-no-args ];
+
     text = ''
       usage="Usage: fetch-rebase <branch>"
       ${usage-if-no-args}/bin/usage-if-no-args "$#" "$usage"
@@ -36,7 +36,7 @@ let
 
   set-upstream = writeShellApplication {
     name = "set-upstream";
-    runtimeInputs = [git usage-if-no-args];
+    runtimeInputs = [ git usage-if-no-args ];
 
     text = ''
       usage="Usage: set-upstream [<remote>] <branch>"
@@ -61,7 +61,7 @@ let
 
   worktree-clone = writeShellApplication {
     name = "worktree-clone";
-    runtimeInputs = [git usage-if-no-args];
+    runtimeInputs = [ git usage-if-no-args ];
 
     text = ''
       usage="Usage (from parent of trees): worktree-clone <project name> <URL>"
@@ -77,7 +77,7 @@ let
 
   new-worktree = writeShellApplication {
     name = "new-worktree";
-    runtimeInputs = [git usage-if-no-args];
+    runtimeInputs = [ git usage-if-no-args ];
 
     text = ''
       usage="Usage (from master worktree): new-worktree <name> [<file to symlink>, ...]"
@@ -99,7 +99,7 @@ let
 
   remove-worktree = writeShellApplication {
     name = "remove-worktree";
-    runtimeInputs = [git usage-if-no-args];
+    runtimeInputs = [ git usage-if-no-args ];
 
     text = ''
       usage="Usage (from master worktree): remove-worktree <name> [<name>, ...]"
@@ -113,7 +113,7 @@ let
 
   pr-worktree = writeShellApplication {
     name = "pr-worktree";
-    runtimeInputs = [git usage-if-no-args];
+    runtimeInputs = [ git usage-if-no-args ];
 
     text = ''
       usage="Usage (from master worktree): pr-worktree <pr #> <name>"
@@ -130,7 +130,7 @@ let
 
   upstream-pr-worktree = writeShellApplication {
     name = "upstream-pr-worktree";
-    runtimeInputs = [git usage-if-no-args];
+    runtimeInputs = [ git usage-if-no-args ];
 
     text = ''
       usage="Usage (from master worktree): upstream-pr-worktree <pr #> <name>"
@@ -145,19 +145,16 @@ let
     '';
   };
 
-
-  
-in
-  symlinkJoin {
-    name = "git-helpers";
-    paths = [
-      gh-clone
-      fetch-rebase
-      set-upstream
-      worktree-clone
-      new-worktree
-      remove-worktree
-      pr-worktree
-      upstream-pr-worktree
-    ];
-  }
+in symlinkJoin {
+  name = "git-helpers";
+  paths = [
+    gh-clone
+    fetch-rebase
+    set-upstream
+    worktree-clone
+    new-worktree
+    remove-worktree
+    pr-worktree
+    upstream-pr-worktree
+  ];
+}

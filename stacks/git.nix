@@ -1,5 +1,4 @@
-{...}:
-{
+{ ... }: {
   programs.git.config = {
     user = {
       name = "Zach Mitchell";
@@ -9,19 +8,13 @@
       # FIXME: some error with mkValueStringDefault
       # excludesfile = ../data/gitignore_global;
     };
-    init = {
-      defaultBranch = "main";
-    };
+    init = { defaultBranch = "main"; };
     commit = {
       # FIXME: some error with mkValueStringDefault
       # template = ../data/commit_template.txt;
       cleanup = "strip";
     };
-    push = {
-      autoSetupRemote = true;
-    };
-    pull = {
-      ff = "only";
-    };
+    push = { autoSetupRemote = true; };
+    pull = { ff = "only"; };
   };
 }
