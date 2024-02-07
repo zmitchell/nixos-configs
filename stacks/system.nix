@@ -10,7 +10,15 @@
   security.sudo.wheelNeedsPassword = false;
 
   # Enable the OpenSSH server
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      # Forbid root login through SSH.
+      PermitRootLogin = "no";
+      # Use keys only. Remove if you want to SSH using password (not recommended)
+      PasswordAuthentication = false;
+    };
+  };
 
   # Git config
   programs.git.enable = true;
