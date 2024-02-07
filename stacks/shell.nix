@@ -15,6 +15,9 @@
   };
   services.atuin.enable = true;
   programs.fish.shellInit = ''
+    # Disable the greeting
+    set -U fish_greeting
+    
     # Initialize shell programs
     atuin init fish --disable-up-arrow | source
     zoxide init fish | source
