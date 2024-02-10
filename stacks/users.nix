@@ -23,6 +23,10 @@ in {
       just
       btop
       difftastic
+      tree
+      parallel
+      tealdeer
+      watchexec
       # Fun stuff
       meme-image-generator
       imgcat

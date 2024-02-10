@@ -17,7 +17,7 @@ let
       usage="Usage: gh-clone <owner>/<repo>"
       ${usage-if-no-args}/bin/usage-if-no-args "$#" "$usage"
       repo_name="''${1##*/}"
-      ${git} clone "git@github.com:$1.git"
+      ${git}/bin/git clone "git@github.com:$1.git"
       cd "$repo_name"
     '';
   };
@@ -29,8 +29,8 @@ let
     text = ''
       usage="Usage: fetch-rebase <branch>"
       ${usage-if-no-args}/bin/usage-if-no-args "$#" "$usage"
-      ${git} fetch origin "$1"
-      ${git} rebase "$1"
+      ${git}/bin/git fetch origin "$1"
+      ${git}/bin/git rebase "$1"
     '';
   };
 
@@ -43,13 +43,13 @@ let
       ${usage-if-no-args}/bin/usage-if-no-args "$#" "$usage"
       case "$#" in
         0)
-          ${git} push --set-upstream origin "$(basename "$PWD")"
+          ${git}/bin/git push --set-upstream origin "$(basename "$PWD")"
           ;;
         1)
-          ${git} push --set-upstream origin "$1"
+          ${git}/bin/git push --set-upstream origin "$1"
           ;;
         2)
-          ${git} push --set-upstream "$1" "$2"
+          ${git}/bin/git push --set-upstream "$1" "$2"
           ;;
         *)
           echo "$usage"
@@ -70,7 +70,7 @@ let
       url="$2"
       mkdir "$project_name"
       cd "$project_name"
-      ${git} clone "$url" master
+      ${git}/bin/git clone "$url" master
       cd master
     '';
   };
@@ -84,7 +84,7 @@ let
       ${usage-if-no-args}/bin/usage-if-no-args "$#" "$usage"
       worktree_name="$1"
       # Create a new branch and worktree with the same name
-      ${git} worktree add -b "$worktree_name" "../$worktree_name"
+      ${git}/bin/git worktree add -b "$worktree_name" "../$worktree_name"
       # Symlink any specified files into the new worktree
       if [ "$#" -gt 1 ]; then
         for f in "''${@:2}"; do
@@ -105,8 +105,8 @@ let
       usage="Usage (from master worktree): remove-worktree <name> [<name>, ...]"
       ${usage-if-no-args}/bin/usage-if-no-args "$#" "$usage"
       for n in "$@"; do
-        ${git} worktree remove -f "../$n"
-        ${git} branch -D "$n"
+        ${git}/bin/git worktree remove -f "../$n"
+        ${git}/bin/git branch -D "$n"
       done
     '';
   };
@@ -120,10 +120,10 @@ let
       ${usage-if-no-args}/bin/usage-if-no-args "$#" "$usage"
       pr_number="$1"
       worktree_name="$2"
-      ${git} pull
+      ${git}/bin/git pull
       # Fetch the PR branch to our local '$worktree_name' branch
-      ${git} fetch origin "pull/$pr_number/head:$worktree_name"
-      ${git} worktree add "../$worktree_name" "$worktree_name"
+      ${git}/bin/git fetch origin "pull/$pr_number/head:$worktree_name"
+      ${git}/bin/git worktree add "../$worktree_name" "$worktree_name"
       cd "../$worktree_name"
     '';
   };
@@ -137,10 +137,10 @@ let
       ${usage-if-no-args}/bin/usage-if-no-args "$#" "$usage"
       pr_number="$1"
       worktree_name="$2"
-      ${git} pull
+      ${git}/bin/git pull
       # Fetch the PR branch to our local '$worktree_name' branch
-      ${git} fetch upstream "pull/$pr_number/head:$worktree_name"
-      ${git} worktree add "../$worktree_name" "$worktree_name"
+      ${git}/bin/git fetch upstream "pull/$pr_number/head:$worktree_name"
+      ${git}/bin/git worktree add "../$worktree_name" "$worktree_name"
       cd "../$worktree_name"
     '';
   };

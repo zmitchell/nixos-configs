@@ -6,6 +6,10 @@
 
   nix.settings.auto-optimise-store = true;
   nix.settings.experimental-features = "nix-command flakes";
+  nix.settings.trusted-users = [
+    "root"
+    "zmitchell"
+  ];
 
   security.sudo.wheelNeedsPassword = false;
 
