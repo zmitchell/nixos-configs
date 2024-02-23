@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   system.stateVersion = "23.11";
@@ -29,4 +29,14 @@
 
   # Packages that should be available to all users (including the root user)
   environment.systemPackages = with pkgs; [ neovim helix ripgrep jq ];
+
+  # Miscellaneous files we want to appear on the system
+  environment.etc = {
+    # Store the flake that built the system
+    sourceFlake.source = builtins.path {
+      name = "sourceFlake";
+      # filter out `result`
+      path = inputs.self;
+    };
+  };
 }

@@ -53,4 +53,5 @@ in {
   programs.nix-index.enableFishIntegration = false;
   programs.nix-index.enableBashIntegration = false;
   programs.nix-index.enableZshIntegration = false;
+  programs.command-not-found.enable = true;
 }
