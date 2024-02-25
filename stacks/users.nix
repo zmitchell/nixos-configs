@@ -4,6 +4,7 @@ in {
   users.users.zmitchell = {
     name = "zmitchell";
     isNormalUser = true;
+    initialPassword = "dumb-password";
 
     # Gives the user sudo permissions
     extraGroups = [ "wheel" ];
