@@ -1,4 +1,9 @@
 {pkgs, ...}:
+let
+  moonlight-wayland = pkgs.moonlight-qt.overrideAttrs {
+    envs.QT_QPA_PLATFORM = "wayland";
+  };
+in
 {
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
@@ -6,14 +11,15 @@
 
   programs.gnome-disks.enable = true;
   programs.gnome-terminal.enable = true;
+
   users.users.zmitchell.packages = with pkgs; [
     firefox
     gnome.evince # document viewer
     gnome.gedit # text editor
     gnome.eog # image viewer
     gnome.sushi # quick preview for nautilus
-    # For game streaming
-    moonlight-qt
+  ] ++ [
+    moonlight-wayland
   ];
 
   # Gaming related stuff
