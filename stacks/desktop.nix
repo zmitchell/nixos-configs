@@ -1,8 +1,12 @@
 {pkgs, ...}:
 let
-  moonlight-wayland = pkgs.moonlight-qt.overrideAttrs {
-    envs.QT_QPA_PLATFORM = "wayland";
-  };
+  # Always launch Moonlight in Wayland mode
+  moonlight-wayland = pkgs.moonlight-qt.overrideAttrs ( prev: {
+    buildInputs = prev.buildInputs or [] ++ [pkgs.makeWrapper];
+    postInstall = prev.postInstall or "" + ''
+      wrapProgram $out/bin/moonlight --set QT_QPA_PLATFORM wayland
+    '';
+  });
 in
 {
   services.xserver.enable = true;
