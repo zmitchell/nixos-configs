@@ -77,10 +77,26 @@
               }
             ] ++ baseModules;
         };
+      smolboiConfig =
+        let
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        in
+          {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs pkgs; };
+            modules = [
+              {
+                networking.hostName = "smolboi";
+                networking.hostId = "20042069";
+              }
+              ./stacks/desktop.nix
+            ] ++ baseModules;
+          };
     in {
-      nixosModules = { inherit vmConfig thiccboiConfig thiccboiInstaller; };
+      nixosModules = { inherit vmConfig thiccboiConfig thiccboiInstaller smolboiConfig; };
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem self.nixosModules.vmConfig;
+        smolboi = nixpkgs.lib.nixosSystem self.nixosModules.smolboiConfig;
         thiccboi = nixpkgs.lib.nixosSsytem self.nixosModules.thiccboiConfig;
         thiccboiInstaller = nixpkgs.lib.nixosSystem self.nixosModules.thiccboiInstaller;
       };
