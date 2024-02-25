@@ -37,4 +37,11 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Enable hardware acceleration of various things
+  hardware.opengl.extraPackages = with pkgs; [
+    intel-ocl
+    intel-media-driver
+    intel-vaapi-driver
+  ];
 }
