@@ -13,9 +13,9 @@ in
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  # Applications
   programs.gnome-disks.enable = true;
   programs.gnome-terminal.enable = true;
-
   users.users.zmitchell.packages = with pkgs; [
     firefox
     gnome.evince # document viewer
@@ -29,4 +29,11 @@ in
   # Gaming related stuff
   hardware.steam-hardware.enable = true;
   programs.steam.enable = true;
+  services.pipewire = {
+    enable = true;
+    audio.enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
+    jack.enable = true;
+  };
 }
