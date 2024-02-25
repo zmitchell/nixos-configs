@@ -5,6 +5,9 @@ in {
     name = "zmitchell";
     isNormalUser = true;
     initialPassword = "dumb-password";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILm7/9q3RUHuDJKih8XMWIoIFTsga2XtnOXL14CNouhd zmitchell@fastmail.com"
+    ];
 
     # Gives the user sudo permissions
     extraGroups = [ "wheel" ];
@@ -44,6 +47,8 @@ in {
       gitHelpers
     ];
   };
+
+
 
   environment.variables.EDITOR = pkgs.helix.meta.mainProgram;
 
