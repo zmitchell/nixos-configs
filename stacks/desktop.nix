@@ -23,6 +23,7 @@ in
     gnome.gedit # text editor
     gnome.eog # image viewer
     gnome.sushi # quick preview for nautilus
+    gnome-console
   ] ++ [
     moonlight-wayland
   ];
