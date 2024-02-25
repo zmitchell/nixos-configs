@@ -85,6 +85,7 @@
             system = "x86_64-linux";
             specialArgs = { inherit inputs pkgs; };
             modules = [
+	      ./hardware/smolboi.nix
               {
                 networking.hostName = "smolboi";
                 networking.hostId = "20042069";
