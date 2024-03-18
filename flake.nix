@@ -18,11 +18,11 @@
     inputs@{ self, nixpkgs, nix-index-database, flake-programs-sqlite, disko, nixos-generators, ... }:
     let
       baseModules = [
-        ./stacks/boot.nix
-        ./stacks/system.nix
-        ./stacks/users.nix
-        ./stacks/shell.nix
-        ./stacks/git.nix
+        ./features/boot.nix
+        ./features/system.nix
+        ./features/users.nix
+        ./features/shell.nix
+        ./features/git.nix
         nix-index-database.nixosModules.nix-index
         flake-programs-sqlite.nixosModules.programs-sqlite
       ];
@@ -90,7 +90,7 @@
                 networking.hostName = "smolboi";
                 networking.hostId = "20042069";
               }
-              ./stacks/desktop.nix
+              ./features/desktop.nix
             ] ++ baseModules;
           };
     in {
