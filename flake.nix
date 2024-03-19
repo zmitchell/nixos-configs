@@ -33,89 +33,60 @@
         flake-programs-sqlite.nixosModules.programs-sqlite
       ];
       vmConfig = 
-        let
-          pkgs = nixpkgs.legacyPackages.aarch64-linux;
-        in
-          {
-            system = "aarch64-linux";
-            specialArgs = { inherit inputs pkgs; };
-            modules = [
-              {
-                virtualisation.vmware.guest.enable = true;
-                imports = [ ./hosts/vm.nix ];
-              }
-              {
-                networking.hostName = "nixos";
-                networking.domain = "vms.home";
-                networking.hostId = "00042069";
-              }
-            ] ++ baseModules;
-          };
-      vmDiskoConfig = 
-        let
-          pkgs = nixpkgs.legacyPackages.aarch64-linux;
-        in
-          {
-            system = "aarch64-linux";
-            specialArgs = { inherit inputs pkgs; };
-            modules = [
-              disko.nixosModules.disko
-              (import ./features/zfs_single_drive.nix {
-                device = "/dev/nvme0n1";
-                user = "zmitchell";
-              })
-              {
-                virtualisation.vmware.guest.enable = true;
-              }
-              {
-                networking.hostName = "nixos-disko";
-                networking.domain = "vms.home";
-                networking.hostId = "00042069";
-              }
-            ] ++ baseModules;
-          };
+        {
+          system = "aarch64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            disko.nixosModules.disko
+            (import ./features/zfs_single_drive.nix {
+              device = "/dev/nvme0n1";
+              user = "zmitchell";
+            })
+            {
+              virtualisation.vmware.guest.enable = true;
+            }
+            {
+              networking.hostName = "nixos";
+              networking.domain = "vms.home";
+              networking.hostId = "00042069";
+            }
+          ] ++ baseModules;
+        };
       thiccboiConfig =
-        let
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        in
-          {
-            system = "x86_64-linux";
-            specialArgs = { inherit inputs; };
-            modules = [
-              ./hosts/thiccboi.nix
-              disko.nixosModules.disko
-              (import ./features/zfs_single_drive.nix {
-                device = "/dev/nvme1n1";
-                user = "zmitchell";
-              })
-              ./features/desktop.nix
-              {
-                networking.hostName = "thiccboi";
-                networking.hostId = "10042069";
-              }
-            ] ++ baseModules;
-          };
+        {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/thiccboi.nix
+            disko.nixosModules.disko
+            (import ./features/zfs_single_drive.nix {
+              device = "/dev/nvme1n1";
+              user = "zmitchell";
+            })
+            ./features/desktop.nix
+            {
+              networking.hostName = "thiccboi";
+              networking.hostId = "10042069";
+            }
+          ] ++ baseModules;
+        };
       smolboiConfig =
-        let
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        in
-          {
-            system = "x86_64-linux";
-            specialArgs = { inherit inputs; };
-            modules = [
-	            ./hosts/smolboi.nix
-              {
-                networking.hostName = "smolboi";
-                networking.hostId = "20042069";
-              }
-              ./features/desktop.nix
-            ] ++ baseModules;
-          };
+        {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/smolboi.nix
+            {
+              networking.hostName = "smolboi";
+              networking.hostId = "20042069";
+            }
+            ./features/desktop.nix
+          ] ++ baseModules;
+        };
     in {
-      nixosModules = { inherit vmConfig vmDiskoConfig thiccboiConfig smolboiConfig; };
+      nixosModules = { inherit vmConfig thiccboiConfig smolboiConfig; };
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem self.nixosModules.vmConfig;
-        vm-disko = nixpkgs.lib.nixosSystem self.nixosModules.vmDiskoConfig;
         smolboi = nixpkgs.lib.nixosSystem self.nixosModules.smolboiConfig;
         thiccboi = nixpkgs.lib.nixosSystem self.nixosModules.thiccboiConfig;
       };
