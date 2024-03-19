@@ -42,7 +42,7 @@
             modules = [
               {
                 virtualisation.vmware.guest.enable = true;
-                imports = [ ./hardware/vm.nix ];
+                imports = [ ./hosts/vm.nix ];
               }
               {
                 networking.hostName = "nixos";
@@ -82,7 +82,7 @@
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
-              ./hardware/thiccboi.nix
+              ./hosts/thiccboi.nix
               disko.nixosModules.disko
               (import ./features/zfs_single_drive.nix {
                 device = "/dev/nvme1n1";
@@ -103,7 +103,7 @@
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
-	            ./hardware/smolboi.nix
+	            ./hosts/smolboi.nix
               {
                 networking.hostName = "smolboi";
                 networking.hostId = "20042069";
