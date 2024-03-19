@@ -80,41 +80,30 @@
         in
           {
             system = "x86_64-linux";
-            specialArgs = { inherit inputs pkgs; };
+            specialArgs = { inherit inputs; };
             modules = [
+              ./hardware/thiccboi.nix
+              disko.nixosModules.disko
+              (import ./features/zfs_single_drive.nix {
+                device = "/dev/nvme1n1";
+                user = "zmitchell";
+              })
+              ./features/desktop.nix
               {
                 networking.hostName = "thiccboi";
                 networking.hostId = "10042069";
               }
             ] ++ baseModules;
           };
-      thiccboiInstaller =
-        let
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        in
-          {
-            system = "x86_64-linux";
-            specialArgs = { inherit inputs pkgs; };
-            modules = [
-              "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-              {
-                networking.hostName = "thiccboi";
-                networking.hostId = "10042069";
-              }
-              {
-                services.openssh.settings.PermitRootLogin = nixpkgs.lib.mkForce "yes";
-              }
-            ] ++ baseModules;
-        };
       smolboiConfig =
         let
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
         in
           {
             system = "x86_64-linux";
-            specialArgs = { inherit inputs ; };
+            specialArgs = { inherit inputs; };
             modules = [
-	      ./hardware/smolboi.nix
+	            ./hardware/smolboi.nix
               {
                 networking.hostName = "smolboi";
                 networking.hostId = "20042069";
@@ -123,13 +112,12 @@
             ] ++ baseModules;
           };
     in {
-      nixosModules = { inherit vmConfig vmDiskoConfig thiccboiConfig thiccboiInstaller smolboiConfig; };
+      nixosModules = { inherit vmConfig vmDiskoConfig thiccboiConfig smolboiConfig; };
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem self.nixosModules.vmConfig;
         vm-disko = nixpkgs.lib.nixosSystem self.nixosModules.vmDiskoConfig;
         smolboi = nixpkgs.lib.nixosSystem self.nixosModules.smolboiConfig;
-        thiccboi = nixpkgs.lib.nixosSsytem self.nixosModules.thiccboiConfig;
-        thiccboiInstaller = nixpkgs.lib.nixosSystem self.nixosModules.thiccboiInstaller;
+        thiccboi = nixpkgs.lib.nixosSystem self.nixosModules.thiccboiConfig;
       };
     };
 }

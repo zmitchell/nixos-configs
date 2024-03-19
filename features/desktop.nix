@@ -31,6 +31,7 @@ in
   # Gaming related stuff
   hardware.steam-hardware.enable = true;
   programs.steam.enable = true;
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     audio.enable = true;
