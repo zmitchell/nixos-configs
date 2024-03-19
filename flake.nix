@@ -76,6 +76,7 @@
           specialArgs = { inherit inputs; };
           modules = [
             ./hosts/smolboi.nix
+            ./features/game_streaming_client.nix
             {
               networking.hostName = "smolboi";
               networking.hostId = "20042069";
