@@ -5,7 +5,7 @@
 {...}:
 {
   disko.devices = {
-    disk.boot = {
+    disk.main = {
       type = "disk";
       device = device;
       content = {
