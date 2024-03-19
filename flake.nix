@@ -17,6 +17,12 @@
   outputs =
     inputs@{ self, nixpkgs, nix-index-database, flake-programs-sqlite, disko, nixos-generators, ... }:
     let
+      forAllSystems = nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
       baseModules = [
         ./features/boot.nix
         ./features/system.nix
@@ -40,6 +46,29 @@
               }
               {
                 networking.hostName = "nixos";
+                networking.domain = "vms.home";
+                networking.hostId = "00042069";
+              }
+            ] ++ baseModules;
+          };
+      vmDiskoConfig = 
+        let
+          pkgs = nixpkgs.legacyPackages.aarch64-linux;
+        in
+          {
+            system = "aarch64-linux";
+            specialArgs = { inherit inputs pkgs; };
+            modules = [
+              disko.nixosModules.disko
+              (import ./features/zfs_single_drive.nix {
+                device = "/dev/nvme0n1";
+                user = "zmitchell";
+              })
+              {
+                virtualisation.vmware.guest.enable = true;
+              }
+              {
+                networking.hostName = "nixos-disko";
                 networking.domain = "vms.home";
                 networking.hostId = "00042069";
               }
@@ -94,9 +123,10 @@
             ] ++ baseModules;
           };
     in {
-      nixosModules = { inherit vmConfig thiccboiConfig thiccboiInstaller smolboiConfig; };
+      nixosModules = { inherit vmConfig vmDiskoConfig thiccboiConfig thiccboiInstaller smolboiConfig; };
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem self.nixosModules.vmConfig;
+        vm-disko = nixpkgs.lib.nixosSystem self.nixosModules.vmDiskoConfig;
         smolboi = nixpkgs.lib.nixosSystem self.nixosModules.smolboiConfig;
         thiccboi = nixpkgs.lib.nixosSsytem self.nixosModules.thiccboiConfig;
         thiccboiInstaller = nixpkgs.lib.nixosSystem self.nixosModules.thiccboiInstaller;
