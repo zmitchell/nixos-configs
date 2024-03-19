@@ -57,4 +57,8 @@ in
   ] ++ [
     bootHelpers
   ];
+
+  # Pre-populate SSH keys from other machines
+  users.users.zmitchell.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
+    pkgs.lib.filterAttrs (k: v: k != "thiccboi") (import ../data/keys.nix));
 }
