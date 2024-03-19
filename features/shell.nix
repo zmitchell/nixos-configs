@@ -17,7 +17,7 @@
 
   # These auto-expand so you can edit them
   programs.fish.shellAbbrs = {
-    nrs = "sudo nixos-rebuild switch --flake .#vm";
+    nrs = "sudo nixos-rebuild switch --flake .#thiccboi";
   };
 
   # Shell prompt, search, etc

@@ -1,5 +1,6 @@
 { pkgs, ... }:
-let gitHelpers = pkgs.callPackage ../command_sets/git.nix { };
+let 
+  gitHelpers = pkgs.callPackage ../command_sets/git.nix {};
 in {
   users.users.zmitchell = {
     name = "zmitchell";

@@ -1,6 +1,7 @@
 {
   description = "A very basic flake";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+  inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   # Used to get pre-built databases for 'nix-index',
   inputs.nix-index-database.url = "github:Mic92/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -15,7 +16,7 @@
   inputs.nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
-    inputs@{ self, nixpkgs, nix-index-database, flake-programs-sqlite, disko, nixos-generators, ... }:
+    inputs@{ self, nixpkgs, nixpkgs-unstable, nix-index-database, flake-programs-sqlite, disko, nixos-generators, ... }:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
         "x86_64-linux"
@@ -55,7 +56,13 @@
       thiccboiConfig =
         {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
+          specialArgs = { 
+            inherit inputs;
+            pkgs-unstable = import nixpkgs-unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
           modules = [
             ./hosts/thiccboi.nix
             disko.nixosModules.disko
