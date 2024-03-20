@@ -1,4 +1,3 @@
-{...}:
 {
   thiccboi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEix1+d4AXB0ijSP+4aPRs+xS1rFGDj7pBC4KprDmXOF thiccboi-nixos";
   chonker = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILm7/9q3RUHuDJKih8XMWIoIFTsga2XtnOXL14CNouhd zmitchell@fastmail.com";
