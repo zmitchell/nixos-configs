@@ -11,19 +11,10 @@
   # Declarative filesystem setup
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
-  # Used to generate installer ISOs
-  inputs.nixos-generators.url = "github:nix-community/nixos-generators";
-  inputs.nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
-    inputs@{ self, nixpkgs, nixpkgs-unstable, nix-index-database, flake-programs-sqlite, disko, nixos-generators, ... }:
+    inputs@{ self, nixpkgs, nixpkgs-unstable, nix-index-database, flake-programs-sqlite, disko, ... }:
     let
-      forAllSystems = nixpkgs.lib.genAttrs [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
       baseModules = [
         ./features/boot.nix
         ./features/system.nix
