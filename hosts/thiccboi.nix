@@ -63,6 +63,6 @@ in
   users.users.zmitchell.packages = unstable-pkgs ++ stable-pkgs ++ other-pkgs;
     
   # Pre-populate SSH keys from other machines
-  #users.users.zmitchell.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
-  #  pkgs.lib.filterAttrs (k: v: k != "thiccboi") (import ../data/keys.nix));
+  users.users.zmitchell.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
+    pkgs.lib.filterAttrs (k: v: k != "thiccboi") (import ../data/keys.nix));
 }
