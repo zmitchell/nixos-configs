@@ -11,17 +11,23 @@
   programs.gnome-terminal.enable = true;
   users.users.zmitchell.packages = with pkgs; [
     firefox
-    gnome.evince # document viewer
-    gnome.gedit # text editor
-    gnome.eog # image viewer
-    gnome.sushi # quick preview for nautilus
-    gnome-console
   ];
 
-  # Gnome settings
+  # Gnome packages
   environment.systemPackages = with pkgs; [
     gnome.dconf-editor
     dconf2nix
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.just-perfection
+    gnomeExtensions.appindicator
+    gnomeExtensions.logo-menu
+    gnome.gnome-tweaks
+    gnome-usage
+    gnome.evince
+    gnome.gedit
+    gnome.eog
+    gnome.sushi
+    gnome-console
   ];
 
   # Fonts
