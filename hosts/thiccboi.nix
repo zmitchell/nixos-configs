@@ -54,9 +54,8 @@ in
     nvidia-vaapi-driver
     nvidia-system-monitor-qt
   ];
-
-  # System packages for this host
-  environment.systemPackages = with pkgs-unstable; [
+  
+  environment.systemPackages = with pkgs; [
     vscode
   ];
 
