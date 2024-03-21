@@ -11,9 +11,12 @@
   # Declarative filesystem setup
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
+  # Home manager
+  inputs.home-manager.url = "github:nix-community/home-manager";
+  inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
-    inputs@{ self, nixpkgs, nixpkgs-unstable, nix-index-database, flake-programs-sqlite, disko, ... }:
+    inputs@{ self, nixpkgs, nixpkgs-unstable, nix-index-database, flake-programs-sqlite, disko, home-manager, ... }:
     let
       baseModules = [
         ./features/boot.nix
