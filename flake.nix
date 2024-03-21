@@ -34,7 +34,7 @@
       vmConfig = 
         {
           system = "aarch64-linux";
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs; host = "vm";};
           modules = [
             disko.nixosModules.disko
             (import ./features/zfs_single_drive.nix {
@@ -60,6 +60,7 @@
               system = "x86_64-linux";
               config.allowUnfree = true;
             };
+            host = "thiccboi";
           };
           modules = [
             ./hosts/thiccboi.nix
@@ -77,7 +78,7 @@
       smolboiConfig =
         {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs; host = "smolboi";};
           modules = [
             ./hosts/smolboi.nix
             ./features/game_streaming_client.nix

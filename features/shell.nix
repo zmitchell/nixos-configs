@@ -1,4 +1,4 @@
-{ ... }: {
+{ host, ... }: {
   # Enable the fish shell
   programs.fish.enable = true;
 
@@ -17,7 +17,7 @@
 
   # These auto-expand so you can edit them
   programs.fish.shellAbbrs = {
-    nrs = "sudo nixos-rebuild switch --flake .#thiccboi";
+    nrs = "sudo nixos-rebuild switch --flake .#${host}";
   };
 
   # Shell prompt, search, etc
