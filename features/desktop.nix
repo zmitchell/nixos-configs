@@ -17,4 +17,25 @@
     gnome.sushi # quick preview for nautilus
     gnome-console
   ];
+
+  # Gnome settings
+  environment.systemPackages = with pkgs; [
+    gnome.dconf-editor
+    dconf2nix
+  ];
+
+  # Fonts
+  nixpkgs.config.input-fonts.acceptLicense = true;
+  fonts.packages = with pkgs; [
+    input-fonts
+    ubuntu_font_family
+    (nerdfonts.override {
+      fonts = [
+        "Hack"
+        "FiraCode"
+        "Inconsolata"
+        "NerdFontsSymbolsOnly"
+      ];
+    })
+  ];
 }
