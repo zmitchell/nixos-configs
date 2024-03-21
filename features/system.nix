@@ -23,13 +23,20 @@
       PasswordAuthentication = false;
     };
   };
+  services.tailscale.enable = true;
 
   # Git config
   programs.git.enable = true;
 
   # Packages that should be available to all users (including the root user)
-  environment.systemPackages = with pkgs; [ tailscale neovim helix ripgrep jq ];
-  services.tailscale.enable = true;
+  environment.systemPackages = with pkgs; [
+    tailscale
+    neovim
+    helix
+    ripgrep
+    jq
+    neofetch
+  ];
 
   # Miscellaneous files we want to appear on the system
   environment.etc = {

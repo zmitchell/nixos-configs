@@ -14,9 +14,22 @@
   # Home manager
   inputs.home-manager.url = "github:nix-community/home-manager";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  # Fix for using VS Code remotely
+  inputs.vscode-server.url = "github:nix-community/nixos-vscode-server";
+  inputs.vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
-    inputs@{ self, nixpkgs, nixpkgs-unstable, nix-index-database, flake-programs-sqlite, disko, home-manager, ... }:
+    inputs@{
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      nix-index-database,
+      flake-programs-sqlite,
+      disko,
+      home-manager,
+      vscode-server,
+      ...
+    }:
     let
       baseModules = [
         ./features/boot.nix
@@ -26,6 +39,8 @@
         ./features/git.nix
         nix-index-database.nixosModules.nix-index
         flake-programs-sqlite.nixosModules.programs-sqlite
+        vscode-server.nixosModules.default
+        ({...}: {services.vscode-server.enable = true;})
       ];
       desktopModules = [
       	./features/desktop.nix
