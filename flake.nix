@@ -24,6 +24,10 @@
         nix-index-database.nixosModules.nix-index
         flake-programs-sqlite.nixosModules.programs-sqlite
       ];
+      desktopModules = [
+      	./features/desktop.nix
+      	./features/audio.nix
+      ];
       vmConfig = 
         {
           system = "aarch64-linux";
@@ -61,12 +65,11 @@
               device = "/dev/nvme1n1";
               user = "zmitchell";
             })
-            ./features/desktop.nix
             {
               networking.hostName = "thiccboi";
               networking.hostId = "10042069";
             }
-          ] ++ baseModules;
+          ] ++ baseModules ++ desktopModules;
         };
       smolboiConfig =
         {
@@ -79,8 +82,7 @@
               networking.hostName = "smolboi";
               networking.hostId = "20042069";
             }
-            ./features/desktop.nix
-          ] ++ baseModules;
+          ] ++ baseModules ++ desktopModules;
         };
     in {
       nixosModules = { inherit vmConfig thiccboiConfig smolboiConfig; };
