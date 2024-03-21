@@ -66,7 +66,7 @@
             }
           ] ++ baseModules;
         };
-      thiccboiConfig =
+      chungusConfig =
         {
           system = "x86_64-linux";
           specialArgs = { 
@@ -75,17 +75,17 @@
               system = "x86_64-linux";
               config.allowUnfree = true;
             };
-            host = "thiccboi";
+            host = "chungus";
           };
           modules = [
-            ./hosts/thiccboi.nix
+            ./hosts/chungus.nix
             disko.nixosModules.disko
             (import ./features/zfs_single_drive.nix {
               device = "/dev/nvme1n1";
               user = "zmitchell";
             })
             {
-              networking.hostName = "thiccboi";
+              networking.hostName = "chungus";
               networking.hostId = "10042069";
             }
           ] ++ baseModules ++ desktopModules;
@@ -104,11 +104,11 @@
           ] ++ baseModules ++ desktopModules;
         };
     in {
-      nixosModules = { inherit vmConfig thiccboiConfig smolboiConfig; };
+      nixosModules = { inherit vmConfig chungusConfig smolboiConfig; };
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem self.nixosModules.vmConfig;
         smolboi = nixpkgs.lib.nixosSystem self.nixosModules.smolboiConfig;
-        thiccboi = nixpkgs.lib.nixosSystem self.nixosModules.thiccboiConfig;
+        chungus = nixpkgs.lib.nixosSystem self.nixosModules.chungusConfig;
       };
     };
 }
