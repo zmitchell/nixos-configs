@@ -43,10 +43,11 @@
         ({...}: {services.vscode-server.enable = true;})
       ];
       desktopModules = [
-      	./features/desktop.nix
+      	./features/desktop_generic.nix
+        ./features/desktop_gnome.nix
       	./features/audio.nix
       ];
-      vmConfig = 
+      vmConfig =
         {
           system = "aarch64-linux";
           specialArgs = { inherit inputs; host = "vm";};
@@ -69,7 +70,7 @@
       chungusConfig =
         {
           system = "x86_64-linux";
-          specialArgs = { 
+          specialArgs = {
             inherit inputs;
             pkgs-unstable = import nixpkgs-unstable {
               system = "x86_64-linux";
