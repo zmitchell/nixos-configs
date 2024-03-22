@@ -12,14 +12,13 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
   # Home manager
-  inputs.home-manager.url = "github:nix-community/home-manager";
+  inputs.home-manager.url = "github:nix-community/home-manager/release-23.11";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
   # Fix for using VS Code remotely
   inputs.vscode-server.url = "github:nix-community/nixos-vscode-server";
   inputs.vscode-server.inputs.nixpkgs.follows = "nixpkgs";
   # Hyprland
   inputs.hyprland.url = "github:hyprwm/Hyprland";
-  # inputs.hyprland.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
     inputs@{
@@ -43,7 +42,11 @@
         nix-index-database.nixosModules.nix-index
         flake-programs-sqlite.nixosModules.programs-sqlite
         vscode-server.nixosModules.default
-        ({...}: {home-manager.users.zmitchell.home.stateVersion = "23.11";})
+        ({...}:
+         {
+           home-manager.users.zmitchell.home.stateVersion = "23.11";
+         }
+        )
         ({...}: {services.vscode-server.enable = true;})
       ];
       gnomeDesktopModules = [

@@ -18,8 +18,8 @@
   home-manager.users.zmitchell.home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Amber";
+    package = pkgs.gnome.adwaita-icon-theme;
+    name = "Adwaita";
     size = 28;
   };
 
@@ -28,5 +28,7 @@
 
   home-manager.users.zmitchell.home.packages = with pkgs; [
     wofi
+    yazi
+    gnome.nautilus
   ];
 }
