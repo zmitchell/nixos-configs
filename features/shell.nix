@@ -11,6 +11,8 @@
     gs = "git status";
     gl = "git log --oneline";
     gp = "git push";
+    gc = "git commit -m $1";
+    ga = "git add .";
     # Launch an editor for config files
     sshconfig = "$EDITOR ~/.ssh";
   };
