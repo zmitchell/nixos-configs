@@ -42,6 +42,9 @@
     neovim
     helix
     ripgrep
+    bat
+    fd
+    bottom
     jq
     neofetch
     home-manager

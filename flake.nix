@@ -19,7 +19,7 @@
   inputs.vscode-server.inputs.nixpkgs.follows = "nixpkgs";
   # Hyprland
   inputs.hyprland.url = "github:hyprwm/Hyprland";
-  inputs.hyprland.inputs.nixpkgs.follows = "nixpkgs";
+  # inputs.hyprland.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
     inputs@{
@@ -43,6 +43,7 @@
         nix-index-database.nixosModules.nix-index
         flake-programs-sqlite.nixosModules.programs-sqlite
         vscode-server.nixosModules.default
+        ({...}: {home-manager.users.zmitchell.home.stateVersion = "23.11";})
         ({...}: {services.vscode-server.enable = true;})
       ];
       gnomeDesktopModules = [
@@ -102,7 +103,7 @@
               networking.hostName = "chungus";
               networking.hostId = "10042069";
             }
-          ] ++ baseModules ++ gnomeDesktopModules;
+          ] ++ baseModules ++ hyprlandDesktopModules;
         };
       smolboiConfig =
         {
