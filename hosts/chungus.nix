@@ -4,15 +4,6 @@
 { config, lib, pkgs, pkgs-unstable, modulesPath, ... }:
 let
     bootHelpers = pkgs.callPackage ../command_sets/boot.nix {};
-    unstable-pkgs = with pkgs-unstable; [
-      logseq
-    ];
-    stable-pkgs = with pkgs; [
-      sublime-merge
-    ];
-    other-pkgs = [
-      bootHelpers
-    ];
 in
 {
   imports =
@@ -57,11 +48,12 @@ in
   
   environment.systemPackages = with pkgs; [
     vscode
+    sublime-merge
+    unstable.logseq
+  ] ++ [
+    bootHelpers
   ];
 
-  # User packages for this host
-  users.users.zmitchell.packages = unstable-pkgs ++ stable-pkgs ++ other-pkgs;
-    
   # Pre-populate SSH keys from other machines
   users.users.zmitchell.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
     pkgs.lib.filterAttrs (k: v: k != "chungus") (import ../data/keys.nix));
