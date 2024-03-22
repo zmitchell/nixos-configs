@@ -17,6 +17,9 @@
   # Fix for using VS Code remotely
   inputs.vscode-server.url = "github:nix-community/nixos-vscode-server";
   inputs.vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+  # Hyprland
+  inputs.hyprland.url = "github:hyprwm/Hyprland";
+  inputs.hyprland.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
     inputs@{
@@ -42,10 +45,15 @@
         vscode-server.nixosModules.default
         ({...}: {services.vscode-server.enable = true;})
       ];
-      desktopModules = [
+      gnomeDesktopModules = [
       	./features/desktop_generic.nix
         ./features/desktop_gnome.nix
       	./features/audio.nix
+      ];
+      hyprlandDesktopModules = [
+        ./features/desktop_generic.nix
+        ./features/desktop_hyprland.nix
+        ./features/audio.nix
       ];
       vmConfig =
         {
@@ -79,8 +87,13 @@
             host = "chungus";
           };
           modules = [
-            ./hosts/chungus.nix
             disko.nixosModules.disko
+            home-manager.nixosModules.home-manager
+            ./hosts/chungus.nix
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
             (import ./features/zfs_single_drive.nix {
               device = "/dev/nvme1n1";
               user = "zmitchell";
@@ -89,7 +102,7 @@
               networking.hostName = "chungus";
               networking.hostId = "10042069";
             }
-          ] ++ baseModules ++ desktopModules;
+          ] ++ baseModules ++ gnomeDesktopModules;
         };
       smolboiConfig =
         {
@@ -102,7 +115,7 @@
               networking.hostName = "smolboi";
               networking.hostId = "20042069";
             }
-          ] ++ baseModules ++ desktopModules;
+          ] ++ baseModules ++ gnomeDesktopModules;
         };
     in {
       nixosModules = { inherit vmConfig chungusConfig smolboiConfig; };

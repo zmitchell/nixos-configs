@@ -40,9 +40,9 @@ in {
       nix-init
       nix-tree
       nix-eval-jobs
-      nixfmt
+      unstable.nixfmt
       # Language servers
-      nil
+      unstable.nil
       nodePackages.bash-language-server
       # Command sets
       gitHelpers

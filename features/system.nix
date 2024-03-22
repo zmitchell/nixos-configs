@@ -44,6 +44,7 @@
     ripgrep
     jq
     neofetch
+    home-manager
   ];
 
   # Miscellaneous files we want to appear on the system
