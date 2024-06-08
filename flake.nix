@@ -1,6 +1,8 @@
 {
   description = "A very basic flake";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+  # inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
   inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   # Used to get pre-built databases for 'nix-index',
   inputs.nix-index-database.url = "github:Mic92/nix-index-database";
@@ -19,6 +21,10 @@
   inputs.vscode-server.inputs.nixpkgs.follows = "nixpkgs";
   # Hyprland
   inputs.hyprland.url = "github:hyprwm/Hyprland";
+  # transmission tui
+  inputs.transg-tui.url = "github:PanAeon/transg-tui";
+  # flox
+  inputs.flox.url = "github:flox/flox";
 
   outputs =
     inputs@{
@@ -30,6 +36,8 @@
       disko,
       home-manager,
       vscode-server,
+      transg-tui,
+      flox,
       ...
     }:
     let
@@ -39,6 +47,7 @@
         ./features/users.nix
         ./features/shell.nix
         ./features/git.nix
+        ./features/monitoring.nix
         nix-index-database.nixosModules.nix-index
         flake-programs-sqlite.nixosModules.programs-sqlite
         vscode-server.nixosModules.default
@@ -83,7 +92,7 @@
         {
           system = "x86_64-linux";
           specialArgs = {
-            inherit inputs;
+            inherit inputs transg-tui flox;
             pkgs-unstable = import nixpkgs-unstable {
               system = "x86_64-linux";
               config.allowUnfree = true;
@@ -93,6 +102,7 @@
           modules = [
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
+            # nixarr.nixosModules.default
             ./hosts/chungus.nix
             {
               home-manager.useGlobalPkgs = true;
@@ -106,6 +116,11 @@
               networking.hostName = "chungus";
               networking.hostId = "10042069";
             }
+            {
+              services.monitoring.enable = false;
+              # services.monitoring.prometheus.zfs.enable = true;
+            }
+            ./features/media_server.nix
           ] ++ baseModules ++ hyprlandDesktopModules;
         };
       smolboiConfig =

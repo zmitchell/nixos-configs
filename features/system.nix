@@ -44,10 +44,11 @@
     ripgrep
     bat
     fd
-    bottom
     jq
     neofetch
     home-manager
+    lsof
+    ranger
   ];
 
   # Miscellaneous files we want to appear on the system

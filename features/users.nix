@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, flox, ... }:
 let 
   gitHelpers = pkgs.callPackage ../command_sets/git.nix {};
 in {
@@ -27,11 +27,13 @@ in {
       fd
       just
       btop
+      procs
       difftastic
       tree
       parallel
       tealdeer
       watchexec
+      zellij
       # Fun stuff
       meme-image-generator
       imgcat
@@ -46,6 +48,8 @@ in {
       nodePackages.bash-language-server
       # Command sets
       gitHelpers
+      # flox
+      flox
     ];
   };
 

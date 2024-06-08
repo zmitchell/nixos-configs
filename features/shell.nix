@@ -15,6 +15,8 @@
     ga = "git add .";
     # Launch an editor for config files
     sshconfig = "$EDITOR ~/.ssh";
+    # Directories
+    cdtemp = "cd $(mktemp -d)";
   };
 
   # These auto-expand so you can edit them
@@ -24,7 +26,7 @@
   };
 
   # Shell prompt, search, etc
-  services.atuin.enable = true;
+  # services.atuin.enable = true;
   programs.starship.enable = true;
   programs.starship.settings = {
     command_timeout = 3000;
