@@ -25,9 +25,9 @@ in
 			};
 		};
 	};
-	
-	config = {
-		services.prometheus = lib.mkIf cfg.enable {
+
+	config = lib.mkIf cfg.enable {
+		services.prometheus = {
 			enable = true;
 			exporters = {
 				node = {
@@ -50,7 +50,7 @@ in
 				}
 			];
 		};
-		services.grafana = lib.mkIf cfg.enable {
+		services.grafana = {
 			enable = true;
 			settings.server.domain = "0.0.0.0";
 			settings.server.http_port = cfg.grafana.port;

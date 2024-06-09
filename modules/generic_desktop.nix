@@ -9,7 +9,7 @@ in
     ./git.nix
   ];
   options.generic_desktop = {
-    enable = lib.mkEnableOption "Enable generic desktop settings";
+    enable = lib.mkEnableOption "Configures a generic desktop without graphics";
     systemPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [
@@ -53,20 +53,20 @@ in
     };
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     desktop_audio.enable = true;
     git_config.enable = true;
     shell_config.enable = true;
 
-    environment.systemPackages = lib.mkIf cfg.enable cfg.systemPackages;
+    environment.systemPackages = cfg.systemPackages;
 
-    nixpkgs.config.input-fonts.acceptLicense = lib.mkIf cfg.enable true;
-    fonts.packages = lib.mkIf cfg.enable cfg.base_fonts;
+    nixpkgs.config.input-fonts.acceptLicense = true;
+    fonts.packages = cfg.base_fonts;
 
-    systemd.targets.sleep.enable = lib.mkIf cfg.enable cfg.allowSleep;
-    systemd.targets.suspend.enable = lib.mkIf cfg.enable cfg.allowSleep;
-    systemd.targets.hibernate.enable = lib.mkIf cfg.enable cfg.allowSleep;
-    systemd.targets.hybrid-sleep.enable = lib.mkIf cfg.enable cfg.allowSleep;
-    services.xserver.displayManager.gdm.autoSuspend = lib.mkIf cfg.enable cfg.allowSleep;
+    systemd.targets.sleep.enable = cfg.allowSleep;
+    systemd.targets.suspend.enable = cfg.allowSleep;
+    systemd.targets.hibernate.enable = cfg.allowSleep;
+    systemd.targets.hybrid-sleep.enable = cfg.allowSleep;
+    services.xserver.displayManager.gdm.autoSuspend = cfg.allowSleep;
   };
 }

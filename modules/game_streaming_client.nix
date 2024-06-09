@@ -14,8 +14,8 @@ in
     game_streaming.enable = lib.mkEnableOption "Configure the device as a game streaming client";
   };
 
-  config = {
-    users.users.zmitchell.packages = lib.mkIf cfg.enable [
+  config = lib.mkIf cfg.enable {
+    users.users.zmitchell.packages = [
       moonlight-wayland
     ];
   };

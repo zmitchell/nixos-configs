@@ -7,8 +7,8 @@ in
     git_config.enable = lib.mkEnableOption "Configure global git settings";
   };
 
-  config = {
-    programs.git.config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
+    programs.git.config = {
       user = {
         name = "Zach Mitchell";
         email = "zmitchell@fastmail.com";
