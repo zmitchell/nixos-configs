@@ -127,14 +127,16 @@
         {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; host = "smolboi";};
+          imports = [
+            ./modules
+          ];
           modules = [
             ./hosts/smolboi.nix
-            ./features/game_streaming_client.nix
             {
               networking.hostName = "smolboi";
               networking.hostId = "20042069";
             }
-          ] ++ baseModules ++ gnomeDesktopModules;
+          ];
         };
     in {
       nixosModules = { inherit vmConfig chungusConfig smolboiConfig; };
