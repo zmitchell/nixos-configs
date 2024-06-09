@@ -25,7 +25,7 @@ in
       ];
       description = "Basic system-wide packages";
     };
-    fonts = lib.mkOption {
+    base_fonts = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [
         input-fonts
@@ -52,13 +52,16 @@ in
     audio.enable = true;
     git.enable = true;
     shell.enable = true;
-    
+
     environment.systemPackages = lib.mkIf cfg.enable cfg.systemPackages;
+
     nixpkgs.config.input-fonts.acceptLicense = lib.mkIf cfg.enable true;
-    systemd.targets.sleep.enable = lib.mkIf cfg.enable false;
-    systemd.targets.suspend.enable = lib.mkIf cfg.enable false;
-    systemd.targets.hibernate.enable = lib.mkIf cfg.enable false;
-    systemd.targets.hybrid-sleep.enable = lib.mkIf cfg.enable false;
-    services.xserver.displayManager.gdm.autoSuspend = lib.mkIf cfg.enable false;
+    fonts.packages = lib.mkIf cfg.enable cfg.base_fonts;
+
+    systemd.targets.sleep.enable = lib.mkIf cfg.enable cfg.allowSleep;
+    systemd.targets.suspend.enable = lib.mkIf cfg.enable cfg.allowSleep;
+    systemd.targets.hibernate.enable = lib.mkIf cfg.enable cfg.allowSleep;
+    systemd.targets.hybrid-sleep.enable = lib.mkIf cfg.enable cfg.allowSleep;
+    services.xserver.displayManager.gdm.autoSuspend = lib.mkIf cfg.enable cfg.allowSleep;
   };
 }

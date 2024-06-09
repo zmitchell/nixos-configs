@@ -127,11 +127,9 @@
         {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; host = "smolboi";};
-          imports = [
-            ./modules
-          ];
           modules = [
             ./hosts/smolboi.nix
+            ./modules
             {
               networking.hostName = "smolboi";
               networking.hostId = "20042069";
