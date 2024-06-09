@@ -7,7 +7,7 @@ let
       wrapProgram $out/bin/moonlight --set QT_QPA_PLATFORM wayland
     '';
   });
-  cfg = config.game_streaming_client;
+  cfg = config.game_streaming;
 in
 {
   options = {
