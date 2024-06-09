@@ -41,6 +41,7 @@ in
     # Enable a statusbar at the top
     programs.waybar.enable = lib.mkIf cfg.enable true;
 
+    home-manager.users.zmitchell.home.stateVersion = "23.11";
     home-manager.users.zmitchell.home.packages = lib.mkIf cfg.enable defaultPackages;
   };
 }

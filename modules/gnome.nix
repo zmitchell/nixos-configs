@@ -37,5 +37,6 @@ in
 
     # Gnome packages
     environment.systemPackages = lib.mkIf cfg.enable defaultPackages;
+    home-manager.users.zmitchell.home.stateVersion = "23.11";
   };
 }
