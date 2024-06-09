@@ -3,6 +3,11 @@ let
   cfg = config.desktop_generic;
 in
 {
+  imports = [
+    ./audio.nix
+    ./shell.nix
+    ./git.nix
+  ];
   options = {
     enable = lib.mkEnableOption "Enable generic desktop settings";
     systemPackages = lib.mkOption {
