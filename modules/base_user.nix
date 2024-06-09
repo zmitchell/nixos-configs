@@ -1,4 +1,4 @@
-{ pkgs, flox, ... }:
+{ pkgs, ... }:
 let 
   gitHelpers = pkgs.callPackage ../command_sets/git.nix {};
 in 
@@ -50,8 +50,6 @@ in
         nodePackages.bash-language-server
         # Command sets
         gitHelpers
-        # flox
-        flox
       ];
     };
 
