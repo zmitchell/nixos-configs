@@ -4,7 +4,7 @@ let
 in
 {
   options = {
-    audio.enable = lib.mkEnableOption "Enables audio on the desktop";
+    desktop_audio.enable = lib.mkEnableOption "Enables audio on the desktop";
   };
   config = {
     hardware.pulseaudio.enable = lib.mkIf cfg.enable false;

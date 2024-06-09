@@ -54,7 +54,7 @@ in
   };
 
   config = {
-    audio.enable = true;
+    desktop_audio.enable = true;
     git_config.enable = true;
     shell_config.enable = true;
 
