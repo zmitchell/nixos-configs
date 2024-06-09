@@ -11,7 +11,7 @@ let
 in
 {
   options = {
-    enable = lib.mkEnableOption "Configure the device as a game streaming client";
+    game_streaming.enable = lib.mkEnableOption "Configure the device as a game streaming client";
   };
 
   config = {

@@ -19,9 +19,9 @@ let
 in
 {
   options = {
-    enable = lib.mkEnableOption "Configures a Gnome desktop";
-
+    gnome.enable = lib.mkEnableOption "Configures a Gnome desktop";
   };
+
   config = {
     generic_desktop.enable = lib.mkIf cfg.enable true;
 

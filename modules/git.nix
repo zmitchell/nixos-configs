@@ -4,7 +4,7 @@ let
 in
 {
   options = {
-    enable = lib.mkEnableOption "Configure global git settings";
+    git_config.enable = lib.mkEnableOption "Configure global git settings";
   };
 
   config = {

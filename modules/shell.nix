@@ -4,7 +4,7 @@ let
 in
 {
   options = {
-    enable = lib.mkEnableOption "Configure global shell options";
+    shell_config.enable = lib.mkEnableOption "Configure global shell options";
   };
 
   config = {

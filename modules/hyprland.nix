@@ -9,7 +9,7 @@ let
 in
 {
   options = {
-    enable = lib.mkEnableOption "Configure a Hyprland desktop";
+    hyprland.enable = lib.mkEnableOption "Configure a Hyprland desktop";
   };
 
   config = {

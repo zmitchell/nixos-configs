@@ -51,5 +51,5 @@
 
   # Custom modules
   gnome.enable = true;
-  game_streaming_client.enable = true;
+  game_streaming.enable = true;
 }

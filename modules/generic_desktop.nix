@@ -8,7 +8,7 @@ in
     ./shell.nix
     ./git.nix
   ];
-  options = {
+  options.generic_desktop = {
     enable = lib.mkEnableOption "Enable generic desktop settings";
     systemPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
@@ -55,8 +55,8 @@ in
 
   config = {
     audio.enable = true;
-    git.enable = true;
-    shell.enable = true;
+    git_config.enable = true;
+    shell_config.enable = true;
 
     environment.systemPackages = lib.mkIf cfg.enable cfg.systemPackages;
 
