@@ -15,7 +15,6 @@ in
       default = with pkgs; [
         kitty
         firefox
-        nvtop
         tailscale
         neovim
         helix
