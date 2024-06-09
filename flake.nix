@@ -128,6 +128,10 @@
           specialArgs = {
             inherit inputs;
             host = "smolboi";
+            pkgs-unstable = import nixpkgs-unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
           };
           modules = [
             ./hosts/smolboi.nix
