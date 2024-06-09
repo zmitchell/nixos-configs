@@ -126,13 +126,21 @@
       smolboiConfig =
         {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; host = "smolboi";};
+          specialArgs = {
+            inherit inputs;
+            host = "smolboi";
+          };
           modules = [
             ./hosts/smolboi.nix
+            home-manager.nixosModules.home-manager
             ./modules
             {
               networking.hostName = "smolboi";
               networking.hostId = "20042069";
+            }
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
             }
           ];
         };
