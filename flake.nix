@@ -102,7 +102,6 @@
           modules = [
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
-            # nixarr.nixosModules.default
             ./hosts/chungus.nix
             {
               home-manager.useGlobalPkgs = true;

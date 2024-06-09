@@ -1,6 +1,6 @@
 {pkgs, config, lib, ...}:
 let
-  cfg = config.desktop_generic;
+  cfg = config.generic_desktop;
 in
 {
   imports = [
