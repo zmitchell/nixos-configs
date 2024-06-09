@@ -1,6 +1,6 @@
 { lib, config, ... }: 
 let
-  cfg = config.git;
+  cfg = config.git_config;
 in
 {
   options = {

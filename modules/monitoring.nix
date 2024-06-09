@@ -25,6 +25,7 @@ in
 			};
 		};
 	};
+	
 	config = {
 		services.prometheus = lib.mkIf cfg.enable {
 			enable = true;

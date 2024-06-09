@@ -1,6 +1,6 @@
 { config, lib, host, ... }:
 let
-  cfg = config.shell;
+  cfg = config.shell_config;
 in
 {
   options = {
