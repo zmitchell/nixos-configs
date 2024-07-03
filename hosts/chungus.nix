@@ -49,6 +49,8 @@ in
     bootHelpers
   ];
 
+  environment.localBinInPath = true;
+  
   # Pre-populate SSH keys from other machines
   users.users.zmitchell.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
     pkgs.lib.filterAttrs (k: v: k != "chungus") (import ../data/keys.nix));
