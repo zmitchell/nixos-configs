@@ -126,27 +126,6 @@ in
 	];
 
 	systemd.network.wait-online.enable = false;
-	# networking.firewall.allowedTCPPorts = [ 80 443 ];
-
-	# services.caddy = {
-	# 	enable = true;
-	# 	virtualHosts."plex.${host}.${tld}".extraConfig = ''
-	# 		reverse_proxy http://127.0.0.1:${builtins.toString plexPort}
-	# 	'';
-	# 	virtualHosts."radarr.${host}.${tld}".extraConfig = ''
-	# 		reverse_proxy http://127.0.0.1:${builtins.toString radarrPort}
-	# 	'';
-	# 	virtualHosts."sonarr.${host}.${tld}".extraConfig = ''
-	# 		reverse_proxy http://127.0.0.1:${builtins.toString sonarrPort}
-	# 	'';
-	# 	virtualHosts."bazarr.${host}.${tld}".extraConfig = ''
-	# 		reverse_proxy http://127.0.0.1:${builtins.toString bazarrPort}
-	# 	'';
-	# 	virtualHosts."transmission.${host}.${tld}".extraConfig = ''
-	# 		reverse_proxy http://127.0.0.1:${builtins.toString transmissionPort}
-	# 	'';
-	# 	virtualHosts."prowlarr.${host}.${tld}".extraConfig = ''
-	# 		reverse_proxy http://127.0.0.1:${builtins.toString prowlarrPort}
-	# 	'';
-	# };
+	# systemd.services.NetworkManager-wait-online.enable = false;
+	# boot.initrd.systemd.network.wait-online.enable = false;
 }
