@@ -41,40 +41,14 @@
       ...
     }:
     let
-      baseModules = [
-        ./features/boot.nix
-        ./features/system.nix
-        ./features/users.nix
-        ./features/shell.nix
-        ./features/git.nix
-        ./features/monitoring.nix
-        nix-index-database.nixosModules.nix-index
-        flake-programs-sqlite.nixosModules.programs-sqlite
-        vscode-server.nixosModules.default
-        ({...}:
-         {
-           home-manager.users.zmitchell.home.stateVersion = "23.11";
-         }
-        )
-        ({...}: {services.vscode-server.enable = true;})
-      ];
-      gnomeDesktopModules = [
-      	./features/desktop_generic.nix
-        ./features/desktop_gnome.nix
-      	./features/audio.nix
-      ];
-      hyprlandDesktopModules = [
-        ./features/desktop_generic.nix
-        ./features/desktop_hyprland.nix
-        ./features/audio.nix
-      ];
       vmConfig =
         {
           system = "aarch64-linux";
           specialArgs = { inherit inputs; host = "vm";};
           modules = [
             disko.nixosModules.disko
-            (import ./features/zfs_single_drive.nix {
+            ./modules
+            (import ./setup/zfs_single_drive.nix {
               device = "/dev/nvme0n1";
               user = "zmitchell";
             })
@@ -86,7 +60,7 @@
               networking.domain = "vms.home";
               networking.hostId = "00042069";
             }
-          ] ++ baseModules;
+          ];
         };
       chungusConfig =
         {
@@ -100,14 +74,15 @@
             host = "chungus";
           };
           modules = [
+            ./hosts/chungus.nix
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
-            ./hosts/chungus.nix
+            ./modules
             {
               home-manager.useGlobalPkgs = true;
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
-            (import ./features/zfs_single_drive.nix {
+            (import ./setup/zfs_single_drive.nix {
               device = "/dev/nvme1n1";
               user = "zmitchell";
             })
@@ -115,12 +90,7 @@
               networking.hostName = "chungus";
               networking.hostId = "10042069";
             }
-            {
-              services.monitoring.enable = false;
-              # services.monitoring.prometheus.zfs.enable = true;
-            }
-            ./features/media_server.nix
-          ] ++ baseModules ++ hyprlandDesktopModules;
+          ]; 
         };
       smolboiConfig =
         {

@@ -11,7 +11,7 @@ let
       gnome.gnome-tweaks
       gnome-usage
       gnome.evince
-      gnome.gedit
+      pkgs.gedit
       gnome.eog
       gnome.sushi
       gnome-console

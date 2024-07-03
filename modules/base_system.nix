@@ -24,6 +24,7 @@
     # Enable the OpenSSH server
     services.openssh = {
       enable = true;
+      authorizedKeysInHomedir = false;
       settings = {
         # Forbid root login through SSH.
         PermitRootLogin = "no";

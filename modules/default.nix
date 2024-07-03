@@ -8,5 +8,6 @@
     ./hyprland.nix
     ./game_streaming_client.nix
     ./monitoring.nix
+    ./media_server.nix
   ];
 }
