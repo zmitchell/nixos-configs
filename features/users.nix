@@ -19,7 +19,7 @@ in {
       fish
       fishPlugins.colored-man-pages
       starship
-      atuin
+      # atuin
       zoxide
       eza
       # Utilities
