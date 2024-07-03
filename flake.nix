@@ -1,6 +1,6 @@
 {
   description = "A very basic flake";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
   # inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -14,7 +14,7 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
   # Home manager
-  inputs.home-manager.url = "github:nix-community/home-manager/release-23.11";
+  inputs.home-manager.url = "github:nix-community/home-manager/release-24.05";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
   # Fix for using VS Code remotely
   inputs.vscode-server.url = "github:nix-community/nixos-vscode-server";
