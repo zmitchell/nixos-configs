@@ -4,7 +4,8 @@ let
   moonlight-wayland = pkgs-unstable.moonlight-qt.overrideAttrs ( prev: {
     buildInputs = prev.buildInputs or [] ++ [pkgs.makeWrapper];
     postInstall = prev.postInstall or "" + ''
-      wrapProgram $out/bin/moonlight --set QT_QPA_PLATFORM wayland
+      wrapProgram $out/bin/moonlight --set QT_QPA_PLATFORM wayland \
+        --append-flags '-platform wayland'
     '';
   });
   cfg = config.game_streaming;
