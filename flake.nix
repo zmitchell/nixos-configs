@@ -46,7 +46,9 @@
           system = "aarch64-linux";
           specialArgs = { inherit inputs; host = "vm";};
           modules = [
+            ./hosts/vm-disko.nix
             disko.nixosModules.disko
+            home-manager.nixosModules.home-manager
             ./modules
             (import ./setup/zfs_single_drive.nix {
               device = "/dev/nvme0n1";
@@ -59,6 +61,10 @@
               networking.hostName = "nixos";
               networking.domain = "vms.home";
               networking.hostId = "00042069";
+            }
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
             }
           ];
         };

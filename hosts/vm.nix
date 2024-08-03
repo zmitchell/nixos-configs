@@ -30,4 +30,5 @@
   # networking.interfaces.ens160.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
+  generic_vm.enable = true;
 }
