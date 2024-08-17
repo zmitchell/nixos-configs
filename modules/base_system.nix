@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs,  ... }:
 {
   config = {
     system.stateVersion = "23.11";
@@ -36,6 +36,12 @@
 
     # Git config
     programs.git.enable = true;
+
+    # Packages that should be installed on all systems
+    environment.systemPackages = with pkgs; [
+      binutils
+      pciutils
+    ];
 
     # Miscellaneous files we want to appear on the system
     environment.etc = {
