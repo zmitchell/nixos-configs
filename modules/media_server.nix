@@ -102,7 +102,7 @@ in
       group = mediaGroup;
     };
     services.transmission = {
-      enable = true;
+      enable = false;
       user = "torrenter";
       group = mediaGroup;
       package = pkgs.transmission_4;
