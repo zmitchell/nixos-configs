@@ -18,6 +18,7 @@ in
         tailscale
         neovim
         helix
+        yazi
         ripgrep
         bat
         fd
