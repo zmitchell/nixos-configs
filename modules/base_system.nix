@@ -36,6 +36,9 @@
 
     # Git config
     programs.git.enable = true;
+    environment.systemPackages = with pkgs; [
+      lazygit
+    ];
 
     # Packages that should be installed on all systems
     environment.systemPackages = with pkgs; [
