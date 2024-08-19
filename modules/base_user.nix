@@ -44,7 +44,7 @@ in
         nix-init
         nix-tree
         nix-eval-jobs
-        unstable.nixfmt
+        unstable.nixfmt-rfc-style
         # Language servers
         unstable.nil
         nodePackages.bash-language-server
