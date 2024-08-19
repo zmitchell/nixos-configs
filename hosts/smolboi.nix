@@ -53,6 +53,7 @@
   ];
 
   # Custom modules
-  gnome.enable = true;
+  # gnome.enable = true;
+  kde.enable = true;
   game_streaming.enable = true;
 }
