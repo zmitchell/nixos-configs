@@ -55,7 +55,10 @@
       vmConfig =
         {
           system = "aarch64-linux";
-          specialArgs = { inherit inputs; host = "vm";};
+          specialArgs = { 
+            inherit inputs flox;
+            host = "vm";
+          };
           modules = [
             ./hosts/vm-disko.nix
             disko.nixosModules.disko
