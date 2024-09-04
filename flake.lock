@@ -220,21 +220,21 @@
         "crane": "crane",
         "fenix": "fenix",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-bear": "nixpkgs-bear",
         "nixpkgs-process-compose": "nixpkgs-process-compose",
         "pre-commit-hooks": "pre-commit-hooks",
         "sqlite3pp": "sqlite3pp"
       },
       "locked": {
-        "lastModified": 1723853858,
-        "narHash": "sha256-S8emSrAAN+6rd3L6A+qL6pYKIlragb6gT1wuG9t64Cs=",
+        "lastModified": 1725379511,
+        "narHash": "sha256-RMLoTEfpI2wqkDQ/Lf/XptDBnpJjgJ2VG1dXpkAUsFs=",
         "owner": "flox",
         "repo": "flox",
-        "rev": "2ffc6ebb4c14be0716470f20998c3a0730e872b0",
+        "rev": "58603026047d497dd9bb4a958a55679240cac856",
         "type": "github"
       },
       "original": {
         "owner": "flox",
+        "ref": "v1.3.1",
         "repo": "flox",
         "type": "github"
       }
@@ -442,6 +442,26 @@
         "type": "github"
       }
     },
+    "nix-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1725189302,
+        "narHash": "sha256-IhXok/kwQqtusPsoguQLCHA+h6gKvgdCrkhIaN+kByA=",
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "rev": "7c4b53a7d9f3a3df902b3fddf2ae245ef20ebcda",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -474,22 +494,6 @@
       "original": {
         "owner": "NixOS",
         "ref": "release-23.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-bear": {
-      "locked": {
-        "lastModified": 1705957679,
-        "narHash": "sha256-Q8LJaVZGJ9wo33wBafvZSzapYsjOaNjP/pOnSiKVGHY=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "9a333eaa80901efe01df07eade2c16d183761fa3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "release-23.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -634,6 +638,7 @@
         "flox": "flox",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "nix-darwin": "nix-darwin",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",

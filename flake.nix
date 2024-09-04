@@ -1,7 +1,6 @@
 {
   description = "A very basic flake";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-  # inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   # Used to get pre-built databases for 'nix-index',
@@ -24,7 +23,13 @@
   # transmission tui
   inputs.transg-tui.url = "github:PanAeon/transg-tui";
   # flox
-  inputs.flox.url = "github:flox/flox";
+  inputs.flox.url = "github:flox/flox/v1.3.1";
+  # nix-darwin
+  inputs.nix-darwin.url = "github:LnL7/nix-darwin";
+  inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+  # Provides a fix for launching Nix-provided Mac apps
+  # inputs.mac-app-util.url = "github:hraban/mac-app-util";
+  # inputs.mac-app-util.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
   outputs =
     inputs@{
@@ -35,6 +40,8 @@
       flake-programs-sqlite,
       disko,
       home-manager,
+      nix-darwin,
+      # mac-app-util,
       vscode-server,
       transg-tui,
       flox,
@@ -123,12 +130,38 @@
             }
           ];
         };
+      user = {
+        fullName = "Zach Mitchell";
+        username = "zmitchell";
+        email = "zmitchell@fastmail.com";
+      };
     in {
       nixosModules = { inherit vmConfig chungusConfig smolboiConfig; };
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem self.nixosModules.vmConfig;
         smolboi = nixpkgs.lib.nixosSystem self.nixosModules.smolboiConfig;
         chungus = nixpkgs.lib.nixosSystem self.nixosModules.chungusConfig;
+      };
+      darwinConfigurations = {
+        chonker = nix-darwin.lib.darwinSystem {
+          modules = [
+            ./hosts/chonker.nix
+            home-manager.darwinModules.home-manager
+            # mac-app-util.darwinModules.default
+            {
+              home-manager.useGlobalPkgs = true;
+              # home-manager.useUserPackages = true;
+              home-manager.users.zmitchell = import ./homeConfigurations/chonker.nix;
+              home-manager.extraSpecialArgs = { inherit user inputs; };
+            }
+            # ({ pkgs, config, inputs, ... }: {
+            #     home-manager.sharedModules = [
+            #       mac-app-util.homeManagerModules.default
+            #     ];
+            # })
+          ];
+          specialArgs = { inherit user inputs; };
+        };
       };
     };
 }
