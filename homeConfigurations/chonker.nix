@@ -19,4 +19,16 @@ in
     '';
     inherit shellAliases;
   };
+
+  # Same for Bash
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    inherit shellAliases;
+    initExtra = ''
+      shopt -s autocd
+      export PATH="$HOME/bin:$PATH"
+      export GIT_EDITOR="hx"
+    '';
+  };
 }

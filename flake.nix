@@ -30,6 +30,9 @@
   # Provides a fix for launching Nix-provided Mac apps
   # inputs.mac-app-util.url = "github:hraban/mac-app-util";
   # inputs.mac-app-util.inputs.nixpkgs.follows = "nixpkgs-unstable";
+  # Color schemes and fonts
+  inputs.stylix.url = "github:danth/stylix";
+  inputs.stylix.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs =
     inputs@{
@@ -41,6 +44,7 @@
       disko,
       home-manager,
       nix-darwin,
+      stylix,
       # mac-app-util,
       vscode-server,
       transg-tui,
@@ -154,6 +158,7 @@
               home-manager.users.zmitchell = import ./homeConfigurations/chonker.nix;
               home-manager.extraSpecialArgs = { inherit user inputs; };
             }
+            stylix.darwinModules.stylix
             # ({ pkgs, config, inputs, ... }: {
             #     home-manager.sharedModules = [
             #       mac-app-util.homeManagerModules.default

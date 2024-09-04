@@ -86,4 +86,9 @@
       "MailUserNotificationScope" = 2;
     };
   };
+
+  # Color schemes, fonts, etc
+  stylix.enable = true;
+  stylix.image = ./../wallpapers/sierra.jpg; # can be literally anything it seems on macOS
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
 }

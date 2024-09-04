@@ -6,9 +6,9 @@ in
   home.username = user.username;
   home.stateVersion = "24.05";
 
+  # There's a bug for these options: https://github.com/nix-community/home-manager/issues/3417
   home.sessionVariables.EDITOR = "hx";
   home.sessionVariables.GIT_EDITOR = "hx";
-  # There's a bug for this option: https://github.com/nix-community/home-manager/issues/3417
   # home.sessionPath = [
   #   "$HOME/bin"
   # ];
@@ -41,16 +41,19 @@ in
     gh-dash
   ];
 
-  programs.git.enable = true;
-  programs.git.userName = user.username;
-  programs.git.userEmail = user.email;
-  programs.git.extraConfig = {
-    init.defaultBranch = "main";
-    merge.conflictStyle = "diff3";
-    rebase.autoStash = true;
-    rerere.enabled = true;
+  programs.git = {
+    enable = true;
+    userName = user.username;
+    userEmail = user.email;
+    extraConfig = {
+      init.defaultBranch = "main";
+      merge.conflictStyle = "diff3";
+      rebase.autoStash = true;
+      rerere.enabled = true;
+    };
+    difftastic.enable = true;
+    ignores = import ./../data/git-ignores.nix;
   };
-  programs.git.difftastic.enable = true;
 
   programs.htop.enable = true;
   programs.jq.enable = true;
@@ -68,7 +71,9 @@ in
   programs.fish = {
     enable = true;
     loginShellInit = ''
+      set fish_greeting # disable login message
       fish_add_path -g "$HOME/bin"
+      set -gx GIT_EDITOR hx
     '';
     inherit shellAliases;
     functions = {
