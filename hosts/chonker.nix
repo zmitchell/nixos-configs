@@ -1,5 +1,10 @@
 {config, lib, pkgs, inputs, user, ...}:
 {
+  
+  imports = [
+    (import ./flox-remote-builders.nix (builtins.getAttr "chonker" (import ./../data/keys.nix)))
+  ];
+ 
   environment.systemPackages = with pkgs; [
     vim
     gitFull
@@ -13,7 +18,7 @@
     "root"
     "zmitchell"
   ];
-  nix.linux-builder.enable = true;
+  # nix.linux-builder.enable = true;
   # security.sudo.wheelNeedsPassword = false;
 
   # Enables some commands to provide completions, etc for system-provided stuff

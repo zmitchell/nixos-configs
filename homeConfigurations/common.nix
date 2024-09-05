@@ -26,7 +26,14 @@ in
     frogmouth
     nixfmt-rfc-style
     gh-dash
+    nodePackages.bash-language-server
+    pyright
   ];
+
+  programs.htop.enable = true;
+  programs.jq.enable = true;
+  programs.less.enable = true;
+  programs.man.enable = true;
 
   programs.eza.enable = true;
   programs.eza.enableBashIntegration = true;
@@ -55,17 +62,24 @@ in
     ignores = import ./../data/git-ignores.nix;
   };
 
-  programs.htop.enable = true;
-  programs.jq.enable = true;
-  programs.less.enable = true;
-  programs.man.enable = true;
+  programs.ssh = {
+    enable = true;
+    serverAliveInterval = 60;
+    serverAliveCountMax = 10080; # one week max
+  };
 
   programs.helix = {
     enable = true;
     defaultEditor = true;
     package = pkgs.unstable.helix;
+    ignores = [
+      "!.github/"
+      "!.gitignore"
+      "!.gitattributes"
+    ];
     settings = {
       editor = {
+        color-modes = true;
         bufferline = "multiple";
         line-number = "relative";
         rulers = [
@@ -74,6 +88,8 @@ in
         ];
         statusline.center = ["file-type"];
         cursor-shape.insert = "bar";
+        lsp.display-messages = true;
+        lsp.snippets = false;
       };
       keys = {
         normal = {
@@ -83,6 +99,29 @@ in
           ];
         };
       };
+    };
+    languages = {
+      language-server = {
+        pyright = {
+          command = "pyright-langserver";
+          args = [ "--stdio" ];
+          config = {};
+        };
+      };
+      language = [
+        {
+          name = "python";
+          language-servers = ["pyright"];
+        }
+        {
+          name = "markdown";
+          auto-pairs = {
+            "(" = ")";
+            "{" = "}";
+            "[" = "]";
+          };
+        }
+      ];
     };
   };
 
@@ -139,5 +178,25 @@ in
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
+    settings = {
+      command_timeout = 1000;
+      format = pkgs.lib.concatStrings [
+        "$username"
+        "$hostname"
+        "$directory"
+        "$git_branch"
+        "$git_commit"
+        "$git_state"
+        "$git_metrics"
+        "$git_status"
+        "$nix_shell"
+        "$cmd_duration"
+        "$line_break"
+        "$jobs"
+        "$time"
+        "$status"
+        "$character"
+      ];
+    };
   };
 }

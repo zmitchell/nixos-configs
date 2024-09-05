@@ -46,4 +46,46 @@ in
     enableBashIntegration = true;
     enableZshIntegration = true;
   };
+
+  programs.ssh.matchBlocks = {
+    chungus = {
+      host = "chungus";
+      hostname = "10.0.0.234";
+      forwardAgent = true;
+      user = user.username;
+    };
+    chungus-ts = {
+      host = "chungus-ts";
+      hostname = "chungus";
+      forwardAgent = true;
+      user = user.username;
+    };
+    smolboi = {
+      host = "smolboi";
+      hostname = "10.0.0.166";
+      forwardAgent = true;
+      user = user.username;
+    };
+    floxci-x86-linux = {
+      host = "floxci-x86-linux";
+      hostname = "fd7a:115c:a1e0::22";
+      user = user.username;
+    };
+    floxci-arm-linux = {
+      host = "floxci-arm-linux";
+      hostname = "fd7a:115c:a1e0::19";
+      user = user.username;
+    };
+    floxci-x86-mac = {
+      host = "floxci-x86-mac";
+      hostname = "fd7a:115c:a1e0::11";
+      user = user.username;
+    };
+    floxci-arm-mac = {
+      host = "floxci-arm-mac";
+      hostname = "fd7a:115c:a1e0::12";
+      user = user.username;
+    };
+  };
+
 }
