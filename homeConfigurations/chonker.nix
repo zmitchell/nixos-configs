@@ -31,4 +31,19 @@ in
       export GIT_EDITOR="hx"
     '';
   };
+
+  programs.zoxide = {
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
+  programs.atuin = {
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
+  programs.starship = {
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
 }

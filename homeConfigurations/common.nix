@@ -64,9 +64,28 @@ in
     enable = true;
     defaultEditor = true;
     package = pkgs.unstable.helix;
+    settings = {
+      editor = {
+        bufferline = "multiple";
+        line-number = "relative";
+        rulers = [
+          80
+          120
+        ];
+        statusline.center = ["file-type"];
+        cursor-shape.insert = "bar";
+      };
+      keys = {
+        normal = {
+          esc = [
+            "collapse_selection"
+            "keep_primary_selection"
+          ];
+        };
+      };
+    };
   };
 
-  programs.wezterm.enable = true;
 
   programs.fish = {
     enable = true;
@@ -93,5 +112,32 @@ in
         cd $argv[1]
       '';
     };
+  };
+
+  programs.wezterm = {
+    enable = true;
+    extraConfig = builtins.readFile ./wezterm.lua;
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
+  programs.atuin = {
+    enable = true;
+    enableFishIntegration = true;
+    settings = {
+      # style = "compact";
+      daemon.enabled = true;
+    };
+    flags = [
+      "--disable-up-arrow"
+    ];
+  };
+
+  programs.starship = {
+    enable = true;
+    enableFishIntegration = true;
   };
 }

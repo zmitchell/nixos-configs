@@ -28,8 +28,8 @@
   inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   # Provides a fix for launching Nix-provided Mac apps
-  # inputs.mac-app-util.url = "github:hraban/mac-app-util";
-  # inputs.mac-app-util.inputs.nixpkgs.follows = "nixpkgs-unstable";
+  inputs.mac-app-util.url = "github:hraban/mac-app-util";
+  # inputs.mac-app-util.inputs.nixpkgs.follows = "nixpkgs"; # a dependency is broken on 24.05
   # Color schemes and fonts
   inputs.stylix.url = "github:danth/stylix";
   inputs.stylix.inputs.nixpkgs.follows = "nixpkgs";
@@ -45,7 +45,7 @@
       home-manager,
       nix-darwin,
       stylix,
-      # mac-app-util,
+      mac-app-util,
       vscode-server,
       transg-tui,
       flox,
@@ -154,7 +154,7 @@
           modules = [
             ./hosts/chonker.nix
             home-manager.darwinModules.home-manager
-            # mac-app-util.darwinModules.default
+            mac-app-util.darwinModules.default
             {
               home-manager.useGlobalPkgs = true;
               # home-manager.useUserPackages = true;
@@ -162,11 +162,11 @@
               home-manager.extraSpecialArgs = { inherit user inputs; };
             }
             stylix.darwinModules.stylix
-            # ({ pkgs, config, inputs, ... }: {
-            #     home-manager.sharedModules = [
-            #       mac-app-util.homeManagerModules.default
-            #     ];
-            # })
+            ({ pkgs, config, inputs, ... }: {
+                home-manager.sharedModules = [
+                  mac-app-util.homeManagerModules.default
+                ];
+            })
           ];
           specialArgs = { inherit user inputs; };
         };

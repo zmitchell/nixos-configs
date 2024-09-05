@@ -81,14 +81,22 @@
   };
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToControl = true;
-  system.defaults.CustomUserPreferences = {
-    "/Users/${user.username}/Library/Containers/com.apple.mail/Data/Library/Preferences/com.apple.mail.plist" = {
-      "MailUserNotificationScope" = 2;
-    };
-  };
+  # This path definitely exists, but `defaults` says it doesn't.
+  # Might be a permissions issue.
+  # system.defaults.CustomUserPreferences = {
+  #   "/Users/${user.username}/Library/Containers/com.apple.mail/Data/Library/Preferences/com.apple.mail.plist" = {
+  #     "MailUserNotificationScope" = 2;
+  #   };
+  # };
 
   # Color schemes, fonts, etc
   stylix.enable = true;
   stylix.image = ./../wallpapers/sierra.jpg; # can be literally anything it seems on macOS
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
+  stylix.fonts = {
+    monospace = {
+      package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+      name = "JetBrainsMono Nerd Font Mono";
+    };
+  };
 }
