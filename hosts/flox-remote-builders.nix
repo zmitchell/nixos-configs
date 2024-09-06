@@ -1,7 +1,7 @@
 sshKey:
 {
     # Flox remote builders
-  nix.distributedBuilds = false;
+  nix.distributedBuilds = true;
   nix.buildMachines = [
     {
       protocol = "ssh-ng";

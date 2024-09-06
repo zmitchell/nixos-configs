@@ -1,9 +1,9 @@
 {config, lib, pkgs, inputs, user, ...}:
 {
   
-  imports = [
-    (import ./flox-remote-builders.nix (builtins.getAttr "chonker" (import ./../data/keys.nix)))
-  ];
+  # imports = [
+  #   (import ./flox-remote-builders.nix (builtins.getAttr "chonker" (import ./../data/keys.nix)))
+  # ];
  
   environment.systemPackages = with pkgs; [
     vim
@@ -18,7 +18,9 @@
     "root"
     "zmitchell"
   ];
-  # nix.linux-builder.enable = true;
+  nix.linux-builder.enable = true;
+  nix.settings.trusted-substituters = ["https://cache.flox.dev"];
+  nix.settings.trusted-public-keys = ["flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="];
   # security.sudo.wheelNeedsPassword = false;
 
   # Enables some commands to provide completions, etc for system-provided stuff

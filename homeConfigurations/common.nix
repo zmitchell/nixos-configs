@@ -15,6 +15,7 @@ in
 
   home.packages = with pkgs; [
     lazygit
+    yazi
     zoxide
     atuin
     tre
@@ -50,7 +51,7 @@ in
 
   programs.git = {
     enable = true;
-    userName = user.username;
+    userName = user.fullName;
     userEmail = user.email;
     extraConfig = {
       init.defaultBranch = "main";
