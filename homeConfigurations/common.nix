@@ -88,6 +88,14 @@ in
           120
         ];
         statusline.center = ["file-type"];
+        statusline.right = [
+          "diagnostics"
+          "selections"
+          "register"
+          "position"
+          "total-line-numbers"
+          "file-encoding"
+        ];
         cursor-shape.insert = "bar";
         lsp.display-messages = true;
         lsp.snippets = false;
