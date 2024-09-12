@@ -138,7 +138,7 @@ in
   programs.fish = {
     enable = true;
     loginShellInit = ''
-      set fish_greeting # disable login message
+      set -U fish_greeting # disable login message
       fish_add_path -g "$HOME/bin"
       set -gx GIT_EDITOR hx
     '';
