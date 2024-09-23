@@ -18,7 +18,7 @@ in
     yazi
     zoxide
     atuin
-    tre
+    tre-command
     inputs.flox.packages.${pkgs.system}.default
     ripgrep
     fd
