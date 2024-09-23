@@ -1,4 +1,4 @@
-{pkgs, lib, user, inputs, ...}:
+{pkgs, lib, user, inputs, osConfig, ...}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
@@ -137,7 +137,21 @@ in
 
   programs.fish = {
     enable = true;
-    loginShellInit = ''
+    loginShellInit = 
+    let
+      # This naive quoting is good enough in this case. There shouldn't be any
+      # double quotes in the input string, and it needs to be double quoted in case
+      # it contains a space (which is unlikely!)
+      dquote = str: "\"" + str + "\"";
+
+      makeBinPathList = map (path: path + "/bin");
+    in ''
+      # Fix nix-darwin provided paths because fish uses its own path_helper routine
+      # https://github.com/LnL7/nix-darwin/issues/122#issuecomment-1659465635
+      fish_add_path --move --prepend --path ${lib.concatMapStringsSep " " dquote (makeBinPathList osConfig.environment.profiles)}
+      set fish_user_paths $fish_user_paths
+
+      # My actual customizations
       set -U fish_greeting # disable login message
       fish_add_path -g "$HOME/bin"
       set -gx GIT_EDITOR hx
