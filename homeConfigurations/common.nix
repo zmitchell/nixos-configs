@@ -203,7 +203,8 @@ in
     enable = true;
     enableFishIntegration = true;
     settings = {
-      command_timeout = 1000;
+      command_timeout = 5000;
+      directory.truncate_to_repo = false;
       format = pkgs.lib.concatStrings [
         "$username"
         "$hostname"
