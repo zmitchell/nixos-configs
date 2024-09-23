@@ -63,6 +63,8 @@ in
     ignores = import ./../data/git-ignores.nix;
   };
 
+  programs.jujutsu.enable = true;
+  
   programs.ssh = {
     enable = true;
     serverAliveInterval = 60;
