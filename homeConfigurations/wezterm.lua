@@ -8,6 +8,14 @@ config.window_frame = {
 config.use_fancy_tab_bar = true
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
+config.adjust_window_size_when_changing_font_size = false
+config.front_end = "WebGpu"
+config.max_fps = 120
+config.mouse_wheel_scrolls_tabs = false
+config.window_padding = {
+    top = 2,
+}
+config.default_cwd = wezterm.home_dir
 
 wezterm.on('update-status', function(window)
     -- Grab the utf8 character for the "powerline" left facing
