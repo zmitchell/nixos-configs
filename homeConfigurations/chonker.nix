@@ -16,6 +16,10 @@ in
     initExtra = ''
       export PATH="$HOME/bin:$PATH"
       export GIT_EDITOR="hx"
+
+      function set-tab {
+        wezterm cli set-tab-title "$1"
+      }
     '';
     inherit shellAliases;
   };
@@ -29,6 +33,10 @@ in
       shopt -s autocd
       export PATH="$HOME/bin:$PATH"
       export GIT_EDITOR="hx"
+
+      function set-tab {
+        wezterm cli set-tab-title "$1"
+      }
     '';
   };
 

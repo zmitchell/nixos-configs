@@ -174,6 +174,10 @@ in
         mkdir -p $argv[1]
         cd $argv[1]
       '';
+
+      set-tab = ''
+        wezterm cli set-tab-title $argv[1]
+      '';
     };
   };
 
