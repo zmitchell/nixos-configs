@@ -17,6 +17,9 @@ config.window_padding = {
 }
 config.default_cwd = wezterm.home_dir
 
+-- Turn off ligatures
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+
 wezterm.on('update-status', function(window)
     -- Grab the utf8 character for the "powerline" left facing
     -- solid arrow.
