@@ -29,6 +29,7 @@ in
     gh-dash
     nodePackages.bash-language-server
     pyright
+    tealdeer
   ];
 
   programs.htop.enable = true;
