@@ -15,7 +15,6 @@ in
 
   home.packages = with pkgs; [
     lazygit
-    yazi
     zoxide
     atuin
     tre-command
@@ -129,6 +128,9 @@ in
           args = [ "--stdio" ];
           config = {};
         };
+        # rust-analyzer = {
+        #   check.command = "clippy";
+        # };
       };
       language = [
         {
