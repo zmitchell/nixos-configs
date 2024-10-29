@@ -30,6 +30,7 @@ in
     nodePackages.bash-language-server
     pyright
     tealdeer
+    unstable.lazyjj
   ];
 
   programs.htop.enable = true;
@@ -65,6 +66,7 @@ in
   };
 
   programs.jujutsu.enable = true;
+  programs.jujutsu.package = pkgs.unstable.jujutsu;
   
   programs.ssh = {
     enable = true;
