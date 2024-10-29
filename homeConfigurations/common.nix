@@ -143,6 +143,57 @@ in
             "[" = "]";
           };
         }
+        {
+          name = "bash";
+          file-types = [
+            "bats" # the only addition, the rest are defaults
+            "sh"
+            "bash"
+            "ash"
+            "dash"
+            "ksh"
+            "mksh"
+            "zsh"
+            "zshenv"
+            "zlogin"
+            "zlogout"
+            "zprofile"
+            "zshrc"
+            "eclass"
+            "ebuild"
+            "bazelrc"
+            "Renviron"
+            "zsh-theme"
+            "cshrc"
+            "tcshrc"
+            "bashrc_Apple_Terminal"
+            "zshrc_Apple_Terminal"
+            { glob = "i3/config"; }
+            { glob = "sway/config"; }
+            { glob = "tmux.conf"; }
+            { glob = ".bash_history"; }
+            { glob = ".bash_login"; }
+            { glob = ".bash_logout"; }
+            { glob = ".bash_profile"; }
+            { glob = ".bashrc"; }
+            { glob = ".profile"; }
+            { glob = ".zshenv"; }
+            { glob = ".zlogin"; }
+            { glob = ".zlogout"; }
+            { glob = ".zprofile"; }
+            { glob = ".zshrc"; }
+            { glob = ".zimrc"; }
+            { glob = "APKBUILD"; }
+            { glob = ".bash_aliases"; }
+            { glob = ".Renviron"; }
+            { glob = ".xprofile"; }
+            { glob = ".xsession"; }
+            { glob = ".xsessionrc"; }
+            { glob = ".yashrc"; }
+            { glob = ".yash_profile"; }
+            { glob = ".hushlogin"; }
+          ];
+        }
       ];
     };
   };
