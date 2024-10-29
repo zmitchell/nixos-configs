@@ -68,6 +68,14 @@ in
   programs.jujutsu.enable = true;
   programs.jujutsu.package = pkgs.unstable.jujutsu;
   
+  programs.yazi = {
+    enable = true;
+    settings.manager = {
+      linemode = "permissions";
+      show_hidden = true;
+    };
+  };
+  
   programs.ssh = {
     enable = true;
     serverAliveInterval = 60;
