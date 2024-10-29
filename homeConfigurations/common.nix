@@ -31,6 +31,7 @@ in
     pyright
     tealdeer
     unstable.lazyjj
+    nix-tree
   ];
 
   programs.htop.enable = true;
