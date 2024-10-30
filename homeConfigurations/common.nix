@@ -210,12 +210,15 @@ in
       dquote = str: "\"" + str + "\"";
 
       makeBinPathList = map (path: path + "/bin");
-    in ''
-      # Fix nix-darwin provided paths because fish uses its own path_helper routine
-      # https://github.com/LnL7/nix-darwin/issues/122#issuecomment-1659465635
-      fish_add_path --move --prepend --path ${lib.concatMapStringsSep " " dquote (makeBinPathList osConfig.environment.profiles)}
-      set fish_user_paths $fish_user_paths
+      fixPaths = if pkgs.hostPlatform.isDarwin then ''
+        # Fix nix-darwin provided paths because fish uses its own path_helper routine
+        # https://github.com/LnL7/nix-darwin/issues/122#issuecomment-1659465635
+        fish_add_path --move --prepend --path ${lib.concatMapStringsSep " " dquote (makeBinPathList osConfig.environment.profiles)}
+        set fish_user_paths $fish_user_paths
 
+      '' else "";
+    in ''
+      ${fixPaths}
       # My actual customizations
       set -U fish_greeting # disable login message
       fish_add_path -g "$HOME/bin"
