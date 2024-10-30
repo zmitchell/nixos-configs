@@ -4,7 +4,6 @@ let
 in
 {
   home.username = user.username;
-  home.stateVersion = "24.05";
 
   # There's a bug for these options: https://github.com/nix-community/home-manager/issues/3417
   home.sessionVariables.EDITOR = "hx";

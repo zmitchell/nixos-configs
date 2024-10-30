@@ -7,8 +7,6 @@ in
     ./common.nix
   ];
 
-  home.stateVersion = "24.05";
-
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {
     enable = true;
@@ -35,10 +33,6 @@ in
       shopt -s autocd
       export PATH="$HOME/bin:$PATH"
       export GIT_EDITOR="hx"
-
-      function set-tab {
-        wezterm cli set-tab-title "$1"
-      }
     '';
   };
 
@@ -99,3 +93,4 @@ in
   };
 
 }
+

@@ -98,10 +98,17 @@
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             ./modules
+            # {
+            #   home-manager.useGlobalPkgs = true;
+            #   home-manager.extraSpecialArgs = { inherit inputs; };
+            # }
             {
               home-manager.useGlobalPkgs = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
+              # home-manager.useUserPackages = true;
+              home-manager.users.zmitchell = import ./homeConfigurations/chungus.nix;
+              home-manager.extraSpecialArgs = { inherit user inputs; };
             }
+            stylix.darwinModules.stylix
             (import ./setup/zfs_single_drive.nix {
               device = "/dev/nvme1n1";
               user = "zmitchell";
