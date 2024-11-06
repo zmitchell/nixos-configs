@@ -126,9 +126,9 @@ in
           args = [ "--stdio" ];
           config = {};
         };
-        # rust-analyzer = {
-        #   check.command = "clippy";
-        # };
+        rust-analyzer = {
+          check.command = "cargo clippy";
+        };
       };
       language = [
         {
