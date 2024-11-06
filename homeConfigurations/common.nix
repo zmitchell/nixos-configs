@@ -15,7 +15,6 @@ in
   home.packages = with pkgs; [
     lazygit
     zoxide
-    atuin
     tre-command
     inputs.flox.packages.${pkgs.system}.default
     ripgrep
@@ -262,7 +261,6 @@ in
     enable = true;
     enableFishIntegration = true;
     settings = {
-      # style = "compact";
       daemon.enabled = true;
     };
     flags = [
