@@ -12,5 +12,6 @@
     ./monitoring.nix
     ./media_server.nix
     ./flox.nix
+    ./static_ip.nix
   ];
 }
