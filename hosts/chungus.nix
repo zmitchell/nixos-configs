@@ -24,7 +24,12 @@ in
   # Extra boot settings
   boot.loader.timeout = 0; # we have scripts for booting
 
-  networking.useDHCP = lib.mkDefault true;
+  networking.interfaces.eno1.ipv4.addresses = [
+    {
+      address = "10.0.0.234";
+      prefixLength = 24;
+    }
+  ];
   networking.interfaces.wlp11s0.useDHCP = false;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
@@ -54,9 +59,6 @@ in
     linuxHeaders
   ] ++ [
     bootHelpers
-  ];
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-27.3.11"
   ];
 
   environment.localBinInPath = true;
