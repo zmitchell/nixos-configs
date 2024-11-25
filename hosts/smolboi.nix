@@ -53,7 +53,11 @@
   ];
 
   # Custom modules
-  # gnome.enable = true;
-  kde.enable = true;
+  gnome.enable = true;
+
+  # When switching back to Gnome you'll have to run this command:
+  # dconf reset /org/gnome/desktop/interface/cursor-theme
+  # kde.enable = true;
+
   game_streaming.enable = true;
 }
