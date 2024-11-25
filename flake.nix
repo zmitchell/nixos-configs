@@ -67,6 +67,9 @@
               inherit inputs host user;
             };
           }
+          ({user, host, ...}: {
+            home-manager.users.${user.username} = import ./homeConfigurations/${host}.nix;
+          })
         ] ++ extraModules;
       };
       vmConfig =
