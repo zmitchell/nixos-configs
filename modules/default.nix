@@ -4,7 +4,6 @@
     ./base_system.nix
     ./base_user.nix
     ./generic_desktop.nix
-    ./generic_vm.nix
     ./gnome.nix
     ./kde.nix
     ./hyprland.nix

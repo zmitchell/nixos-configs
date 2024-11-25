@@ -1,6 +1,5 @@
-{callPackage, symlinkJoin, writeShellScriptBin, ...}:
+{symlinkJoin, writeShellScriptBin, ...}:
 let
-  common = callPackage ./common.nix;
   soft-reboot = writeShellScriptBin "soft-reboot" ''
     systemctl soft-reboot
   '';

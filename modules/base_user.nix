@@ -1,15 +1,12 @@
-{ pkgs, ... }:
-let 
-  gitHelpers = pkgs.callPackage ../command_sets/git.nix {};
-in 
+{ pkgs, user, ... }:
 {
   config = {
-    users.users.zmitchell = {
-      name = "zmitchell";
+    users.users.${user.username} = {
+      name = user.username;
       isNormalUser = true;
       initialPassword = "dumb-password";
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILm7/9q3RUHuDJKih8XMWIoIFTsga2XtnOXL14CNouhd zmitchell@fastmail.com"
+        (builtins.getAttr "chonker" (import ../data/keys.nix))
       ];
 
       # Gives the user sudo permissions
@@ -20,36 +17,10 @@ in
         # Shell interactions
         fish
         fishPlugins.colored-man-pages
-        starship
-        # atuin
-        zoxide
-        eza
-        # Utilities
         ripgrep
-        fd
-        just
         btop
         procs
-        difftastic
         tree
-        parallel
-        tealdeer
-        watchexec
-        zellij
-        # Fun stuff
-        meme-image-generator
-        imgcat
-        # Nix stuff
-        nix-index
-        nix-init
-        nix-tree
-        nix-eval-jobs
-        unstable.nixfmt-rfc-style
-        # Language servers
-        unstable.nil
-        nodePackages.bash-language-server
-        # Command sets
-        gitHelpers
       ];
     };
 

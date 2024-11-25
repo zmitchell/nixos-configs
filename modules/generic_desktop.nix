@@ -6,27 +6,21 @@ in
   imports = [
     ./audio.nix
     ./shell.nix
-    ./git.nix
   ];
   options.generic_desktop = {
     enable = lib.mkEnableOption "Configures a generic desktop without graphics";
     systemPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [
-        kitty
         firefox
         tailscale
-        neovim
         helix
         yazi
-        ripgrep
         bat
         fd
         jq
-        neofetch
         home-manager
         lsof
-        ranger
       ];
       description = "Basic system-wide packages";
     };
@@ -55,7 +49,6 @@ in
 
   config = lib.mkIf cfg.enable {
     desktop_audio.enable = true;
-    git_config.enable = true;
     shell_config.enable = true;
 
     environment.systemPackages = cfg.systemPackages;

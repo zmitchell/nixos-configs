@@ -1,4 +1,4 @@
-{ inputs, pkgs,  ... }:
+{ inputs, pkgs, user, ... }:
 {
   config = {
     system.stateVersion = "23.11";
@@ -16,7 +16,7 @@
     nix.settings.experimental-features = "nix-command flakes";
     nix.settings.trusted-users = [
       "root"
-      "zmitchell"
+      user.username
     ];
 
     security.sudo.wheelNeedsPassword = false;

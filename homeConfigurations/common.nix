@@ -1,4 +1,4 @@
-{pkgs, lib, user, inputs, osConfig, ...}:
+{pkgs, lib, user, host, osConfig, ...}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
@@ -57,6 +57,8 @@ in
       merge.conflictStyle = "diff3";
       rebase.autoStash = true;
       rerere.enabled = true;
+      push.autoSetupRemote = true;
+      commit.cleanup = "strip";
     };
     difftastic.enable = true;
     ignores = import ./../data/git-ignores.nix;
@@ -243,6 +245,10 @@ in
       set-tab = ''
         wezterm cli set-tab-title $argv[1]
       '';
+    };
+    shellAbbrs = {
+      nrs = lib.mkIf pkgs.hostPlatform.isLinux "sudo nixos-rebuild switch --flake .#${host}";
+      drs = lib.mkIf pkgs.hostPlatform.isDarwin "darwin-rebuild switch --flake .#${host}";
     };
   };
 
