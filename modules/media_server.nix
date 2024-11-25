@@ -1,4 +1,4 @@
-{pkgs, config, lib, transg-tui, ...}:
+{pkgs, config, lib, ...}:
 let
 	mediaDir = "/var/lib/media";
 	mediaGroup = "media";
@@ -132,7 +132,6 @@ in
     # Always prioritize other services wrt. I/O
     systemd.services.transmission.serviceConfig.IOSchedulingPriority = 7;
     environment.systemPackages = [
-      transg-tui.packages.x86_64-linux.transgression-tui
       pkgs.unstable.flood-for-transmission
     ];
 
