@@ -52,6 +52,23 @@
       ...
     }:
     let
+      mkConfig = { system, host, user, extraModules }: {
+        inherit system;
+        specialArgs = {
+          inherit inputs host user;
+        };
+        modules = [
+          disko.nixosModules.disko
+          home-manager.nixosModules.home-manager
+          ./modules
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.extraSpecialArgs = {
+              inherit inputs host user;
+            };
+          }
+        ] ++ extraModules;
+      };
       vmConfig =
         {
           system = "aarch64-linux";
@@ -119,7 +136,7 @@
             }
           ]; 
         };
-      smolboiConfig =
+      smolboiConfigOld =
         {
           system = "x86_64-linux";
           specialArgs = {
@@ -148,6 +165,18 @@
         fullName = "Zach Mitchell";
         username = "zmitchell";
         email = "zmitchell@fastmail.com";
+      };
+      smolboiConfig = mkConfig {
+        system = "x86_64-linux";
+        host = "smolboi";
+        inherit user;
+        extraModules = [
+          ./hosts/smolboi.nix
+          {
+            networking.hostName = "smolboi";
+            networking.hostId = "20042069";
+          }
+        ];
       };
     in {
       nixosModules = { inherit vmConfig chungusConfig smolboiConfig; };
