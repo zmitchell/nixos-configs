@@ -1,7 +1,7 @@
-{pkgs, pkgs-unstable, config, lib, ...}:
+{pkgs, config, lib, ...}:
 let
   # Always launch Moonlight in Wayland mode
-  moonlight-wayland = pkgs-unstable.moonlight-qt.overrideAttrs ( prev: {
+  moonlight-wayland = pkgs.unstable.moonlight-qt.overrideAttrs ( prev: {
     buildInputs = prev.buildInputs or [] ++ [pkgs.makeWrapper];
     postInstall = prev.postInstall or "" + ''
       wrapProgram $out/bin/moonlight --set QT_QPA_PLATFORM wayland \
