@@ -31,8 +31,11 @@
   inputs.mac-app-util.url = "github:hraban/mac-app-util";
   # inputs.mac-app-util.inputs.nixpkgs.follows = "nixpkgs"; # a dependency is broken on 24.05
   # Color schemes and fonts
-  inputs.stylix.url = "github:danth/stylix";
-  inputs.stylix.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.stylix.url = "github:danth/stylix/release-24.05";
+  # inputs.stylix.inputs.nixpkgs.follows = "nixpkgs";
+  # Bug in upstream base16.nix that hasn't been backported to release-24.05 stylix branch
+  # inputs.stylix.inputs.base16.follows = "base16";
+  # inputs.base16.url = "github:SenchoPens/base16.nix?ref=refs/pull/19/head";
 
   outputs =
     inputs@{
@@ -60,145 +63,72 @@
         modules = [
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
+          # There's a bug in stylix at the moment
+          # stylix.nixosModules.stylix
           ./modules
           {
             home-manager.useGlobalPkgs = true;
             home-manager.extraSpecialArgs = {
               inherit inputs host user;
             };
+            flox.enable = true;
           }
           ({user, host, ...}: {
             home-manager.users.${user.username} = import ./homeConfigurations/${host}.nix;
           })
         ] ++ extraModules;
       };
-      vmConfig =
-        {
-          system = "aarch64-linux";
-          specialArgs = { 
-            inherit inputs flox;
-            host = "vm";
-          };
-          modules = [
-            ./hosts/vm-disko.nix
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
-            ./modules
-            (import ./setup/zfs_single_drive.nix {
-              device = "/dev/nvme0n1";
-              user = "zmitchell";
-            })
-            {
-              virtualisation.vmware.guest.enable = true;
-            }
-            {
-              networking.hostName = "nixos";
-              networking.domain = "vms.home";
-              networking.hostId = "00042069";
-            }
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-            }
-          ];
-        };
-      chungusConfig =
-        {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs transg-tui flox;
-            pkgs-unstable = import nixpkgs-unstable {
-              system = "x86_64-linux";
-              config.allowUnfree = true;
-            };
-            host = "chungus";
-          };
-          modules = [
-            ./hosts/chungus.nix
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
-            ./modules
-            # {
-            #   home-manager.useGlobalPkgs = true;
-            #   home-manager.extraSpecialArgs = { inherit inputs; };
-            # }
-            {
-              home-manager.useGlobalPkgs = true;
-              # home-manager.useUserPackages = true;
-              home-manager.users.zmitchell = import ./homeConfigurations/chungus.nix;
-              home-manager.extraSpecialArgs = { inherit user inputs; };
-            }
-            stylix.darwinModules.stylix
-            (import ./setup/zfs_single_drive.nix {
-              device = "/dev/nvme1n1";
-              user = "zmitchell";
-            })
-            {
-              networking.hostName = "chungus";
-              networking.hostId = "10042069";
-            }
-          ]; 
-        };
-      smolboiConfigOld =
-        {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-            host = "smolboi";
-            pkgs-unstable = import nixpkgs-unstable {
-              system = "x86_64-linux";
-              config.allowUnfree = true;
-            };
-          };
-          modules = [
-            ./hosts/smolboi.nix
-            home-manager.nixosModules.home-manager
-            ./modules
-            {
-              networking.hostName = "smolboi";
-              networking.hostId = "20042069";
-            }
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-            }
-          ];
-        };
       user = {
         fullName = "Zach Mitchell";
         username = "zmitchell";
         email = "zmitchell@fastmail.com";
       };
-      smolboiConfig = mkConfig {
-        system = "x86_64-linux";
-        host = "smolboi";
-        inherit user;
-        extraModules = [
-          ./hosts/smolboi.nix
-          {
-            networking.hostName = "smolboi";
-            networking.hostId = "20042069";
-          }
-        ];
-      };
     in {
-      nixosModules = { inherit vmConfig chungusConfig smolboiConfig; };
       nixosConfigurations = {
-        vm = nixpkgs.lib.nixosSystem self.nixosModules.vmConfig;
-        smolboi = nixpkgs.lib.nixosSystem self.nixosModules.smolboiConfig;
-        chungus = nixpkgs.lib.nixosSystem self.nixosModules.chungusConfig;
+        smolboi = nixpkgs.lib.nixosSystem (
+         mkConfig {
+          system = "x86_64-linux";
+          host = "smolboi";
+          inherit user;
+          extraModules = [
+            ./hosts/smolboi.nix
+            {
+              networking.hostName = "smolboi";
+              networking.hostId = "20042069";
+            }
+          ];
+        });
+        chungus = nixpkgs.lib.nixosSystem (
+          mkConfig {
+            system = "x86_64-linux";
+            host = "chungus";
+            inherit user;
+            extraModules = [
+              ./hosts/chungus.nix
+              (import ./setup/zfs_single_drive.nix {
+                device = "/dev/nvme1n1";
+                user = "zmitchell";
+              })
+              {
+                networking.hostName = "chungus";
+                networking.hostId = "10042069";
+              }
+            ];
+          }
+        );
       };
       darwinConfigurations = {
         chonker = nix-darwin.lib.darwinSystem {
           modules = [
             ./hosts/chonker.nix
+            ./modules/flox.nix
             home-manager.darwinModules.home-manager
             mac-app-util.darwinModules.default
             {
               home-manager.useGlobalPkgs = true;
-              # home-manager.useUserPackages = true;
               home-manager.users.zmitchell = import ./homeConfigurations/chonker.nix;
               home-manager.extraSpecialArgs = { inherit user inputs; };
+              flox.enable = true;
             }
             stylix.darwinModules.stylix
             ({ pkgs, config, inputs, ... }: {

@@ -16,7 +16,6 @@ in
     lazygit
     zoxide
     tre-command
-    inputs.flox.packages.${pkgs.system}.default
     ripgrep
     fd
     file

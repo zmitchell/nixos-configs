@@ -1,4 +1,4 @@
-{pkgs, lib, inputs, user, ...}:
+{user, ...}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
