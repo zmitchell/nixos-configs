@@ -258,7 +258,6 @@ in
   };
 
   programs.atuin = {
-    enable = true;
     enableFishIntegration = true;
     settings = {
       daemon.enabled = true;

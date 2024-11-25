@@ -41,10 +41,7 @@ in
     enableZshIntegration = true;
   };
 
-  programs.atuin = {
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-  };
+  programs.atuin.enable = false;
 
   programs.starship = {
     enableBashIntegration = true;

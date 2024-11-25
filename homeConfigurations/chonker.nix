@@ -42,6 +42,8 @@ in
     '';
   };
 
+  programs.atuin.enable = true;
+
   programs.zoxide = {
     enableBashIntegration = true;
     enableZshIntegration = true;
