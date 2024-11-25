@@ -50,7 +50,6 @@ in
   environment.systemPackages = with pkgs; [
     config.boot.kernelPackages.perf
     vscode
-    sublime-merge
     linuxHeaders
   ] ++ [
     bootHelpers
@@ -58,12 +57,9 @@ in
 
   environment.localBinInPath = true;
   
-  # Pre-populate SSH keys from other machines
-  users.users.zmitchell.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
-    pkgs.lib.filterAttrs (k: v: k != "chungus") (import ../data/keys.nix));
-
   # Custom modules
   media_server.enable = true;
   gnome.enable = true;
   static_ip.enable = true;
+  populate_authorized_keys.enable = true;
 }

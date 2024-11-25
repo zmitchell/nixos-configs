@@ -12,5 +12,6 @@
     ./media_server.nix
     ./flox.nix
     ./static_ip.nix
+    ./authorized_keys.nix
   ];
 }
