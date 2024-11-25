@@ -42,6 +42,8 @@ in
     '';
   };
 
+  programs.ssh.controlMaster = "yes";
+
   programs.atuin.enable = true;
 
   programs.zoxide = {
