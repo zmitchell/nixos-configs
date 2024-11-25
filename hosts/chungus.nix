@@ -24,12 +24,7 @@ in
   # Extra boot settings
   boot.loader.timeout = 0; # we have scripts for booting
 
-  networking.interfaces.eno1.ipv4.addresses = [
-    {
-      address = "10.0.0.234";
-      prefixLength = 24;
-    }
-  ];
+  # Disable the wireless card
   networking.interfaces.wlp11s0.useDHCP = false;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
@@ -67,6 +62,8 @@ in
   users.users.zmitchell.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
     pkgs.lib.filterAttrs (k: v: k != "chungus") (import ../data/keys.nix));
 
+  # Custom modules
   media_server.enable = true;
   gnome.enable = true;
+  static_ip.enable = true;
 }
