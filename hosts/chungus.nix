@@ -15,6 +15,11 @@ in
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  # Necessary for profiling
+  boot.kernel.sysctl = {
+    "perf_event_paranoid" = 1;
+    "perf_event_mlock_kb" = 2048;
+  };
 
   # Extra boot settings
   boot.loader.timeout = 0; # we have scripts for booting
@@ -43,10 +48,10 @@ in
   ];
   
   environment.systemPackages = with pkgs; [
+    config.boot.kernelPackages.perf
     vscode
     sublime-merge
     linuxHeaders
-    # unstable.logseq
   ] ++ [
     bootHelpers
     flox.packages.x86_64-linux.flox
