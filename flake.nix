@@ -127,7 +127,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.users.zmitchell = import ./homeConfigurations/chonker.nix;
-              home-manager.extraSpecialArgs = { inherit user inputs; };
+              home-manager.extraSpecialArgs = { inherit user inputs; host = "chonker"; };
               flox.enable = true;
             }
             stylix.darwinModules.stylix
@@ -137,7 +137,7 @@
                 ];
             })
           ];
-          specialArgs = { inherit user inputs; };
+          specialArgs = { inherit user inputs; host = "chonker"; };
         };
       };
     };
