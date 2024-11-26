@@ -95,13 +95,13 @@
   # };
 
   # Color schemes, fonts, etc
-  # stylix.enable = true;
-  # stylix.image = ./../wallpapers/sierra.jpg; # can be literally anything it seems on macOS
-  # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
-  # stylix.fonts = {
-  #   monospace = {
-  #     package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
-  #     name = "JetBrainsMono Nerd Font Mono";
-  #   };
-  # };
+  stylix.enable = true;
+  stylix.image = ./../wallpapers/sierra.jpg; # can be literally anything it seems on macOS
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
+  stylix.fonts = {
+    monospace = {
+      package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+      name = "JetBrainsMono Nerd Font Mono";
+    };
+  };
 }

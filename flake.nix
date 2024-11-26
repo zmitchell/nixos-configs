@@ -31,11 +31,7 @@
   inputs.mac-app-util.url = "github:hraban/mac-app-util";
   # inputs.mac-app-util.inputs.nixpkgs.follows = "nixpkgs"; # a dependency is broken on 24.05
   # Color schemes and fonts
-  inputs.stylix.url = "github:danth/stylix/release-24.05";
-  # inputs.stylix.inputs.nixpkgs.follows = "nixpkgs";
-  # Bug in upstream base16.nix that hasn't been backported to release-24.05 stylix branch
-  # inputs.stylix.inputs.base16.follows = "base16";
-  # inputs.base16.url = "github:SenchoPens/base16.nix?ref=refs/pull/19/head";
+  inputs.stylix.url = "github:danth/stylix";
 
   outputs =
     inputs@{
