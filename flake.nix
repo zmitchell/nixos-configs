@@ -62,6 +62,7 @@
           # There's a bug in stylix at the moment
           # stylix.nixosModules.stylix
           ./modules
+          ./hosts/${host}.nix
           {
             home-manager.useGlobalPkgs = true;
             home-manager.extraSpecialArgs = {
@@ -87,7 +88,6 @@
           host = "smolboi";
           inherit user;
           extraModules = [
-            ./hosts/smolboi.nix
             {
               networking.hostName = "smolboi";
               networking.hostId = "20042069";
@@ -100,7 +100,6 @@
             host = "chungus";
             inherit user;
             extraModules = [
-              ./hosts/chungus.nix
               (import ./setup/zfs_single_drive.nix {
                 device = "/dev/nvme1n1";
                 user = "zmitchell";
