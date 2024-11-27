@@ -16,6 +16,7 @@
   nix.settings.experimental-features = "nix-command flakes";
   nix.settings.trusted-users = [
     "root"
+    "@admin" # necessary for Linux builder
     user.username
   ];
   nix.linux-builder.enable = true;
