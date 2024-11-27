@@ -19,7 +19,6 @@ in
     ripgrep
     fd
     file
-    unstable.nixd
     frogmouth
     nixfmt-rfc-style
     gh-dash
@@ -28,6 +27,7 @@ in
     tealdeer
     unstable.lazyjj
     nix-tree
+    unstable.nil
   ];
 
   programs.htop.enable = true;
