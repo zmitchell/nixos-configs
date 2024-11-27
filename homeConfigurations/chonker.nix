@@ -1,4 +1,4 @@
-{user, ...}:
+{pkgs, user, ...}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
@@ -8,6 +8,10 @@ in
   ];
 
   home.stateVersion = "24.05";
+
+  home.packages = with pkgs; [
+    unstable.zed-editor
+  ];
 
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {
