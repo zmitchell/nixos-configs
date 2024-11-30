@@ -51,6 +51,7 @@ in
     config.boot.kernelPackages.perf
     vscode
     linuxHeaders
+    unstable.bpftrace
   ] ++ [
     bootHelpers
   ];
