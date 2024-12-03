@@ -23,7 +23,7 @@
   # transmission tui
   inputs.transg-tui.url = "github:PanAeon/transg-tui";
   # flox
-  inputs.flox.url = "github:flox/flox/v1.3.5";
+  inputs.flox.url = "github:flox/flox/v1.3.6";
   # nix-darwin
   inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
