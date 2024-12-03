@@ -21,6 +21,8 @@ in
     ./common.nix
   ];
 
+  home.packages = with pkgs; [ tcsh ];
+
   # home.packages = [ bpftrace-wrapped ];
 
   # Configure zsh so it's not terrible when we need to use it
