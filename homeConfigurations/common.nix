@@ -128,7 +128,7 @@ in
           config = {};
         };
         rust-analyzer = {
-          check.command = "cargo clippy";
+          check.command = "clippy --all-targets --workspace";
         };
       };
       language = [
