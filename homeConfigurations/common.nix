@@ -64,8 +64,18 @@ in
     ignores = import ./../data/git-ignores.nix;
   };
 
-  programs.jujutsu.enable = true;
-  programs.jujutsu.package = pkgs.unstable.jujutsu;
+  programs.jujutsu = {
+    enable = true;
+    package = pkgs.unstable.jujutsu;
+    settings.user = {
+      email = user.email;
+      name = user.fullName;
+      settings.user = {
+        email = user.email;
+        name = user.fullName;
+      };
+    };
+  };
   
   programs.yazi = {
     enable = true;
