@@ -137,8 +137,10 @@ in
           args = [ "--stdio" ];
           config = {};
         };
-        rust-analyzer = {
-          check.command = "clippy --all-targets --workspace";
+        rust-analyzer.config.check = {
+          command = "clippy";
+          workspace = true;
+          features = "all";
         };
       };
       language = [
