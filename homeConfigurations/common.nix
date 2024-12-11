@@ -48,6 +48,12 @@ in
     gh-dash
   ];
 
+  programs.zellij = {
+    enable = true;
+    enableFishIntegration = true;
+    settings.theme = "tokyo-night";
+  };
+
   programs.git = {
     enable = true;
     userName = user.fullName;

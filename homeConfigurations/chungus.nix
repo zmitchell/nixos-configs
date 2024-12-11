@@ -54,6 +54,11 @@ in
     '';
   };
 
+  programs.zellij = {
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
   programs.zoxide = {
     enableBashIntegration = true;
     enableZshIntegration = true;
