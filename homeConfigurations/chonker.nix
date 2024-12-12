@@ -16,11 +16,6 @@ in
     deploy-config
   ];
 
-  programs.zellij = {
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-  };
-
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {
     enable = true;
