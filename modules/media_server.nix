@@ -31,7 +31,6 @@ in
           "radarr"
           "sonarr"
           "bazarr"
-          "readarr"
           "plex"
           "zmitchell"
         ];
@@ -60,7 +59,6 @@ in
       "d ${mediaDir}/torrents/radarr 0775 torrenter media -"
       "d ${mediaDir}/torrents/sonarr 0775 torrenter media -"
       "d ${mediaDir}/torrents/bazarr 0775 torrenter media -"
-      "d ${mediaDir}/torrents/readarr 0775 torrenter media -"
     ];
 
     # Set up the services
@@ -87,11 +85,6 @@ in
     services.prowlarr = {
       enable = true;
       openFirewall = true;
-    };
-    services.readarr = {
-      enable = true;
-      openFirewall = true;
-      group = mediaGroup;
     };
     services.jellyseerr = {
       enable = true;
