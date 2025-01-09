@@ -1,6 +1,6 @@
 {
   description = "A very basic flake";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
 
   inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   # Used to get pre-built databases for 'nix-index',
@@ -13,17 +13,12 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
   # Home manager
-  inputs.home-manager.url = "github:nix-community/home-manager/release-24.05";
+  inputs.home-manager.url = "github:nix-community/home-manager/release-24.11";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
-  # Fix for using VS Code remotely
-  inputs.vscode-server.url = "github:nix-community/nixos-vscode-server";
-  inputs.vscode-server.inputs.nixpkgs.follows = "nixpkgs";
   # Hyprland
-  inputs.hyprland.url = "github:hyprwm/Hyprland";
-  # transmission tui
-  inputs.transg-tui.url = "github:PanAeon/transg-tui";
+  # inputs.hyprland.url = "github:hyprwm/Hyprland";
   # flox
-  inputs.flox.url = "github:flox/flox/v1.3.6";
+  inputs.flox.url = "github:flox/flox/v1.3.8";
   # nix-darwin
   inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -45,8 +40,6 @@
       nix-darwin,
       stylix,
       mac-app-util,
-      vscode-server,
-      transg-tui,
       flox,
       ...
     }:
