@@ -59,7 +59,7 @@ in
     enableZshIntegration = true;
   };
 
-  programs.atuin.enable = false;
+  # programs.atuin.enable = false;
 
   programs.starship = {
     enableBashIntegration = true;
