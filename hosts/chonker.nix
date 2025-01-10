@@ -25,7 +25,7 @@
   environment.pathsToLink = [
     "/share/man"
   ];
-  
+ 
   programs.fish.enable = true;
   programs.zsh.enable = true;
   programs.bash.enable = true;

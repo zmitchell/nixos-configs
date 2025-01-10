@@ -255,19 +255,20 @@
         "fenix": "fenix",
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks",
-        "sqlite3pp": "sqlite3pp"
+        "sqlite3pp": "sqlite3pp",
+        "t3-src": "t3-src"
       },
       "locked": {
-        "lastModified": 1734036452,
-        "narHash": "sha256-suSls6x4CPw9J5W/HWV7ijJLtsuaFnUfSuMqHetH+y4=",
+        "lastModified": 1736451021,
+        "narHash": "sha256-pyjPSsXBTeVz0QuwhAITrNv4CwOeGnj5nH+zgbowVJg=",
         "owner": "flox",
         "repo": "flox",
-        "rev": "f5721785077d7ceb047cb8125b8a516cc8191e5e",
+        "rev": "8778414b043705d97898eaee0a427c51da859fb8",
         "type": "github"
       },
       "original": {
         "owner": "flox",
-        "ref": "v1.3.8",
+        "ref": "v1.3.10",
         "repo": "flox",
         "type": "github"
       }
@@ -660,6 +661,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "t3-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1734542708,
+        "narHash": "sha256-D0igUpqO2Es9QyhcJtPUc1rInSVC96lrx4z+takOwWg=",
+        "owner": "flox",
+        "repo": "t3",
+        "rev": "813ed220eab7f678a1bfbf70e4145d9de738d562",
+        "type": "github"
+      },
+      "original": {
+        "owner": "flox",
+        "repo": "t3",
         "type": "github"
       }
     },
