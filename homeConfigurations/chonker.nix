@@ -12,6 +12,7 @@ in
 
   home.packages = with pkgs; [
     unstable.zed-editor
+    utm
   ] ++ [
     deploy-config
   ];
