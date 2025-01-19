@@ -28,6 +28,7 @@ in
     unstable.lazyjj
     nix-tree
     unstable.nil
+    jrnl
   ];
 
   programs.htop.enable = true;
