@@ -3,7 +3,9 @@
   imports = [
     ./base_system.nix
     ./base_user.nix
+    ./modern_boot.nix
     ./generic_desktop.nix
+    ./generic_server.nix
     ./gnome.nix
     ./kde.nix
     ./hyprland.nix

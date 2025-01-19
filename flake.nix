@@ -104,6 +104,22 @@
             ];
           }
         );
+        distant-lad = nixpkgs.lib.nixosSystem (
+         mkConfig {
+          system = "x86_64-linux";
+          host = "distant-lad";
+          inherit user;
+            extraModules = [
+              (import ./setup/zfs_single_drive_legacy_boot.nix {
+                device = "/dev/sda";
+                user = user.username;
+              })
+              {
+                networking.hostName = "distant-lad";
+                networking.hostId = "30042069";
+              }
+            ];
+        });
       };
       darwinConfigurations = {
         chonker = nix-darwin.lib.darwinSystem {

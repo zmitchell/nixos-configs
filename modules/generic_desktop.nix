@@ -50,6 +50,7 @@ in
   config = lib.mkIf cfg.enable {
     desktop_audio.enable = true;
     shell_config.enable = true;
+    modern_boot.enable = true;
 
     environment.systemPackages = cfg.systemPackages;
 

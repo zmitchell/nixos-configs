@@ -41,9 +41,6 @@
   hardware.steam-hardware.enable = true;
   programs.steam.enable = true;
 
-  # Pre-populate SSH keys from other machines
-  users.users.zmitchell.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
-    pkgs.lib.filterAttrs (k: v: k != "smolboi") (import ../data/keys.nix));
   environment.systemPackages = with pkgs; [
     _1password-gui
   ];
@@ -55,4 +52,5 @@
   # dconf reset /org/gnome/desktop/interface/cursor-theme
   # kde.enable = true;
   game_streaming.enable = true;
+  populate_authorized_keys.enable = true;
 }
