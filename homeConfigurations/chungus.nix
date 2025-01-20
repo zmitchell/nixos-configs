@@ -21,7 +21,7 @@ in
     ./common.nix
   ];
 
-  home.packages = with pkgs; [ tcsh hotspot unstable.samply ];
+  home.packages = with pkgs; [ tcsh ];
 
   # home.packages = [ bpftrace-wrapped ];
 

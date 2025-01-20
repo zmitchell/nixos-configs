@@ -68,7 +68,8 @@ in
       openFirewall = true;
     };
     services.sonarr= {
-      enable = true;
+      # The package is broken at the moment
+      # enable = true;
       group = mediaGroup;
       openFirewall = true;
     };

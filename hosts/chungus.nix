@@ -28,11 +28,15 @@ in
   networking.interfaces.wlp11s0.useDHCP = false;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.config.permittedInsecurePackages = [
+    # I think these are from sonarr
+    "dotnet-sdk-6.0.428"
+    "aspnetcore-runtime-6.0.36"
+  ];
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # GPU settings
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable32Bit = true;
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
@@ -42,7 +46,7 @@ in
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     nvidia-vaapi-driver
     nvidia-system-monitor-qt
   ];
