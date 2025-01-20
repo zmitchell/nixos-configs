@@ -85,6 +85,12 @@ in
       forwardAgent = true;
       user = user.username;
     };
+    lad = {
+      host = "lad";
+      hostname = "5.78.94.2";
+      forwardAgent = true;
+      user = user.username;
+    };
     floxci-x86-linux = {
       host = "floxci-x86-linux";
       hostname = "fd7a:115c:a1e0::22";
