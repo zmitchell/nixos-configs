@@ -29,6 +29,7 @@ in
     nix-tree
     unstable.nil
     jrnl
+    nix-output-monitor
   ];
 
   programs.htop.enable = true;
