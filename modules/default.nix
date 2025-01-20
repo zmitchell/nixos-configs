@@ -15,5 +15,6 @@
     ./flox.nix
     ./static_ip.nix
     ./authorized_keys.nix
+    ./calibre.nix
   ];
 }

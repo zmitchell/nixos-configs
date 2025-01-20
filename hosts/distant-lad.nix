@@ -43,4 +43,8 @@
 
   # Custom modules
   generic_server.enable = true;
+  calibre = {
+    enable = true;
+  };
+  authorized_keys.enable = true;
 }
