@@ -46,5 +46,5 @@
   calibre = {
     enable = true;
   };
-  authorized_keys.enable = true;
+  populate_authorized_keys.enable = true;
 }
