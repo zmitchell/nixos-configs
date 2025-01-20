@@ -1,4 +1,4 @@
-{ config, lib, ...}:
+{ config, lib, pkgs, ...}:
   let cfg = config.calibre;
 in
 {
@@ -31,7 +31,12 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = 
+  let
+    # libraryDir = builtins.elemAt config.services.calibre-server.libraries 0;
+    libraryDir = "/var/lib/calibre";
+  in
+  lib.mkIf cfg.enable {
     services.calibre-server = {
       enable = true;
       user = cfg.user;
@@ -39,6 +44,7 @@ in
       port = cfg.calibreServerPort;
       host = "127.0.0.1";
       openFirewall = true;
+      libraries = [ libraryDir ];
     };
 
     services.calibre-web = {
@@ -52,7 +58,7 @@ in
       };
       options = {
         enableBookUploading = true;
-        calibreLibrary = builtins.elemAt config.services.calibre-server.libraries 0;
+        calibreLibrary = libraryDir;
       };
     };
 
@@ -67,13 +73,28 @@ in
       ${cfg.group} = {};
     };
 
-    # Configure the user and group for the services
-    # users.users.${cfg.user} = {
-    #   name = cfg.user;
-    #   group = cfg.group;
-    #   isSystemUser = true;
-    #   description = "The user that runs the calibre services";
-    # };
-    # users.groups.${cfg.group}.name = cfg.group;
+    systemd.tmpfiles.rules = [
+      "d ${libraryDir} 0775 ${cfg.user} ${cfg.group} -"  
+    ];
+
+    systemd.services.calibre-init = {
+      description = "Initializes the calibre library and database.";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        User = cfg.user;
+        Group = cfg.group;
+        RemainAfterExit = "yes";
+        Restart = "no";
+        ExecStart = [
+          "${pkgs.coreutils}/bin/touch ${libraryDir}/foo.txt"
+          "${pkgs.calibre}/bin/calibredb add ${libraryDir}/foo.txt --with-library ${libraryDir}"
+          "${pkgs.coreutils}/bin/rm ${libraryDir}/foo.txt"
+        ];
+      };
+    };
+    systemd.services.calibre-server.after = [ "calibre-init.service" ];
+    systemd.services.calibre-web.after = [ "calibre-server.service" ];
   };
 }
