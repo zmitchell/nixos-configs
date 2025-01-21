@@ -91,10 +91,21 @@ in
           "${pkgs.coreutils}/bin/touch ${libraryDir}/foo.txt"
           "${pkgs.calibre}/bin/calibredb add ${libraryDir}/foo.txt --with-library ${libraryDir}"
           "${pkgs.coreutils}/bin/rm ${libraryDir}/foo.txt"
+          # 1 is the id of the book we just added
+          "${pkgs.calibre}/bin/calibredb remove 1 --with-library ${libraryDir}"
         ];
       };
     };
     systemd.services.calibre-server.after = [ "calibre-init.service" ];
     systemd.services.calibre-web.after = [ "calibre-server.service" ];
+
+    # reverse_proxy.services.calibre = lib.mkIf cfg.useReverseProxy {
+    #   subdomain = "calibre";
+    #   port = cfg.calibreServerPort;
+    # };
+    reverse_proxy.services.books = lib.mkIf cfg.useReverseProxy {
+      subdomain = "books";
+      port = cfg.calibreWebPort;
+    };
   };
 }
