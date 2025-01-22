@@ -43,13 +43,17 @@
 
   # Custom modules
   generic_server.enable = true;
-  calibre = {
-    enable = true;
-    useReverseProxy = true;
-  };
+  populate_authorized_keys.enable = true;
   reverse_proxy = {
     enable = true;
     domain = "zmitchell.dev";
   };
-  populate_authorized_keys.enable = true;
+  calibre = {
+    enable = true;
+    useReverseProxy = true;
+  };
+  mealie = {
+    enable = true;
+    useReverseProxy = true;
+  };
 }
