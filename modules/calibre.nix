@@ -1,5 +1,12 @@
 { config, lib, pkgs, ...}:
-  let cfg = config.calibre;
+let
+  cfg = config.calibre;
+  # Increase the maximum upload size
+  patchedCalibreWeb = pkgs.calibre-web.overrideAttrs (oldAttrs: {
+    postPatch = ''
+      sed -i 's/209700000/500000000/g' cps/server.py
+    '' + oldAttrs.postPatch;
+  });
 in
 {
   options.calibre = {
@@ -37,21 +44,12 @@ in
     libraryDir = "/var/lib/calibre";
   in
   lib.mkIf cfg.enable {
-    services.calibre-server = {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      port = cfg.calibreServerPort;
-      host = "127.0.0.1";
-      openFirewall = true;
-      libraries = [ libraryDir ];
-    };
-
     services.calibre-web = {
       enable = true;
+      package = patchedCalibreWeb;
       user = builtins.toString cfg.user;
       group = cfg.group;
-      openFirewall = true;
+      openFirewall = lib.mkIf cfg.useReverseProxy true;
       listen = {
         port = cfg.calibreWebPort;
         ip = "127.0.0.1";
@@ -96,13 +94,8 @@ in
         ];
       };
     };
-    systemd.services.calibre-server.after = [ "calibre-init.service" ];
     systemd.services.calibre-web.after = [ "calibre-server.service" ];
 
-    # reverse_proxy.services.calibre = lib.mkIf cfg.useReverseProxy {
-    #   subdomain = "calibre";
-    #   port = cfg.calibreServerPort;
-    # };
     reverse_proxy.services.books = lib.mkIf cfg.useReverseProxy {
       subdomain = "books";
       port = cfg.calibreWebPort;
