@@ -66,6 +66,7 @@ in
       rerere.enabled = true;
       push.autoSetupRemote = true;
       commit.cleanup = "strip";
+      pull.ff = "only";
     };
     difftastic.enable = true;
     ignores = import ./../data/git-ignores.nix;
