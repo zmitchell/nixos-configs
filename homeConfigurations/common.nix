@@ -127,6 +127,16 @@ in
         ];
         cursor-shape.insert = "bar";
         lsp.snippets = false;
+        auto-pairs = {
+          "(" = ")";
+          "{" = "}";
+          "[" = "]";
+        };
+        text-width = 120;
+        soft-wrap = {
+          enable = true;
+          wrap-at-text-width = true;
+        };
       };
       keys = {
         normal = {
@@ -154,14 +164,6 @@ in
         {
           name = "python";
           language-servers = ["pyright"];
-        }
-        {
-          name = "markdown";
-          auto-pairs = {
-            "(" = ")";
-            "{" = "}";
-            "[" = "]";
-          };
         }
         {
           name = "bash";
