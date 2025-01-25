@@ -1,10 +1,29 @@
 { config, lib, pkgs, ...}:
 let
   cfg = config.calibre;
-  # Increase the maximum upload size
+  # Necessary for adding to the list of dependencies
+  python = pkgs.python3.override {
+    self = python;
+    packageOverrides = self: super: {
+      sqlalchemy = super.sqlalchemy_1_4;
+    };
+  };
   patchedCalibreWeb = pkgs.calibre-web.overrideAttrs (oldAttrs: {
+    # Add optional dependencies that enable additional metadata providers
+    propagatedBuildInputs = (with python.pkgs; [
+      rarfile
+      markdown2
+      html2text
+      python-dateutil
+      beautifulsoup4
+      faust-cchardet
+    ]) ++ oldAttrs.propagatedBuildInputs;
+
     postPatch = ''
+      # Increase the maximum upload size
       sed -i 's/209700000/500000000/g' cps/server.py
+      # Limit Google metadata search results to English
+      sed -i 's/?q=/?lr=lang_en\&q=/' cps/metadata_provider/google.py
     '' + oldAttrs.postPatch;
   });
 in
