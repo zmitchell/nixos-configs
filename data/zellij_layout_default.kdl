@@ -1,0 +1,16 @@
+layout {
+	pane split_direction="vertical" {
+		pane {
+			focus true
+			borderless true
+		}
+		pane split_direction="horizontal" {
+			pane
+			pane
+		}
+	}
+	pane size=1 borderless=true {
+		plugin location="status-bar"
+	}
+}
+

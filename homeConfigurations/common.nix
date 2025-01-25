@@ -1,4 +1,4 @@
-{pkgs, lib, user, host, osConfig, ...}:
+{config, pkgs, lib, user, host, osConfig, ...}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
@@ -54,6 +54,7 @@ in
     enable = true;
     settings.theme = "tokyo-night";
   };
+  home.file."${config.xdg.configHome}/zellij/layouts/default.kdl".source = ./../data/zellij_layout_default.kdl;
 
   programs.git = {
     enable = true;
