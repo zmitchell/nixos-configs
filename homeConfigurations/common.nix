@@ -76,11 +76,14 @@ in
   programs.jujutsu = {
     enable = true;
     package = pkgs.unstable.jujutsu;
-    settings.user = {
-      email = user.email;
-      name = user.fullName;
+    settings = {
+      user = {
+        email = user.email;
+        name = user.fullName;
+      };
+      ui.paginate = "never";
+      git.auto-local-bookmark = true;
     };
-    settings.ui.paginate = "never";
   };
   
   programs.yazi = {
