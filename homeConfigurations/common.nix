@@ -79,11 +79,8 @@ in
     settings.user = {
       email = user.email;
       name = user.fullName;
-      settings.user = {
-        email = user.email;
-        name = user.fullName;
-      };
     };
+    settings.ui.paginate = "never";
   };
   
   programs.yazi = {
