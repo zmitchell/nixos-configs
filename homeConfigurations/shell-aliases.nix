@@ -7,4 +7,7 @@
   jlast = "jrnl -n 1 --edit";
   # jujutsu aliases
   jjl = "jj log";
+  jjgp = "jj git push";
+  jjf = "jj git fetch";
+  jjmm = "jj bookmark move main";
 }
