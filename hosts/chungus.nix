@@ -14,7 +14,9 @@ in
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = [
+    config.boot.kernelPackages.xpadneo
+  ];
   # Necessary for profiling
   boot.kernel.sysctl = {
     "perf_event_paranoid" = 1;
@@ -50,6 +52,39 @@ in
     nvidia-vaapi-driver
     nvidia-system-monitor-qt
   ];
+
+  programs.steam = {
+    enable = true;
+    extraCompatPackages = with pkgs; [
+      pkgs.proton-ge-bin
+    ];
+  };
+
+  # All this bullshit was to try to get my Xbox controller working.
+  # One of these things makes it work, but don't ask me which one.
+  hardware.xpadneo.enable = true;
+  hardware.xone.enable = true;
+  hardware.steam-hardware.enable = true;
+  services.blueman.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings.General = {
+      Privacy = "device";
+      JustWorksRepairing = "always";
+      FastConnectable = true;
+    };
+  };
+  services.udev.packages = with pkgs; [
+    game-devices-udev-rules
+  ];
+
+  # Sunshine game streaming server
+  services.sunshine = {
+    enable = true;
+    openFirewall = true;
+    capSysAdmin = true;
+  };
   
   environment.systemPackages = with pkgs; [
     config.boot.kernelPackages.perf
@@ -65,6 +100,7 @@ in
   # Custom modules
   media_server.enable = true;
   gnome.enable = true;
+  generic_desktop.allowSleep = false;
   static_ip.enable = true;
   populate_authorized_keys.enable = true;
 }
