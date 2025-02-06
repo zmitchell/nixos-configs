@@ -83,6 +83,12 @@ in
       };
       ui.paginate = "never";
       git.auto-local-bookmark = true;
+      revset-aliases = {
+        branch = "main::@";
+      };
+      aliases = {
+        l = ["log" "-r" "(main..@):: | (main..@)-"];
+      };
     };
   };
   
@@ -262,6 +268,12 @@ in
       # Creates a new directory and changes into it
       mkcd = ''
         mkdir -p $argv[1]
+        cd $argv[1]
+      '';
+
+      # Creates a new flox checkout in lieu of better Nix support for jj workspaces
+      newflox = ''
+        jj git clone git@github.com:flox/flox.git --colocate $argv[1]
         cd $argv[1]
       '';
 
