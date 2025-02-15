@@ -255,20 +255,19 @@
         "fenix": "fenix",
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks",
-        "sqlite3pp": "sqlite3pp",
         "t3-src": "t3-src"
       },
       "locked": {
-        "lastModified": 1736451021,
-        "narHash": "sha256-pyjPSsXBTeVz0QuwhAITrNv4CwOeGnj5nH+zgbowVJg=",
+        "lastModified": 1738438470,
+        "narHash": "sha256-zkDzMW/Zrmrhc59K3cu3sN4NZhTxGxeWByoYZRy4b/4=",
         "owner": "flox",
         "repo": "flox",
-        "rev": "8778414b043705d97898eaee0a427c51da859fb8",
+        "rev": "5c9fc36d41d2094f1e46399e5cc396eea8eb8c9f",
         "type": "github"
       },
       "original": {
         "owner": "flox",
-        "ref": "v1.3.10",
+        "ref": "v1.3.12",
         "repo": "flox",
         "type": "github"
       }
@@ -580,27 +579,6 @@
         "owner": "rust-lang",
         "ref": "nightly",
         "repo": "rust-analyzer",
-        "type": "github"
-      }
-    },
-    "sqlite3pp": {
-      "inputs": {
-        "nixpkgs": [
-          "flox",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1691154329,
-        "narHash": "sha256-nMtwh/G1/Zt70rl540jn+nFVJuju0NdXJwk2Y3pNB+k=",
-        "owner": "aakropotkin",
-        "repo": "sqlite3pp",
-        "rev": "775e48a6c7a63a51585cd628f6c9816ba634a246",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aakropotkin",
-        "repo": "sqlite3pp",
         "type": "github"
       }
     },

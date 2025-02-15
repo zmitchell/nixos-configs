@@ -18,7 +18,7 @@
   # Hyprland
   # inputs.hyprland.url = "github:hyprwm/Hyprland";
   # flox
-  inputs.flox.url = "github:flox/flox/v1.3.10";
+  inputs.flox.url = "github:flox/flox/v1.3.12";
   # nix-darwin
   inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
