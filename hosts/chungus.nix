@@ -78,6 +78,7 @@ in
   services.udev.packages = with pkgs; [
     game-devices-udev-rules
   ];
+  programs.gamemode.enable = true;
 
   # Sunshine game streaming server
   services.sunshine = {
