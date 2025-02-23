@@ -25,7 +25,6 @@ in
     nodePackages.bash-language-server
     pyright
     tealdeer
-    unstable.lazyjj
     nix-tree
     unstable.nil
     jrnl
