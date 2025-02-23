@@ -96,6 +96,9 @@ in
   ];
 
   environment.localBinInPath = true;
+
+  # Otherwise it often fails during switch
+  systemd.services.NetworkManager-wait-online.enable = false;
   
   # Custom modules
   media_server.enable = true;
