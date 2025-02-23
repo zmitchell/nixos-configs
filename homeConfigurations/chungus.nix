@@ -22,6 +22,11 @@ in
   ];
 
   home.packages = with pkgs; [ tcsh ];
+  dconf.settings = {  
+    "org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-ac-type = "nothing";
+    };
+  };
 
   # home.packages = [ bpftrace-wrapped ];
 
