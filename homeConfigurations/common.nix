@@ -29,6 +29,8 @@ in
     unstable.nil
     jrnl
     nix-output-monitor
+    watchexec
+    fx
   ];
 
   programs.htop.enable = true;
