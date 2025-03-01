@@ -14,10 +14,8 @@
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
   # Home manager
   inputs.home-manager.url = "github:nix-community/home-manager/release-24.11";
-  # Hyprland
-  # inputs.hyprland.url = "github:hyprwm/Hyprland";
   # flox
-  inputs.flox.url = "github:flox/flox/v1.3.12";
+  inputs.flox.url = "github:flox/flox/release-1.3.16";
   # nix-darwin
   inputs.nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
   # Provides a fix for launching Nix-provided Mac apps
