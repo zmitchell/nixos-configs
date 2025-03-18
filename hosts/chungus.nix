@@ -85,6 +85,25 @@ in
     enable = true;
     openFirewall = true;
     capSysAdmin = true;
+    # Enable nvenc support
+    # package = with pkgs;
+    #   (pkgs.sunshine.override {
+    #     cudaSupport = true;
+    #     cudaPackages = cudaPackages;
+    #   })
+    #   .overrideAttrs (old: {
+    #     nativeBuildInputs =
+    #       old.nativeBuildInputs
+    #       ++ [
+    #         cudaPackages.cuda_nvcc
+    #         (lib.getDev cudaPackages.cuda_cudart)
+    #       ];
+    #     cmakeFlags =
+    #       old.cmakeFlags
+    #       ++ [
+    #         "-DCMAKE_CUDA_COMPILER=${(lib.getExe cudaPackages.cuda_nvcc)}"
+    #       ];
+    #   });
   };
   
   environment.systemPackages = with pkgs; [
