@@ -1,4 +1,4 @@
-{pkgs, config, lib, ...}:
+{pkgs, config, lib, user, ...}:
 let
   cfg = config.generic_desktop;
 in
@@ -62,5 +62,10 @@ in
     systemd.targets.hibernate.enable = cfg.allowSleep;
     systemd.targets.hybrid-sleep.enable = cfg.allowSleep;
     services.xserver.displayManager.gdm.autoSuspend = cfg.allowSleep;
+    home-manager.users.${user.username}.dconf.settings = {
+      "org/gnome/settings-daemon/plugins/power" = {
+        sleep-inactive-ac-timeout = 0;
+      };
+    };
   };
 }
