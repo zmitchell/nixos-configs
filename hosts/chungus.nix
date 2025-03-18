@@ -121,6 +121,9 @@ in
 
   # Otherwise it often fails during switch
   systemd.services.NetworkManager-wait-online.enable = false;
+
+  # Unnecessary for high DPI displays
+  fonts.fontconfig.hinting.enable = false;
   
   # Custom modules
   media_server.enable = true;
