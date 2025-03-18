@@ -23,8 +23,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    generic_desktop.enable = true;
-
     services.xserver.enable = true;
     services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;
@@ -37,6 +35,5 @@ in
 
     # Gnome packages
     environment.systemPackages = defaultPackages;
-    home-manager.users.zmitchell.home.stateVersion = "23.11";
   };
 }

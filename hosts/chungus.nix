@@ -124,8 +124,11 @@ in
   
   # Custom modules
   media_server.enable = true;
+  generic_desktop = {
+    enable = true;
+    allowSleep = false;
+  };
   gnome.enable = true;
-  generic_desktop.allowSleep = false;
   static_ip.enable = true;
   populate_authorized_keys.enable = true;
 }

@@ -46,6 +46,10 @@
   ];
 
   # Custom modules
+  generic_desktop = {
+    enable = true;
+    allowSleep = false;
+  };
   gnome.enable = true;
   static_ip.enable = true;
   # When switching back to Gnome you'll have to run this command:

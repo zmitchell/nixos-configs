@@ -6,7 +6,7 @@ in
   imports = [
     ./common.nix
   ];
-
+  home.stateVersion = "23.11";
 
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {
