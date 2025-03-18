@@ -18,5 +18,6 @@
     ./reverse_proxy.nix
     ./calibre.nix
     ./mealie.nix
+    ./styles.nix
   ];
 }

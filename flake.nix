@@ -49,7 +49,7 @@
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
           # There's a bug in stylix at the moment
-          # stylix.nixosModules.stylix
+          stylix.nixosModules.stylix
           ./modules
           ./hosts/${host}.nix
           {
