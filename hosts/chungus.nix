@@ -92,9 +92,11 @@ in
     vscode
     linuxHeaders
     unstable.bpftrace
+    fwupd
   ] ++ [
     bootHelpers
   ];
+  services.fwupd.enable = true;
 
   environment.localBinInPath = true;
 
