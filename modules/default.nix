@@ -19,5 +19,6 @@
     ./calibre.nix
     ./mealie.nix
     ./styles.nix
+    ./add_to_registry.nix
   ];
 }

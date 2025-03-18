@@ -58,6 +58,7 @@
               inherit inputs host user;
             };
             flox.enable = true;
+            addStableBranchToRegistry.enable = true;
           }
           ({user, host, ...}: {
             home-manager.users.${user.username} = import ./homeConfigurations/${host}.nix;
