@@ -7,11 +7,6 @@ in
     ./common.nix
   ];
 
-  dconf.settings = {  
-    "org/gnome/settings-daemon/plugins/power" = {
-      sleep-inactive-ac-type = "nothing";
-    };
-  };
 
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {
