@@ -31,6 +31,7 @@ in
     nix-output-monitor
     watchexec
     fx
+    unzip
   ];
 
   programs.htop.enable = true;
