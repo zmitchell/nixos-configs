@@ -112,6 +112,7 @@ in
     linuxHeaders
     unstable.bpftrace
     fwupd
+    discord
   ] ++ [
     bootHelpers
   ];
