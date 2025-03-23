@@ -134,4 +134,11 @@ in
   gnome.enable = true;
   static_ip.enable = true;
   populate_authorized_keys.enable = true;
+
+  # # Adds a specialization you can switch into for testing out hyprland.
+  # specialisation = {
+  #   hypr.configuration = {
+  #     hyprland.enable = true;
+  #   };
+  # };
 }
