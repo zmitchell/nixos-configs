@@ -30,7 +30,14 @@ in
   networking.interfaces.wlp11s0.useDHCP = false;
   networking.interfaces.eno1 = {
     useDHCP = false;
+    ipv4.addresses = [
+      {
+        address = "10.0.0.234";
+        prefixLength = 24;
+      }
+    ];
   };
+  networking.defaultGateway = "10.0.0.1";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   nixpkgs.config.permittedInsecurePackages = [
