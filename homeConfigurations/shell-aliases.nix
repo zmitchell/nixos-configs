@@ -10,4 +10,5 @@
   jjgpn = "jj git push --allow-new";
   jjf = "jj git fetch";
   jjmm = "jj bookmark move main";
+  jjmmgp = "jj bookmark move main --allow-backwards && jj git push";
 }
