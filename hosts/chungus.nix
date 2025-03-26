@@ -26,8 +26,11 @@ in
   # Extra boot settings
   boot.loader.timeout = 0; # we have scripts for booting
 
-  # Disable the wireless card
+  # Use a static IP address
   networking.interfaces.wlp11s0.useDHCP = false;
+  networking.interfaces.eno1 = {
+    useDHCP = false;
+  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   nixpkgs.config.permittedInsecurePackages = [
