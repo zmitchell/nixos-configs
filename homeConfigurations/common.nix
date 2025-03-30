@@ -90,6 +90,7 @@ in
       };
       aliases = {
         l = ["log" "-r" "(main..@):: | (main..@)-"];
+        lpr = ["log" "-r" "(main..@):: | (main..@)" "-T" "description ++ \"\n\"" "--no-graph"];
       };
     };
   };
