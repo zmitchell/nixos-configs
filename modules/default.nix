@@ -22,5 +22,6 @@
     ./add_to_registry.nix
     ./hyprland.nix
     ./nix_community_cachix.nix
+    ./games
   ];
 }
