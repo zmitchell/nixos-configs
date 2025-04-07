@@ -11,6 +11,7 @@ in
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
+    bacon
     unstable.zed-editor
     utm
   ] ++ [
