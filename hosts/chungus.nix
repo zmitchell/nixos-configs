@@ -70,7 +70,7 @@ in
   programs.steam = {
     enable = true;
     extraCompatPackages = with pkgs; [
-      pkgs.proton-ge-bin
+      proton-ge-bin
     ];
   };
 
