@@ -38,6 +38,10 @@ in
     ];
   };
   networking.defaultGateway = "10.0.0.1";
+  networking.nameservers = [
+    "1.1.1.1"
+    "4.4.4.4"
+  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   nixpkgs.config.permittedInsecurePackages = [
