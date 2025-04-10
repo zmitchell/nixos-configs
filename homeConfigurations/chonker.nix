@@ -14,6 +14,7 @@ in
     bacon
     unstable.zed-editor
     utm
+    unstable.kitty
   ] ++ [
     deploy-config
   ];
