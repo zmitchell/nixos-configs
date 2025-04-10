@@ -177,6 +177,13 @@ in
           language-servers = ["pyright"];
         }
         {
+          name = "markdown";
+          block-comment-tokens = {
+            start = "<!--";
+            end = "-->";
+          };
+        }
+        {
           name = "bash";
           file-types = [
             "bats" # the only addition, the rest are defaults
