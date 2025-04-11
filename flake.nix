@@ -101,6 +101,23 @@
             ];
           }
         );
+        slim = nixpkgs.lib.nixosSystem (
+          mkConfig {
+            system = "x86_64-linux";
+            host = "slim";
+            inherit user;
+            extraModules = [
+              (import ./setup/zfs_single_drive_with_swap.nix {
+                device = "/dev/nvme0n1";
+                user = "zmitchell";
+              })
+              {
+                networking.hostName = "slim";
+                networking.hostId = "30042069";
+              }
+            ];
+          }
+        );
         distant-lad = nixpkgs.lib.nixosSystem (
          mkConfig {
           system = "x86_64-linux";
