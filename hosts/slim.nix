@@ -55,6 +55,7 @@ in
     allowSleep = true;
   };
   gnome.enable = true;
+  games.streaming_client.enable = true;
   populate_authorized_keys.enable = true;
   nix_community_cachix.enable = true;
 
