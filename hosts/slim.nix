@@ -57,4 +57,13 @@ in
   populate_authorized_keys.enable = true;
   nix_community_cachix.enable = true;
 
+  services.libinput = {
+    enable = true;
+  };
+  services.keyd = {
+    enable = true;
+    keyboards.default.settings = {
+      main.capslock = "overload(control, esc)";
+    };
+  };
 }
