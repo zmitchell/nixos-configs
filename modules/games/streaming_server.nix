@@ -14,12 +14,7 @@ in
       openFirewall = true;
       capSysAdmin = true;
       # Enable nvenc support
-      package = pkgs.unstable.sunshine;
-      # package = with pkgs;
-      #   (pkgs.unstable.sunshine.override {
-      #     cudaSupport = true;
-      #     cudaPackages = cudaPackages;
-      #   });
+      package = pkgs.withCudaSupport.sunshine;
     };
   };
 }
