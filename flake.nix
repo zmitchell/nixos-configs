@@ -107,10 +107,11 @@
             host = "slim";
             inherit user;
             extraModules = [
-              (import ./setup/zfs_single_drive_with_swap.nix {
-                device = "/dev/nvme0n1";
-                user = "zmitchell";
-              })
+              {
+                imports = [
+                  ./hosts/slim_disk_config.nix
+                ];
+              }
               {
                 networking.hostName = "slim";
                 networking.hostId = "30042069";
