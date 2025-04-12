@@ -110,11 +110,11 @@
               (import ./setup/zfs_single_drive_with_swap.nix {
                 device = "/dev/nvme0n1";
                 user = "zmitchell";
-                flox.enable = nixpkgs.lib.mkForce false;
               })
               {
                 networking.hostName = "slim";
                 networking.hostId = "30042069";
+                flox.enable = nixpkgs.lib.mkForce false;
               }
             ];
           }
