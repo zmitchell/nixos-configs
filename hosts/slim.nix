@@ -52,6 +52,7 @@ in
   # Custom modules
   generic_desktop = {
     enable = true;
+    allowSleep = true;
   };
   gnome.enable = true;
   populate_authorized_keys.enable = true;
