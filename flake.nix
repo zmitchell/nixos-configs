@@ -117,7 +117,7 @@
               {
                 networking.hostName = "slim";
                 networking.hostId = "30042069";
-                flox.enable = nixpkgs.lib.mkForce false;
+                # flox.enable = nixpkgs.lib.mkForce false;
               }
             ];
           }
