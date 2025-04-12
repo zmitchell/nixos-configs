@@ -2,7 +2,9 @@
   description = "A very basic flake";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
 
-  inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+  # Pinned for sunshine support at the moment
+  # inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/060577c3f0747822c128725585f8b76726abae0d";
   # Used to get pre-built databases for 'nix-index',
   inputs.nix-index-database.url = "github:Mic92/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";

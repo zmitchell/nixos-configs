@@ -100,7 +100,7 @@ in
     openFirewall = true;
     capSysAdmin = true;
     # Enable nvenc support
-    # package = pkgs.usingCuda.sunshine;
+    package = pkgs.withCudaSupport.sunshine;
   };
   
   environment.systemPackages = with pkgs; [

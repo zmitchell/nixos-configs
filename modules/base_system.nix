@@ -9,7 +9,7 @@
             inherit (final) system;
             config.allowUnfree = true;
           };
-          usingCuda = import inputs.nixpkgs-unstable {
+          withCudaSupport = import inputs.nixpkgs-unstable {
             inherit (final) system;
             config.cudaSupport = true;
             config.allowUnfree = true;
