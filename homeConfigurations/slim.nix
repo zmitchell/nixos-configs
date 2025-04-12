@@ -8,6 +8,10 @@ in
   ];
   home.stateVersion = "24.11";
 
+  programs.ghostty = {
+    enable = true;
+  };
+
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {
     enable = true;
