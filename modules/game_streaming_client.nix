@@ -1,4 +1,4 @@
-{pkgs, config, lib, ...}:
+{pkgs, config, lib, user, ...}:
 let
   # Always launch Moonlight in Wayland mode
   moonlight-wayland = pkgs.unstable.moonlight-qt.overrideAttrs ( prev: {
@@ -16,7 +16,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    users.users.zmitchell.packages = [
+    home-manager.users.${user.username}.home.packages = [
       moonlight-wayland
     ];
   };
