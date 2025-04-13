@@ -8,6 +8,22 @@ in
   ];
   home.stateVersion = "24.11";
 
+  home.packages = with pkgs; [
+    signal-desktop
+    todoist-electron
+    spotify
+    spot # spotify client that doesn't look like ass
+    bustle
+    d-spy
+    unstable.logseq
+    mpv
+    forge-sparks
+    curtail
+    sysprof
+    tlp
+    powertop
+  ];
+
   programs.ghostty = {
     enable = true;
     settings = {
