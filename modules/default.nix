@@ -23,5 +23,6 @@
     ./hyprland.nix
     ./nix_community_cachix.nix
     ./games
+    ./theming
   ];
 }
