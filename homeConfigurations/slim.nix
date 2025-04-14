@@ -9,7 +9,7 @@ in
   home.stateVersion = "24.11";
 
   home.packages = with pkgs; [
-    unstable.signal-desktop-source
+    signal-desktop
     todoist-electron
     spotify
     spot # spotify client that doesn't look like ass
