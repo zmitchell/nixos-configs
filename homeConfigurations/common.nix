@@ -32,6 +32,8 @@ in
     watchexec
     fx
     unzip
+    git-lfs
+    parallel
   ];
 
   programs.htop.enable = true;
