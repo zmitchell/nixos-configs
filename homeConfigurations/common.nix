@@ -285,8 +285,17 @@ in
 
       # Creates a new flox checkout in lieu of better Nix support for jj workspaces
       newflox = ''
+        cd ~/src/flox
         jj git clone git@github.com:flox/flox.git --colocate $argv[1]
         cd $argv[1]
+        nix develop --command ff b
+      '';
+
+      jjghclone = ''
+        cd ~/src
+        set repo_name (basename $argv[1])
+        jj git clone "git@github.com:$argv[1].git" --colocate
+        cd $repo_name
       '';
 
       set-tab = ''
