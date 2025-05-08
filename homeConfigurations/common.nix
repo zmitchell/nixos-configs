@@ -34,6 +34,8 @@ in
     unzip
     git-lfs
     parallel
+    bat
+    tomlq
   ];
 
   programs.htop.enable = true;
