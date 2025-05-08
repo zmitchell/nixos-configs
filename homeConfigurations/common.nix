@@ -157,6 +157,9 @@ in
             "collapse_selection"
             "keep_primary_selection"
           ];
+          space.t.s = [
+            ":toggle soft-wrap.enable"
+          ];
         };
       };
     };
