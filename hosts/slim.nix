@@ -39,6 +39,7 @@ in
     fwupd
     discord
     _1password-gui
+    libinput
   ] ++ [
     bootHelpers
   ];
@@ -61,6 +62,7 @@ in
 
   services.libinput = {
     enable = true;
+    touchpad.disableWhileTyping = true;
   };
   services.keyd = {
     enable = true;
