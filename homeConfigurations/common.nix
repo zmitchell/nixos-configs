@@ -58,7 +58,11 @@ in
 
   programs.zellij = {
     enable = true;
-    settings.theme = "tokyo-night";
+    settings = {
+      theme = "tokyo-night";
+      stacked_resize = true;
+      show_startup_tips = false;
+    };
   };
   home.file."${config.xdg.configHome}/zellij/layouts/default.kdl".source = ./../data/zellij_layout_default.kdl;
 
