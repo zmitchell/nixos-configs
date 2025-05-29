@@ -25,6 +25,8 @@
     "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
     # Public key for my private catalog
     "signing-key:a7ifhEZBmx+mP+z6cDgcBQzTZmtjHssCFkWWyI1dApg="
+    # Meetrlyio catalog key
+    "floxhub-meetrlyio-1:UVrkk/hwRCX8DEjrYF+2JjVP2ad3KUeya/1C5b3lsR8="
   ];
 
   # Enables some commands to provide completions, etc for system-provided stuff
