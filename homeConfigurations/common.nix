@@ -36,6 +36,7 @@ in
     parallel
     bat
     tomlq
+    delta
   ];
 
   programs.htop.enable = true;
