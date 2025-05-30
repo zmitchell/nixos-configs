@@ -15,6 +15,7 @@ in
     unstable.zed-editor
     utm
     unstable.kitty
+    podman
   ] ++ [
     deploy-config
   ];
