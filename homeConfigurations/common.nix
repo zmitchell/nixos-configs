@@ -340,6 +340,11 @@ in
     enableFishIntegration = true;
     settings = {
       command_timeout = 5000;
+      status = {
+        disabled = false;
+        format = "[$status]($style) ";
+        pipestatus = true;
+      };
       directory.truncate_to_repo = false;
       format = pkgs.lib.concatStrings [
         "$username"
@@ -347,15 +352,12 @@ in
         "$directory"
         "$git_branch"
         "$git_commit"
-        "$git_state"
-        "$git_metrics"
-        "$git_status"
         "$nix_shell"
+        "$status"
         "$cmd_duration"
         "$line_break"
         "$jobs"
         "$time"
-        "$status"
         "$character"
       ];
     };
