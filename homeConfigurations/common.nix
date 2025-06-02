@@ -342,7 +342,10 @@ in
       command_timeout = 5000;
       status = {
         disabled = false;
-        format = "[$status]($style) ";
+        symbol = "✘";
+        pipestatus_separator = " | ";
+        format = "[$status]($style)";
+        pipestatus_format = "\\[ $pipestatus \\]";
         pipestatus = true;
       };
       directory.truncate_to_repo = false;
@@ -353,7 +356,7 @@ in
         "$git_branch"
         "$git_commit"
         "$nix_shell"
-        "$status"
+        "$status "
         "$cmd_duration"
         "$line_break"
         "$jobs"
