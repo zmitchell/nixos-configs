@@ -94,6 +94,7 @@ in
       };
       ui.paginate = "never";
       git.auto-local-bookmark = true;
+      git.write-change-id-header = true;
       revset-aliases = {
         branch = "main::@";
       };
