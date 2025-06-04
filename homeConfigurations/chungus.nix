@@ -3,10 +3,13 @@ let
   shellAliases = import ./shell-aliases.nix;
 in
 {
-  imports = [
-    ./common.nix
-  ];
+  imports = [ ./common.nix ];
+
   home.stateVersion = "23.11";
+  home.packages = with pkgs; [
+    wine64
+    winetricks
+  ];
 
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {
