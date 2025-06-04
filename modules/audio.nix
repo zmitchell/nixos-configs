@@ -7,7 +7,7 @@ in
     desktop_audio.enable = lib.mkEnableOption "Enables audio on the desktop";
   };
   config = lib.mkIf cfg.enable {
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
     services.pipewire = {
       enable = true;
       audio.enable = true;

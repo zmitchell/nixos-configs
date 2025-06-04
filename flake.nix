@@ -1,6 +1,6 @@
 {
   description = "A very basic flake";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
 
   # Pinned for sunshine support at the moment
   # inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -15,16 +15,16 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
   # Home manager
-  inputs.home-manager.url = "github:nix-community/home-manager/release-24.11";
+  inputs.home-manager.url = "github:nix-community/home-manager/release-25.05";
   # flox
   inputs.flox.url = "github:flox/flox/refs/tags/v1.4.3";
   # nix-darwin
-  inputs.nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+  inputs.nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
   # Provides a fix for launching Nix-provided Mac apps
   inputs.mac-app-util.url = "github:hraban/mac-app-util";
   # inputs.mac-app-util.inputs.nixpkgs.follows = "nixpkgs"; # a dependency is broken on 24.05
   # Color schemes and fonts
-  inputs.stylix.url = "github:danth/stylix/release-24.11";
+  inputs.stylix.url = "github:danth/stylix/release-25.05";
 
   outputs =
     inputs@{
