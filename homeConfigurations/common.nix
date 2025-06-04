@@ -107,7 +107,7 @@ in
   
   programs.yazi = {
     enable = true;
-    settings.manager = {
+    settings.mgr = {
       linemode = "permissions";
       show_hidden = true;
     };
