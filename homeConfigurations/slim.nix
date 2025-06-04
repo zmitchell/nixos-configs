@@ -39,7 +39,7 @@ in
     autocd = true;
     autosuggestion.enable = true;
     enableCompletion = true;
-    initExtra = ''
+    initContent = ''
       export PATH="$HOME/bin:$PATH"
       export GIT_EDITOR="hx"
 

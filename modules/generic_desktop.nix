@@ -29,14 +29,10 @@ in
       default = with pkgs; [
         input-fonts
         ubuntu_font_family
-        (nerdfonts.override {
-          fonts = [
-            "Hack"
-            "FiraCode"
-            "Inconsolata"
-            "NerdFontsSymbolsOnly"
-          ];
-        })
+        nerd-fonts.hack
+        nerd-fonts.fira-code
+        nerd-fonts.inconsolata
+        nerd-fonts.symbols-only
       ];
       description = "Basic system-wide fonts to include";
     };
