@@ -10,8 +10,8 @@
     gitFull
   ];
 
-  services.nix-daemon.enable = true;
 
+  nix.enable = true;
   nix.package = pkgs.nixVersions.latest;
   nix.settings.experimental-features = "nix-command flakes";
   nix.settings.trusted-users = [
@@ -39,6 +39,8 @@
   programs.bash.enable = true;
 
   system.stateVersion = 4;
+  system.primaryUser = user.username;
+  ids.gids.nixbld = 350;
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true;
@@ -109,7 +111,7 @@
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/ocean.yaml";
   stylix.fonts = {
     monospace = {
-      package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+      package = pkgs.nerd-fonts.jetbrains-mono;
       name = "JetBrainsMono Nerd Font Mono";
     };
   };
