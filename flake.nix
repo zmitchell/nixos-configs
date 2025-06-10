@@ -3,8 +3,7 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
 
   # Pinned for sunshine support at the moment
-  # inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-  inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/060577c3f0747822c128725585f8b76726abae0d";
+  inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   # Used to get pre-built databases for 'nix-index',
   inputs.nix-index-database.url = "github:Mic92/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -22,7 +21,6 @@
   inputs.nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
   # Provides a fix for launching Nix-provided Mac apps
   inputs.mac-app-util.url = "github:hraban/mac-app-util";
-  # inputs.mac-app-util.inputs.nixpkgs.follows = "nixpkgs"; # a dependency is broken on 24.05
   # Color schemes and fonts
   inputs.stylix.url = "github:danth/stylix/release-25.05";
 
@@ -50,7 +48,6 @@
         modules = [
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
-          # There's a bug in stylix at the moment
           stylix.nixosModules.stylix
           ./modules
           ./hosts/${host}.nix
