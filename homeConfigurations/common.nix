@@ -315,7 +315,7 @@ in
     };
     shellAbbrs = {
       nrs = lib.mkIf pkgs.hostPlatform.isLinux "sudo nixos-rebuild switch --flake .#${host}";
-      drs = lib.mkIf pkgs.hostPlatform.isDarwin "darwin-rebuild switch --flake .#${host}";
+      drs = lib.mkIf pkgs.hostPlatform.isDarwin "sudo darwin-rebuild switch --flake .#${host}";
     };
   };
 
