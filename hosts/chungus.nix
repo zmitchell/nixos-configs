@@ -110,6 +110,7 @@ in
     unstable.bpftrace
     fwupd
     discord
+    nixos-rebuild-ng
   ] ++ [
     bootHelpers
   ];
