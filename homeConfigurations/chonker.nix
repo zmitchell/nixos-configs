@@ -12,7 +12,6 @@ in
 
   home.packages = with pkgs; [
     bacon
-    unstable.zed-editor
     utm
     unstable.kitty
     podman
@@ -76,12 +75,20 @@ in
       hostname = "10.0.0.234";
       forwardAgent = true;
       user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
     };
     chungus-ts = {
       host = "chungus-ts";
       hostname = "chungus";
       forwardAgent = true;
       user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
     };
     smolboi = {
       host = "smolboi";
@@ -101,26 +108,5 @@ in
       forwardAgent = true;
       user = user.username;
     };
-    floxci-x86-linux = {
-      host = "floxci-x86-linux";
-      hostname = "fd7a:115c:a1e0::22";
-      user = user.username;
-    };
-    floxci-arm-linux = {
-      host = "floxci-arm-linux";
-      hostname = "fd7a:115c:a1e0::19";
-      user = user.username;
-    };
-    floxci-x86-mac = {
-      host = "floxci-x86-mac";
-      hostname = "fd7a:115c:a1e0::11";
-      user = user.username;
-    };
-    floxci-arm-mac = {
-      host = "floxci-arm-mac";
-      hostname = "fd7a:115c:a1e0::12";
-      user = user.username;
-    };
   };
-
 }
