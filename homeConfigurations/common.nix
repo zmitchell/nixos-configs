@@ -100,7 +100,8 @@ in
       };
       aliases = {
         l = ["log" "-r" "(main..@):: | (main..@)-"];
-        lpr = ["log" "-r" "(main..@):: | (main..@)" "-T" "description ++ \"\n\"" "--no-graph"];
+        lprev = ["log" "-r" "(preview..@):: | (preview..@)-"];
+        lpr = ["log" "-r" "(main..@):: | (main..@)" "-T" "description ++ \"\n\"" "--no-graph" "--reversed"];
       };
     };
   };
