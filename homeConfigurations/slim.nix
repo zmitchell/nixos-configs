@@ -86,18 +86,30 @@ in
       hostname = "10.0.0.234";
       forwardAgent = true;
       user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
     };
     chungus-ts = {
       host = "chungus-ts";
       hostname = "chungus";
       forwardAgent = true;
       user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
     };
     smolboi = {
       host = "smolboi";
       hostname = "10.0.0.166";
       forwardAgent = true;
       user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
     };
   };
 

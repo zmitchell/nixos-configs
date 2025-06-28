@@ -95,18 +95,30 @@ in
       hostname = "10.0.0.166";
       forwardAgent = true;
       user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
     };
     smolboi-ts = {
       host = "smolboi-ts";
       hostname = "smolboi";
       forwardAgent = true;
       user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
     };
     lad = {
       host = "lad";
       hostname = "5.78.94.2";
       forwardAgent = true;
       user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
     };
   };
 }
