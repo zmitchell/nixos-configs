@@ -10,9 +10,6 @@ in
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [
-    config.boot.kernelPackages.xpadneo
-  ];
   # Necessary for profiling
   boot.kernel.sysctl = {
     "perf_event_paranoid" = 1;
@@ -73,7 +70,6 @@ in
 
   # All this bullshit was to try to get my Xbox controller working.
   # One of these things makes it work, but don't ask me which one.
-  hardware.xpadneo.enable = true;
   hardware.xone.enable = true;
   hardware.steam-hardware.enable = true;
   services.blueman.enable = true;
@@ -108,6 +104,7 @@ in
     fwupd
     discord
     nixos-rebuild-ng
+    xow_dongle-firmware
   ] ++ [
     bootHelpers
   ];
