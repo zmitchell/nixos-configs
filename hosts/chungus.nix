@@ -122,7 +122,7 @@ in
   fonts.fontconfig.hinting.enable = false;
   
   # Custom modules
-  media_server.enable = true;
+  # media_server.enable = true;
   generic_desktop = {
     enable = true;
     allowSleep = false;
