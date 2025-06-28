@@ -18,6 +18,7 @@ in
     "perf_event_paranoid" = 1;
     "perf_event_mlock_kb" = 2048;
   };
+  boot.kernelParams = [ "module_blacklist=amdgpu" ];
 
   # Extra boot settings
   boot.loader.timeout = 0; # we have scripts for booting
@@ -54,9 +55,9 @@ in
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = false;
+    open = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
   hardware.graphics.extraPackages = with pkgs; [
     nvidia-vaapi-driver
