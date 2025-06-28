@@ -36,6 +36,8 @@
     intel-media-driver
     intel-vaapi-driver
   ];
+  # Thunderbolt daemon
+  services.hardware.bolt.enable = true;
 
   # Gaming stuff
   hardware.steam-hardware.enable = true;
