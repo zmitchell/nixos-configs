@@ -57,4 +57,5 @@
   # kde.enable = true;
   game_streaming.enable = true;
   populate_authorized_keys.enable = true;
+  nix_community_cachix.enable = true;
 }
