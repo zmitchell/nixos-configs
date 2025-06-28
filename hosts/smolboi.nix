@@ -46,7 +46,9 @@
 
   environment.systemPackages = with pkgs; [
     _1password-gui
+    fwupd
   ];
+  services.fwupd.enable = true;
 
   # Custom modules
   generic_desktop = {
