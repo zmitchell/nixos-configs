@@ -9,12 +9,16 @@ in
 	};
 
 	config = lib.mkIf cfg.enable {
-		networking.interfaces.${ipCfg.interface}.ipv4.addresses = [
-			{
-				address = ipCfg.address;
-				prefixLength = 24;
-			}
-		];
+		networking.interfaces.${ipCfg.interface} = {
+			ipv4.addresses = [
+				{
+					address = ipCfg.address;
+					prefixLength = 24;
+				}
+			];
+			useDHCP = false;
+		};
+	  networking.defaultGateway = "10.0.0.1";
 	  networking.nameservers = [
 	    "1.1.1.1"
 	    "4.4.4.4"
