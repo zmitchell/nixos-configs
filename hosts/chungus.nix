@@ -128,6 +128,10 @@ in
   static_ip.enable = true;
   populate_authorized_keys.enable = true;
   nix_community_cachix.enable = true;
+  libvirt_qemu = {
+    enable = true;
+    virt_manager = true;
+  };
 
   # # Adds a specialization you can switch into for testing out hyprland.
   # specialisation = {
