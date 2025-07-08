@@ -15,6 +15,7 @@ in
     utm
     unstable.kitty
     podman
+    clamav
   ] ++ [
     deploy-config
   ];
