@@ -102,9 +102,8 @@ in
     linuxHeaders
     unstable.bpftrace
     fwupd
-    discord
     nixos-rebuild-ng
-    xow_dongle-firmware
+    xow_dongle-firmware # Xbox controller dongle firmware
   ] ++ [
     bootHelpers
   ];

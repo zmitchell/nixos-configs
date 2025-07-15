@@ -22,6 +22,7 @@ in
     sysprof
     tlp
     powertop
+    vesktop
   ];
 
   programs.ghostty = {

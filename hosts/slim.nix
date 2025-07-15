@@ -37,7 +37,6 @@ in
     linuxHeaders
     unstable.bpftrace
     fwupd
-    discord
     _1password-gui
     libinput
   ] ++ [

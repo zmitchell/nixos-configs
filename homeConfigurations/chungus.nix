@@ -9,6 +9,7 @@ in
   home.packages = with pkgs; [
     wine
     winetricks
+    vesktop
   ];
 
   # Configure zsh so it's not terrible when we need to use it
