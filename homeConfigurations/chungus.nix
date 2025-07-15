@@ -12,6 +12,15 @@ in
     vesktop
   ];
 
+  programs.ghostty = {
+    enable = true;
+    settings = {
+      font-family = "Hack Nerd Font Mono";
+      font-size = 14;
+      font-feature = [ "-calt" "-liga" "-dlig" ];
+    };
+  };
+
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {
     enable = true;
