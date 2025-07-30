@@ -102,6 +102,11 @@ in
         l = ["log" "-r" "(main..@):: | (main..@)-"];
         lprev = ["log" "-r" "(preview..@):: | (preview..@)-"];
         lpr = ["log" "-r" "(main..@):: | (main..@)" "-T" "description ++ \"\n\"" "--no-graph" "--reversed"];
+        tug = ["bookmark" "move" "--from" "heads(::@- & bookmarks())" "--to" "@-"];
+      };
+      templates = {
+        log_node = 
+            "label(\"node\",coalesce(if(!self, label(\"elided\", \"~\")),if(current_working_copy, label(\"working_copy\", \"@\")),if(conflict, label(\"conflict\", \"×\")),if(immutable, label(\"immutable\", \"*\")),label(\"normal\", \"·\")))";
       };
     };
   };
