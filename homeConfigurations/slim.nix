@@ -23,6 +23,7 @@ in
     tlp
     powertop
     vesktop
+    zeal-qt6
   ];
 
   programs.ghostty = {
