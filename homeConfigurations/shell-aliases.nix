@@ -11,4 +11,7 @@
   jjf = "jj git fetch";
   jjmm = "jj bookmark move main";
   jjmmgp = "jj bookmark move main --to @ --allow-backwards && jj git push";
+  # eza
+  ll = "eza -lh";
+  lll = "eza -alh";
 }

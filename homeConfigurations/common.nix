@@ -45,9 +45,6 @@ in
   programs.man.enable = true;
 
   programs.eza.enable = true;
-  programs.eza.enableBashIntegration = true;
-  programs.eza.enableZshIntegration = true;
-  programs.eza.enableFishIntegration = true;
 
   programs.gh.enable = true;
   programs.gh.settings.git_protocol = "ssh";
