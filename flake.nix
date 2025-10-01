@@ -49,6 +49,7 @@
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
           stylix.nixosModules.stylix
+          flake-programs-sqlite.nixosModules.programs-sqlite
           ./modules
           ./hosts/${host}.nix
           {

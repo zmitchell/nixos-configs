@@ -30,9 +30,8 @@
     # with the default  'programs.command-not-found.enable'.
     # That particular program is broken on flake-based systems anyway, but I'm using
     # 'flake-programs-sqlite' to solve that issue.
-    programs.nix-index.enableFishIntegration = false;
-    programs.nix-index.enableBashIntegration = false;
-    programs.nix-index.enableZshIntegration = false;
-    programs.command-not-found.enable = true;
+    programs.command-not-found = {
+      enable = true;
+    };
   };
 }
