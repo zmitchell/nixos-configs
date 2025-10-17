@@ -94,12 +94,12 @@ in
       git.write-change-id-header = true;
       revset-aliases = {
         branch = "main::@";
+        "closest_pushable(to)" = "heads(::to & mutable() & ~description(exact:\"\") & (~empty() | merges()))";
       };
       aliases = {
-        l = ["log" "-r" "(main..@):: | (main..@)-"];
-        lprev = ["log" "-r" "(preview..@):: | (preview..@)-"];
-        lpr = ["log" "-r" "(main..@):: | (main..@)" "-T" "description ++ \"\n\"" "--no-graph" "--reversed"];
-        tug = ["bookmark" "move" "--from" "heads(::@- & bookmarks())" "--to" "@-"];
+        l = ["log" "-r" "(trunk()..@):: | (trunk()..@)-"];
+        lpr = ["log" "-r" "(trunk()..@):: | (trunk()..@)" "-T" "description ++ \"\n\"" "--no-graph" "--reversed"];
+        tug = ["bookmark" "move" "--from" "heads(::@ & bookmarks())" "--to" "closest_pushable(@)"];
       };
       templates = {
         log_node = 
