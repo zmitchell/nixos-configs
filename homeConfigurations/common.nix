@@ -89,7 +89,10 @@ in
         email = user.email;
         name = user.fullName;
       };
-      ui.paginate = "never";
+      ui = {
+        paginate = "never";
+        default-command = ["status"];
+      };
       git.auto-local-bookmark = true;
       git.write-change-id-header = true;
       revset-aliases = {
