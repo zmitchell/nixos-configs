@@ -133,6 +133,7 @@ in
     ];
     settings = {
       editor = {
+        default-yank-register = "+";
         color-modes = true;
         bufferline = "multiple";
         line-number = "relative";
