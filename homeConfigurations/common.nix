@@ -93,8 +93,10 @@ in
         paginate = "never";
         default-command = ["status"];
       };
-      git.auto-local-bookmark = true;
-      git.write-change-id-header = true;
+      git = {
+        auto-local-bookmark = true;
+        write-change-id-header = true;
+      };
       revset-aliases = {
         branch = "main::@";
         "closest_pushable(to)" = "heads(::to & mutable() & ~description(exact:\"\") & (~empty() | merges()))";
@@ -136,7 +138,6 @@ in
     ];
     settings = {
       editor = {
-        default-yank-register = "+";
         color-modes = true;
         bufferline = "multiple";
         line-number = "relative";
