@@ -16,7 +16,7 @@
   # Home manager
   inputs.home-manager.url = "github:nix-community/home-manager/release-25.05";
   # flox
-  inputs.flox.url = "github:flox/flox/refs/tags/v1.7.2";
+  inputs.flox.url = "github:flox/flox/latest";
   # nix-darwin
   inputs.nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
   # Provides a fix for launching Nix-provided Mac apps
