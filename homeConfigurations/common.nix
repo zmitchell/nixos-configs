@@ -174,9 +174,17 @@ in
             "collapse_selection"
             "keep_primary_selection"
           ];
-          space.t.s = [
-            ":toggle soft-wrap.enable"
-          ];
+          space.t = {
+            s = [
+              ":toggle soft-wrap.enable"
+            ];
+            w = [
+              ":set whitespace.render all"
+            ];
+            W = [
+              ":set whitespace.render none"
+            ];
+          };
         };
       };
     };
