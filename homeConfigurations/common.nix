@@ -37,6 +37,7 @@ in
     bat
     tomlq
     delta
+    unstable.lazyjj
   ];
 
   programs.htop.enable = true;
