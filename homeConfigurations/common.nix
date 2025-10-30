@@ -38,6 +38,7 @@ in
     tomlq
     delta
     unstable.lazyjj
+    kondo
   ];
 
   programs.htop.enable = true;
