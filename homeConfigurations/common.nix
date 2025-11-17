@@ -104,7 +104,7 @@ in
         "closest_pushable(to)" = "heads(::to & mutable() & ~description(exact:\"\") & (~empty() | merges()))";
       };
       aliases = {
-        l = ["log" "-r" "(trunk()..@):: | (trunk()..@)-"];
+        l = ["log" "-r" "(trunk()..@):: | (trunk()..@)-" "--reversed"];
         lpr = ["log" "-r" "(trunk()..@):: | (trunk()..@)" "-T" "description ++ \"\n\"" "--no-graph" "--reversed"];
         tug = ["bookmark" "move" "--from" "heads(::@ & bookmarks())" "--to" "closest_pushable(@)"];
       };
