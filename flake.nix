@@ -23,6 +23,8 @@
   inputs.mac-app-util.url = "github:hraban/mac-app-util";
   # Color schemes and fonts
   inputs.stylix.url = "github:danth/stylix/release-25.05";
+  # For creating Linux VMs on macOS
+  inputs.nixos-lima.url = "github:nixos-lima/nixos-lima/";
 
   outputs =
     inputs@{
@@ -37,6 +39,7 @@
       stylix,
       mac-app-util,
       flox,
+      nixos-lima,
       ...
     }:
     let
@@ -118,6 +121,14 @@
                 # flox.enable = nixpkgs.lib.mkForce false;
               }
             ];
+          }
+        );
+        lima-vm = nixpkgs.lib.nixosSystem (
+          mkConfig {
+            system = "aarch64-linux";
+            host = "lima-vm";
+            extraModules = [];
+            inherit user;
           }
         );
         distant-lad = nixpkgs.lib.nixosSystem (
