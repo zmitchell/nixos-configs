@@ -96,7 +96,6 @@ in
         default-command = ["status"];
       };
       git = {
-        auto-local-bookmark = true;
         write-change-id-header = true;
       };
       revset-aliases = {
