@@ -24,6 +24,7 @@ in
     powertop
     vesktop
     zeal-qt6
+    obsidian
   ];
 
   programs.ghostty = {
