@@ -33,7 +33,7 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
-    config.boot.kernelPackages.perf
+    perf
     linuxHeaders
     unstable.bpftrace
     fwupd

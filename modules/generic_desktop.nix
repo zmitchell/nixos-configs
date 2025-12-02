@@ -28,7 +28,7 @@ in
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [
         input-fonts
-        ubuntu_font_family
+        ubuntu-classic
         nerd-fonts.hack
         nerd-fonts.fira-code
         nerd-fonts.inconsolata
@@ -57,7 +57,7 @@ in
     systemd.targets.suspend.enable = cfg.allowSleep;
     systemd.targets.hibernate.enable = cfg.allowSleep;
     systemd.targets.hybrid-sleep.enable = cfg.allowSleep;
-    services.xserver.displayManager.gdm.autoSuspend = cfg.allowSleep;
+    services.displayManager.gdm.autoSuspend = cfg.allowSleep;
     home-manager.users.${user.username}.dconf.settings = {
       "org/gnome/settings-daemon/plugins/power" = {
         sleep-inactive-ac-type = "nothing";

@@ -68,9 +68,9 @@ in
 
   programs.git = {
     enable = true;
-    userName = user.fullName;
-    userEmail = user.email;
-    extraConfig = {
+    settings = {
+      user.name = user.fullName;
+      user.email = user.email;
       init.defaultBranch = "main";
       merge.conflictStyle = "diff3";
       rebase.autoStash = true;
@@ -79,9 +79,9 @@ in
       commit.cleanup = "strip";
       pull.ff = "only";
     };
-    difftastic.enable = true;
     ignores = import ./../data/git-ignores.nix;
   };
+  programs.difftastic.git.enable = true;
 
   programs.jujutsu = {
     enable = true;
@@ -124,8 +124,6 @@ in
   
   programs.ssh = {
     enable = true;
-    serverAliveInterval = 60;
-    serverAliveCountMax = 10080; # one week max
   };
 
   programs.helix = {

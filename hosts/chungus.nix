@@ -97,12 +97,11 @@ in
   };
   
   environment.systemPackages = with pkgs; [
-    config.boot.kernelPackages.perf
+    perf
     vscode
     linuxHeaders
     unstable.bpftrace
     fwupd
-    nixos-rebuild-ng
     xow_dongle-firmware # Xbox controller dongle firmware
   ] ++ [
     bootHelpers

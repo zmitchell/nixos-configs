@@ -23,7 +23,7 @@ in
     tlp
     powertop
     vesktop
-    zeal-qt6
+    zeal
     obsidian
   ];
 
@@ -33,6 +33,15 @@ in
       font-family = "Hack Nerd Font Mono";
       font-size = 14;
       font-feature = [ "-calt" "-liga" "-dlig" ];
+      keybind = [
+        "ctrl+shift+left=goto_split:left"
+        "ctrl+shift+right=goto_split:right"
+        "ctrl+shift+up=goto_split:up"
+        "ctrl+shift+down=goto_split:down"
+        "ctrl+t=new_tab"
+        "ctrl+shift+[=previous_tab"
+        "ctrl+shift+]=next_tab"
+      ];
     };
   };
 
@@ -89,6 +98,8 @@ in
       hostname = "10.0.0.234";
       forwardAgent = true;
       user = user.username;
+      serverAliveInterval = 60;
+      serverAliveCountMax = 10080; # one week max
       setEnv = {
         # Fix for ghostty
         TERM = "xterm-256color";
@@ -99,6 +110,8 @@ in
       hostname = "chungus";
       forwardAgent = true;
       user = user.username;
+      serverAliveInterval = 60;
+      serverAliveCountMax = 10080; # one week max
       setEnv = {
         # Fix for ghostty
         TERM = "xterm-256color";
@@ -109,6 +122,8 @@ in
       hostname = "10.0.0.166";
       forwardAgent = true;
       user = user.username;
+      serverAliveInterval = 60;
+      serverAliveCountMax = 10080; # one week max
       setEnv = {
         # Fix for ghostty
         TERM = "xterm-256color";

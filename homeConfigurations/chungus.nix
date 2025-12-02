@@ -76,6 +76,8 @@ in
       hostname = "10.0.0.166";
       forwardAgent = true;
       user = user.username;
+      serverAliveInterval = 60;
+      serverAliveCountMax = 10080; # one week max
       setEnv = {
         # Fix for ghostty
         TERM = "xterm-256color";

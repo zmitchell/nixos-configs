@@ -24,9 +24,9 @@ in
 
   config = lib.mkIf cfg.enable {
     services.xserver.enable = true;
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
-    services.xserver.displayManager.gdm.wayland = true;
+    services.displayManager.gdm.enable = true;
+    services.desktopManager.gnome.enable = true;
+    services.displayManager.gdm.wayland = true;
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
     # Basic applications
