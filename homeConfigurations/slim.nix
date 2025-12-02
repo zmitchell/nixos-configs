@@ -34,10 +34,10 @@ in
       font-size = 14;
       font-feature = [ "-calt" "-liga" "-dlig" ];
       keybind = [
-        "ctrl+shift+left=goto_split:left"
-        "ctrl+shift+right=goto_split:right"
-        "ctrl+shift+up=goto_split:up"
-        "ctrl+shift+down=goto_split:down"
+        "ctrl+shift+h=goto_split:left"
+        "ctrl+shift+l=goto_split:right"
+        "ctrl+shift+k=goto_split:up"
+        "ctrl+shift+j=goto_split:down"
         "ctrl+t=new_tab"
         "ctrl+shift+[=previous_tab"
         "ctrl+shift+]=next_tab"
