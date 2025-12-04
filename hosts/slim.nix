@@ -15,7 +15,8 @@ in
   boot.kernelModules = [ "kvm-intel" ];
   # Necessary for profiling
   boot.kernel.sysctl = {
-    "perf_event_paranoid" = 1;
+    "kptr_restrict" = 0;
+    "perf_event_paranoid" = 0;
     "perf_event_mlock_kb" = 2048;
   };
 
