@@ -110,7 +110,58 @@ in
       templates = {
         log_node = 
             "label(\"node\",coalesce(if(!self, label(\"elided\", \"~\")),if(current_working_copy, label(\"working_copy\", \"@\")),if(conflict, label(\"conflict\", \"×\")),if(immutable, label(\"immutable\", \"*\")),label(\"normal\", \"·\")))";
-        draft_commit_description = "concat(builtin_draft_commit_description,\"\nJJ: ignore-rest\n\",diff.git(),)";
+        # draft_commit_description = "concat(builtin_draft_commit_description,\"\nJJ: ignore-rest\n\",diff.git(),)";
+        draft_commit_description = ''
+          concat(
+            "JJ: Short description limit (50 characters)",
+            "\nJJ: ----------------------------------------------\n",
+            "\nJJ: Body limit (72 characters)",
+            "\nJJ: --------------------------------------------------------------------",
+            "\nJJ: <type>[scope]: <description>",
+            "\nJJ: Types:",
+            "\nJJ: - feat",
+            "\nJJ: - fix",
+            "\nJJ: - chore",
+            "\nJJ: - perf",
+            "\nJJ: - docs",
+            "\nJJ: - style",
+            "\nJJ: - refactor",
+            "\nJJ: - test",
+            coalesce(description, default_commit_description, ""),
+            "\n",
+            "JJ: Change ID: " ++ format_short_change_id(change_id),
+            "\n",
+            surround(
+              "JJ: This commit contains the following changes:\n", "",
+              indent("JJ:     ", diff.summary()),
+            ),
+            "JJ: ignore-rest\n",
+            diff.git()
+          )
+        '';
+        # draft_commit_description = lib.concatStringsSep "" [
+        #   "concat("
+        #   "\"JJ: Short description limit (50 characters)\","
+        #   "\"\nJJ: ---------------------------------------------|\n\","
+        #   "\"\nJJ: Body limit (72 characters)\","
+        #   "\"\nJJ: -------------------------------------------------------------------|\","
+        #   "\"\nJJ: <type>[scope]: <description>\","
+        #   "\"\nJJ: Types:\","
+        #   "\"\nJJ: - feat\","
+        #   "\"\nJJ: - fix\","
+        #   "\"\nJJ: - chore\","
+        #   "\"\nJJ: - perf\","
+        #   "\"\nJJ: - docs\","
+        #   "\"\nJJ: - style\","
+        #   "\"\nJJ: - refactor\","
+        #   "\"\nJJ: - test\","
+        #   # "builtin_draft_commit_description,"
+        #   "coalesce(description, default_commit_description, \"\"),"
+        #   "\"\n\""
+          
+        #   "\"\nJJ: ignore-rest\n\","
+        #   "diff.git())"
+        # ];
       };
     };
   };
