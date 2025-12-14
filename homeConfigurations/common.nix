@@ -110,6 +110,7 @@ in
       templates = {
         log_node = 
             "label(\"node\",coalesce(if(!self, label(\"elided\", \"~\")),if(current_working_copy, label(\"working_copy\", \"@\")),if(conflict, label(\"conflict\", \"×\")),if(immutable, label(\"immutable\", \"*\")),label(\"normal\", \"·\")))";
+        draft_commit_description = "concat(builtin_draft_commit_description,\"\nJJ: ignore-rest\n\",diff.git(),)";
       };
     };
   };
