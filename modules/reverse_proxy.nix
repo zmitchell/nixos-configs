@@ -11,15 +11,22 @@ with lib; let
         type = port;
         description = "The port that the service is running on locally";
       };
+      public = mkOption {
+        type = bool;
+        description = "Whether to expose this subdomain without authentication";
+        default = false;
+      };
     };
   };
   mkExtraConfig = service: ''
+      ${if !service.public then ''
+      forward_auth 127.0.0.1:9091 {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
+      '' else null}
       reverse_proxy localhost:${builtins.toString service.port}
       log
-      basic_auth {
-        # FIXME: this is temporary
-        admin $2a$14$HAkQyHHIOZHSK5YurCfY8.iKuhOZB5AJTemex0dKQ2mlk2pD.K5uy
-      }
   '';
   mkVirtualHosts = with lib.attrsets; proxyServices: mapAttrs'
     (name: service:
@@ -47,7 +54,11 @@ in
     services.caddy = {
       enable = true;
       acmeCA = "https://acme-v02.api.letsencrypt.org/directory";
-      virtualHosts = mkVirtualHosts cfg.services;
+      virtualHosts = mkVirtualHosts cfg.services // {
+        "auth.${cfg.domain}".extraConfig = ''
+          reverse_proxy 127.0.0.1:9091
+        '';
+      };
     };
     networking.firewall.allowedTCPPorts = [ 80 443 ];
   };

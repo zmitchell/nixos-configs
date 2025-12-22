@@ -129,6 +129,16 @@ in
         TERM = "xterm-256color";
       };
     };
+    lad = {
+      host = "lad";
+      hostname = "5.78.94.2";
+      forwardAgent = true;
+      user = user.username;
+      setEnv = {
+        # Fix for ghostty
+        TERM = "xterm-256color";
+      };
+    };
   };
 
 }

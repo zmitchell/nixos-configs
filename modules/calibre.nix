@@ -76,6 +76,7 @@ in
       options = {
         enableBookUploading = true;
         calibreLibrary = libraryDir;
+        reverseProxyAuth.enable = cfg.useReverseProxy;
       };
     };
 

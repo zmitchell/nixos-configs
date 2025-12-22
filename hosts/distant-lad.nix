@@ -29,10 +29,6 @@
     intel-vaapi-driver
   ];
 
-  # Pre-populate SSH keys from other machines
-  users.users.${user.username}.openssh.authorizedKeys.keys = pkgs.lib.attrValues (
-    pkgs.lib.filterAttrs (k: v: k != host) (import ../data/keys.nix));
-
   # Hetzner machine uses legacy boot
   boot.loader.grub = {
     enable = true;
@@ -42,6 +38,7 @@
   };
 
   # Custom modules
+  flox.enable = lib.mkForce false;
   generic_server.enable = true;
   populate_authorized_keys.enable = true;
   reverse_proxy = {
@@ -52,8 +49,5 @@
     enable = true;
     useReverseProxy = true;
   };
-  mealie = {
-    enable = true;
-    useReverseProxy = true;
-  };
+  authelia.enable = true;
 }
