@@ -50,4 +50,5 @@
     useReverseProxy = true;
   };
   authelia.enable = true;
+  ldap_server.enable = true;
 }

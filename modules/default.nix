@@ -25,5 +25,6 @@
     ./games
     ./libvirt_qemu.nix
     ./authelia.nix
+    ./ldap_server.nix
   ];
 }
