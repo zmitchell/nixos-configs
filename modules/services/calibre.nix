@@ -55,6 +55,11 @@ in
       default = "calibre";
       description = "Which group the calibre services run under.";
     };
+    aclSubjects = lib.mkOption {
+      type = lib.types.nullOr (lib.types.listOf lib.types.str);
+      default = null;
+      description = "ACL subjects";
+    };
   };
 
   config = 
@@ -119,6 +124,7 @@ in
     reverse_proxy_with_auth.services.books = lib.mkIf cfg.useReverseProxy {
       subdomain = "books";
       port = cfg.calibreWebPort;
+      aclSubjects = cfg.aclSubjects;
     };
   };
 }

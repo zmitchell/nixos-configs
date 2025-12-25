@@ -47,5 +47,6 @@
   calibre = {
     enable = true;
     useReverseProxy = true;
+    aclSubjects = [ "group:friends" ];
   };
 }

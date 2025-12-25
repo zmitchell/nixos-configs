@@ -1,3 +1,27 @@
+# Documentation
+#
+# ## Authentication
+#
+# We use Authelia as the authentication server because it's lightweight and
+# simple to configure. LDAP is used as the authentication backend so that
+# there's only one list of users, passwords, etc rather than one per service.
+#
+# Each service definition defines the subdomain it should be placed under, then
+# that subdomain is restricted via Authelia rules and LDAP ACLs.
+#
+# ## LDAP
+#
+# We use LLDAP as the LDAP server again because it's lightweight and simple to
+# configure. It's exposed under the `ldap.*` subdomain. A `ldap_admin` user is
+# configured to have access to this portal so that you can use the web UI to
+# administer users. This means that you'll need to create the `ldap_admin` user
+# on first launch to make sure that they exist in the LLDAP database.
+#
+# Generic users are placed in the `people` group, which is the default group
+# that is allowed to authenticate against private services. You can create
+# groups in LLDAP that are subsets of `people`, then use the `aclSubjects`
+# option on the service submodule to restrict a service to certain groups of
+# users.
 {config, lib, user, pkgs, ...}:
 with lib; let
   cfg = config.reverse_proxy_with_auth;
@@ -5,7 +29,7 @@ with lib; let
   ldapDn = "dc=zmitchell,dc=dev";
   ldapPort = 3890;
   ldapUIPort = ldapPort + 1;
-  authDomain = "https://auth.${domain}";
+  authDomain = "auth.${domain}";
   authPort = 9091;
   service = {
     options = with types; {
@@ -21,6 +45,12 @@ with lib; let
         type = bool;
         description = "Whether to expose this subdomain without authentication";
         default = false;
+      };
+      aclSubjects = mkOption {
+        type = nullOr (listOf str);
+        default = [ "group:people" ];
+        description = "The list of ACL subjects that may access this subdomain. See the Authelia documentation for details.";
+        example = [ "group:people" "user:bob" ];
       };
     };
   };
@@ -42,6 +72,11 @@ with lib; let
           extraConfig = mkServiceConfig service;
         })
     proxyServices;
+  mkServiceACL = service: {
+    domain = "${service.subdomain}.${domain}";
+    policy = if service.public then "bypass" else "one_factor";
+    subject = if (service.aclSubjects == null) then cfg.aclSubjectsDefault else service.aclSubjects;
+  };
 in
 {
   options.reverse_proxy_with_auth = {
@@ -49,6 +84,13 @@ in
     services = with types; mkOption {
       type = attrsOf (submodule service);
       description = "The services to proxy.";
+    };
+    aclSubjectsDefault = mkOption {
+      type = listOf str;
+      default = [ "group:people" ];
+      description = "The list of ACL subjects that may access this subdomain. See the Authelia documentation for details.";
+      internal = true;
+      readOnly = true;
     };
   };
 
@@ -61,10 +103,10 @@ in
         (mkVirtualHosts cfg.services)
         // {
           "ldap.${domain}".extraConfig = ''
-            # forward_auth 127.0.0.1:${builtins.toString authPort} {
-            #   uri /api/authz/forward-auth
-            #   copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-            # }
+            forward_auth 127.0.0.1:${builtins.toString authPort} {
+              uri /api/authz/forward-auth
+              copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+            }
             reverse_proxy 127.0.0.1:${builtins.toString ldapUIPort}
             log
           '';
@@ -91,16 +133,23 @@ in
         session.cookies = [
           {
             domain = domain;
-            authelia_url = authDomain;
+            authelia_url = "https://${authDomain}";
           }
         ];
         storage.local.path = "/var/lib/authelia-main/db.sqlite3";
         access_control = {
           default_policy = "deny";
           rules = [
-            { domain = authDomain; policy = "bypass"; }
-            { domain = "*.${domain}"; policy = "one_factor"; }
-          ];
+            {
+              domain = authDomain;
+              policy = "bypass";
+            }
+            {
+              domain = "ldap.${domain}";
+              policy = "one_factor";
+              subject = [ "group:lldap_admin" ];
+            }
+          ] ++ builtins.map mkServiceACL (builtins.attrValues cfg.services);
         };
         notifier.filesystem.filename = "/var/lib/authelia-main/notifications.txt";
         authentication_backend.ldap = {
@@ -115,9 +164,8 @@ in
           additional_users_dn = "ou=people";
           additional_groups_dn = "ou=groups";
 
-          # users_filter = "(&(|(uid={input})(mail={input}))(objectClass=person))";
           users_filter = "(&(|({username_attribute}={input})(mail={input}))(objectClass=person))";
-          groups_filter = "(objectClass=groupOfNames)";
+          groups_filter = "(&(objectClass=groupOfNames)(member={dn}))";
 
           attributes = {
             username = "uid";
@@ -145,6 +193,7 @@ in
         http_port = ldapUIPort;
         ldap_base_dn = ldapDn;
         ldap_user_dn = user.username;
+        verbose = true;
       };
       environment = {
         LLDAP_JWT_SECRET_FILE = "/var/lib/lldap/jwt-secret";

@@ -14,6 +14,11 @@ in
       default = false;
       description = "Whether to put these services behind the reverse proxy.";
     };
+    aclSubjects = lib.mkOption {
+      type = lib.nullOr (lib.types.listOf lib.types.str);
+      default = null;
+      description = "ACL subjects";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -26,6 +31,7 @@ in
     reverse_proxy_with_auth.services.recipes = lib.mkIf cfg.useReverseProxy {
       subdomain = "recipes";
       port = cfg.port;
+      aclSubjects = lib.mkIf cfg.aclSubjects != null cfg.aclSubjects;
     };
   };
 }
