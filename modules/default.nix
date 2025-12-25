@@ -10,21 +10,21 @@
     ./kde.nix
     ./hyprland.nix
     ./game_streaming_client.nix
-    ./monitoring.nix
     ./media_server.nix
     ./flox.nix
     ./static_ip.nix
     ./authorized_keys.nix
-    ./reverse_proxy.nix
-    ./calibre.nix
-    ./mealie.nix
     ./styles.nix
     ./add_to_registry.nix
     ./hyprland.nix
     ./nix_community_cachix.nix
     ./games
     ./libvirt_qemu.nix
-    ./authelia.nix
-    ./ldap_server.nix
+
+    # Services
+    ./reverse_proxy_with_auth.nix
+    ./calibre.nix
+    ./mealie.nix
+    ./monitoring.nix
   ];
 }

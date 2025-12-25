@@ -23,7 +23,7 @@ in
       listenAddress = "127.0.0.1";
       package = pkgs.unstable.mealie;
     };
-    reverse_proxy.services.recipes = lib.mkIf cfg.useReverseProxy {
+    reverse_proxy_with_auth.services.recipes = lib.mkIf cfg.useReverseProxy {
       subdomain = "recipes";
       port = cfg.port;
     };

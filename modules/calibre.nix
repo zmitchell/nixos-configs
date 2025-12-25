@@ -116,7 +116,7 @@ in
     };
     systemd.services.calibre-web.after = [ "calibre-server.service" ];
 
-    reverse_proxy.services.books = lib.mkIf cfg.useReverseProxy {
+    reverse_proxy_with_auth.services.books = lib.mkIf cfg.useReverseProxy {
       subdomain = "books";
       port = cfg.calibreWebPort;
     };

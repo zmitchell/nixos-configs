@@ -41,14 +41,11 @@
   flox.enable = lib.mkForce false;
   generic_server.enable = true;
   populate_authorized_keys.enable = true;
-  reverse_proxy = {
+  reverse_proxy_with_auth = {
     enable = true;
-    domain = "zmitchell.dev";
   };
   calibre = {
     enable = true;
     useReverseProxy = true;
   };
-  authelia.enable = true;
-  ldap_server.enable = true;
 }
