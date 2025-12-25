@@ -1,4 +1,4 @@
-{config, lib, user, ...}:
+{config, lib, user, pkgs, ...}:
 with lib; let
   cfg = config.reverse_proxy_with_auth;
   domain = "zmitchell.dev";
@@ -61,10 +61,10 @@ in
         (mkVirtualHosts cfg.services)
         // {
           "ldap.${domain}".extraConfig = ''
-            forward_auth 127.0.0.1:${builtins.toString authPort} {
-              uri /api/authz/forward-auth
-              copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-            }
+            # forward_auth 127.0.0.1:${builtins.toString authPort} {
+            #   uri /api/authz/forward-auth
+            #   copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+            # }
             reverse_proxy 127.0.0.1:${builtins.toString ldapUIPort}
             log
           '';
@@ -84,6 +84,7 @@ in
         AUTHELIA_JWT_SECRET_FILE = "/var/lib/authelia/jwt-secret";
         AUTHELIA_SESSION_SECRET_FILE = "/var/lib/authelia/session-secret";
         AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE = "/var/lib/authelia/storage-secret";
+        AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE = "/var/lib/authelia/ldap-secret";
       };
       settings = {
         theme = "auto";
@@ -94,7 +95,6 @@ in
           }
         ];
         storage.local.path = "/var/lib/authelia-main/db.sqlite3";
-        authentication_backend.file.path = "/var/lib/authelia-main/users.yml";
         access_control = {
           default_policy = "deny";
           rules = [
@@ -103,17 +103,43 @@ in
           ];
         };
         notifier.filesystem.filename = "/var/lib/authelia-main/notifications.txt";
+        authentication_backend.ldap = {
+          implementation = "custom";
+          address = "ldap://127.0.0.1:${builtins.toString ldapPort}";
+          timeout = "5s";
+          start_tls = false;
+
+          base_dn = ldapDn;
+          user = "uid=authelia,ou=people,${ldapDn}";
+
+          additional_users_dn = "ou=people";
+          additional_groups_dn = "ou=groups";
+
+          # users_filter = "(&(|(uid={input})(mail={input}))(objectClass=person))";
+          users_filter = "(&(|({username_attribute}={input})(mail={input}))(objectClass=person))";
+          groups_filter = "(objectClass=groupOfNames)";
+
+          attributes = {
+            username = "uid";
+            display_name = "cn";
+            mail = "mail";
+            group_name = "cn";
+          };
+        };
       };
     };
     systemd.tmpfiles.rules = [
       "d /var/lib/authelia 0750 authelia-main authelia-main - -"
     ];
+    systemd.services.authelia-main.after = [ "lldap.service" ];
+    systemd.services.authelia-main.requires = [ "lldap.service" ];
+    
 
     # LDAP server
     services.lldap = {
       enable = true;
       settings = {
-        ldap_host = "127.0.0.0";
+        ldap_host = "127.0.0.1";
         ldap_port = ldapPort;
         http_url = "https://ldap.${domain}";
         http_port = ldapUIPort;
@@ -126,5 +152,8 @@ in
       };
       silenceForceUserPassResetWarning = true;
     };
+    environment.systemPackages = with pkgs; [
+      lldap-cli
+    ];
   };
 }
