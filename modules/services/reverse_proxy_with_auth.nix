@@ -22,15 +22,9 @@
 # groups in LLDAP that are subsets of `people`, then use the `aclSubjects`
 # option on the service submodule to restrict a service to certain groups of
 # users.
-{config, lib, user, pkgs, ...}:
+{config, lib, user, ...}:
 with lib; let
   cfg = config.reverse_proxy_with_auth;
-  domain = "zmitchell.dev";
-  ldapDn = "dc=zmitchell,dc=dev";
-  ldapPort = 3890;
-  ldapUIPort = ldapPort + 1;
-  authDomain = "auth.${domain}";
-  authPort = 9091;
   service = {
     options = with types; {
       subdomain = mkOption {
@@ -54,33 +48,40 @@ with lib; let
       };
     };
   };
-  mkServiceConfig = service: ''
-      ${if !service.public then ''
-      forward_auth 127.0.0.1:${builtins.toString authPort} {
-        uri /api/authz/forward-auth
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      '' else null}
-      reverse_proxy localhost:${builtins.toString service.port}
-      log
-  '';
-  mkVirtualHosts = with lib.attrsets; proxyServices: mapAttrs'
-    (name: service:
-      nameValuePair
-        "${service.subdomain}.${domain}"
-        {
-          extraConfig = mkServiceConfig service;
-        })
-    proxyServices;
-  mkServiceACL = service: {
-    domain = "${service.subdomain}.${domain}";
-    policy = if service.public then "bypass" else "one_factor";
-    subject = if (service.aclSubjects == null) then cfg.aclSubjectsDefault else service.aclSubjects;
-  };
 in
 {
   options.reverse_proxy_with_auth = {
     enable = mkEnableOption "Enable a reverse proxy with authentication.";
+    domain = with types; mkOption {
+      type = str;
+      description = "The root domain to proxy behind.";
+      example = "example.com";
+    };
+    authSubdomain = with types; mkOption {
+      type = str;
+      default = "auth";
+      description = "The subdomain to serve Authelia from.";
+    };
+    ldapSubdomain = with types; mkOption {
+      type = str;
+      default = "ldap";
+      description = "The subdomain to serve LLDAP from.";
+    };
+    authPort = with types; mkOption {
+      type = port;
+      description = "The port to host the Authelia server on.";
+      default = 9091;
+    };
+    ldapPort = with types; mkOption {
+      type = port;
+      description = "The port to host the LLDAP server on.";
+      default = 3890;
+    };
+    ldapUIPort = with types; mkOption {
+      type = port;
+      description = "The port to host the LLDAP admin UI on.";
+      default = 3891;
+    };
     services = with types; mkOption {
       type = attrsOf (submodule service);
       description = "The services to proxy.";
@@ -94,7 +95,37 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable (
+  let
+    authDomain = "${cfg.authSubdomain}.${cfg.domain}";
+    ldapDomain = "${cfg.ldapSubdomain}.${cfg.domain}";
+    ldapDn = builtins.concatStringsSep "," (builtins.map (part: "dc=${part}") (lib.strings.splitString "." cfg.domain));
+    mkServiceConfig = service: ''
+        ${if !service.public then ''
+        forward_auth 127.0.0.1:${builtins.toString cfg.authPort} {
+          uri /api/authz/forward-auth
+          copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+        }
+        '' else null}
+        reverse_proxy localhost:${builtins.toString service.port}
+        log
+    '';
+    mkVirtualHosts = with lib.attrsets; proxyServices: mapAttrs'
+      (name: service:
+        nameValuePair
+          "${service.subdomain}.${cfg.domain}"
+          {
+            extraConfig = mkServiceConfig service;
+          })
+      proxyServices;
+    mkServiceACL = service: {
+      domain = "${service.subdomain}.${cfg.domain}";
+      policy = if service.public then "bypass" else "one_factor";
+      subject = if (service.aclSubjects == null) then cfg.aclSubjectsDefault else service.aclSubjects;
+    };
+
+  in
+  {
     # Proxy server
     services.caddy = {
       enable = true;
@@ -102,16 +133,16 @@ in
       virtualHosts =
         (mkVirtualHosts cfg.services)
         // {
-          "ldap.${domain}".extraConfig = ''
-            forward_auth 127.0.0.1:${builtins.toString authPort} {
+          "${ldapDomain}".extraConfig = ''
+            forward_auth 127.0.0.1:${builtins.toString cfg.authPort} {
               uri /api/authz/forward-auth
               copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
             }
-            reverse_proxy 127.0.0.1:${builtins.toString ldapUIPort}
+            reverse_proxy 127.0.0.1:${builtins.toString cfg.ldapUIPort}
             log
           '';
-          "auth.${domain}".extraConfig = ''
-            reverse_proxy 127.0.0.1:${builtins.toString authPort}
+          "${authDomain}".extraConfig = ''
+            reverse_proxy 127.0.0.1:${builtins.toString cfg.authPort}
             log
           '';
         };
@@ -132,7 +163,7 @@ in
         theme = "auto";
         session.cookies = [
           {
-            domain = domain;
+            domain = cfg.domain;
             authelia_url = "https://${authDomain}";
           }
         ];
@@ -145,7 +176,7 @@ in
               policy = "bypass";
             }
             {
-              domain = "ldap.${domain}";
+              domain = ldapDomain;
               policy = "one_factor";
               subject = [ "group:lldap_admin" ];
             }
@@ -154,7 +185,7 @@ in
         notifier.filesystem.filename = "/var/lib/authelia-main/notifications.txt";
         authentication_backend.ldap = {
           implementation = "custom";
-          address = "ldap://127.0.0.1:${builtins.toString ldapPort}";
+          address = "ldap://127.0.0.1:${builtins.toString cfg.ldapPort}";
           timeout = "5s";
           start_tls = false;
 
@@ -188,9 +219,9 @@ in
       enable = true;
       settings = {
         ldap_host = "127.0.0.1";
-        ldap_port = ldapPort;
-        http_url = "https://ldap.${domain}";
-        http_port = ldapUIPort;
+        ldap_port = cfg.ldapPort;
+        http_url = "https://${ldapDomain}";
+        http_port = cfg.ldapUIPort;
         ldap_base_dn = ldapDn;
         ldap_user_dn = user.username;
         verbose = true;
@@ -201,8 +232,5 @@ in
       };
       silenceForceUserPassResetWarning = true;
     };
-    environment.systemPackages = with pkgs; [
-      lldap-cli
-    ];
-  };
+  });
 }

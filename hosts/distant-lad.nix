@@ -43,6 +43,7 @@
   populate_authorized_keys.enable = true;
   reverse_proxy_with_auth = {
     enable = true;
+    domain = "zmitchell.dev";
   };
   calibre = {
     enable = true;
