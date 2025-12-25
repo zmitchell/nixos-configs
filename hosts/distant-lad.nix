@@ -50,4 +50,9 @@
     useReverseProxy = true;
     aclSubjects = [ "group:friends" ];
   };
+  booklore = {
+    enable = true;
+    useReverseProxy = true;
+    aclSubjects = [ "group:friends" ];
+  };
 }
