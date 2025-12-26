@@ -206,10 +206,29 @@ in
       };
     };
 
-    reverse_proxy_with_auth.services.booklore = mkIf cfg.useReverseProxy {
-      subdomain = "booklore";
-      aclSubjects = cfg.aclSubjects;
-      port = cfg.booklorePort;
+    reverse_proxy_with_auth = mkIf cfg.useReverseProxy {
+      services.booklore =  {
+        subdomain = "booklore";
+        aclSubjects = cfg.aclSubjects;
+        port = cfg.booklorePort;
+      };
+      oidcClients.booklore = {
+        displayName = "Booklore";
+        redirectUrls = [
+          "https://booklore.${config.reverse_proxy_with_auth.domain}/oauth2-callback"
+          "https://booklore.${config.reverse_proxy_with_auth.domain}/*"
+        ];
+      };
+      autheliaRules = [
+        {
+          domain = "booklore.${config.reverse_proxy_with_auth.domain}";
+          policy = "bypass";
+          resources = [
+            "^/api/v1/public-settings$"
+            "^/api/v1/setup/status$"
+          ];
+        }
+      ];
     };
   };
 }

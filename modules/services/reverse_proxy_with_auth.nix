@@ -22,7 +22,7 @@
 # groups in LLDAP that are subsets of `people`, then use the `aclSubjects`
 # option on the service submodule to restrict a service to certain groups of
 # users.
-{config, lib, user, ...}:
+{config, lib, user, pkgs, ...}:
 with lib; let
   cfg = config.reverse_proxy_with_auth;
   service = {
@@ -45,6 +45,23 @@ with lib; let
         default = [ "group:people" ];
         description = "The list of ACL subjects that may access this subdomain. See the Authelia documentation for details.";
         example = [ "group:people" "user:bob" ];
+      };
+    };
+  };
+  oidcClient = {
+    options = with types; {
+      displayName = mkOption {
+        type = str;
+        description = "OIDC client display name.";
+        example = "MyService";
+      };
+      redirectUrls = mkOption {
+        type = listOf str;
+        description = "Redirect URLs for the OIDC client.";
+        example = [
+          "https://example.com/oidc/callback"
+          "https://example.com/oidc/*"
+        ];
       };
     };
   };
@@ -85,13 +102,27 @@ in
     services = with types; mkOption {
       type = attrsOf (submodule service);
       description = "The services to proxy.";
+      default = {};
     };
-    aclSubjectsDefault = mkOption {
+    oidcClients = with types; mkOption {
+      type = attrsOf (submodule oidcClient);
+      description = "The OIDC clients to register with Authelia.";
+      default = {};
+    };
+    aclSubjectsDefault = with types; mkOption {
       type = listOf str;
       default = [ "group:people" ];
       description = "The list of ACL subjects that may access this subdomain. See the Authelia documentation for details.";
       internal = true;
       readOnly = true;
+    };
+    autheliaRules = with types; mkOption {
+      type = listOf attrs;
+      default = [];
+      description = "Bare sets of rules for Authelia.";
+      example = [
+        { domain = "*.example.com"; policy = "bypass"; }
+      ];
     };
   };
 
@@ -123,6 +154,17 @@ in
       policy = if service.public then "bypass" else "one_factor";
       subject = if (service.aclSubjects == null) then cfg.aclSubjectsDefault else service.aclSubjects;
     };
+    # The Nix YAML generator always puts single quotes around strings, which
+    # can break some templating, so we have to write this part ourselves.
+    autheliaOIDCConfig = pkgs.writeText "authelia-oidc-config.yml" ''
+      identity_providers:
+        oidc:
+          jwks:
+          - algorithm: RS256
+            key: {{ secret "/var/lib/authelia/rsa2048.private.pem" | mindent 8 "|" }}
+            key_id: authelia-oidc
+            use: sig
+    '';
 
   in
   {
@@ -158,9 +200,15 @@ in
         AUTHELIA_SESSION_SECRET_FILE = "/var/lib/authelia/session-secret";
         AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE = "/var/lib/authelia/storage-secret";
         AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE = "/var/lib/authelia/ldap-secret";
+        AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE = "/var/lib/authelia/hmac-secret";
+        X_AUTHELIA_CONFIG_FILTERS = "template";
       };
+      settingsFiles = [
+        autheliaOIDCConfig
+      ];
       settings = {
         theme = "auto";
+        session.name = "authelia_session";
         session.cookies = [
           {
             domain = cfg.domain;
@@ -180,7 +228,9 @@ in
               policy = "one_factor";
               subject = [ "group:lldap_admin" ];
             }
-          ] ++ builtins.map mkServiceACL (builtins.attrValues cfg.services);
+          ]
+          ++ cfg.autheliaRules
+          ++ builtins.map mkServiceACL (builtins.attrValues cfg.services);
         };
         notifier.filesystem.filename = "/var/lib/authelia-main/notifications.txt";
         authentication_backend.ldap = {
@@ -205,8 +255,60 @@ in
             group_name = "cn";
           };
         };
+        identity_providers = {
+          oidc = {
+            lifespans = {
+              access_token = "1h";
+              authorize_code = "1m";
+              id_token = "1h";
+              refresh_token = "90m";
+            };
+            enable_client_debug_messages = true;
+            enforce_pkce = "public_clients_only";
+            cors = {
+              endpoints = [
+                "authorization"
+                "pushed-authorization-request"
+                "token"
+                "revocation"
+                "introspection"
+                "userinfo"
+              ];
+              allowed_origins_from_client_redirect_uris = true;
+            };
+            claims_policies.legacy.id_token = [
+              "email"
+              "email_verified"
+              "preferred_username"
+              "name"
+            ];
+            clients = lib.attrsets.mapAttrsToList (name: value: {
+              client_id = name;
+              client_name = value.displayName;
+              public = true;
+              authorization_policy = "one_factor";
+              claims_policy = "legacy";
+              consent_mode = "implicit";
+              require_pkce = true;
+              pkce_challenge_method = "S256";
+              scopes = [
+                "offline_access"
+                "openid"
+                "profile"
+                "email"
+              ];
+              redirect_uris = value.redirectUrls;
+              response_types = "code";
+              grant_types = [
+                "authorization_code"
+                "refresh_token"
+              ];
+            }) cfg.oidcClients;
+          };
+        };
       };
     };
+
     systemd.tmpfiles.rules = [
       "d /var/lib/authelia 0750 authelia-main authelia-main - -"
     ];
