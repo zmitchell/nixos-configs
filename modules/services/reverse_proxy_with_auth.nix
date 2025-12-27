@@ -253,6 +253,11 @@ in
             display_name = "cn";
             mail = "mail";
             group_name = "cn";
+            extra.name = {
+              name = "name";
+              value_type = "string";
+              multi_valued = false;
+            };
           };
         };
         identity_providers = {

@@ -10,6 +10,12 @@ in
       default = false;
       description = "Whether to serve Booklore behind an authenticated proxy.";
     };
+    subdomain = with types; mkOption {
+      type = str;
+      default = "books";
+      description = "The subdomain to host Booklore on.";
+      example = "books";
+    };
     aclSubjects = lib.mkOption {
       type = lib.types.nullOr (lib.types.listOf lib.types.str);
       default = null;
@@ -208,20 +214,20 @@ in
 
     reverse_proxy_with_auth = mkIf cfg.useReverseProxy {
       services.booklore =  {
-        subdomain = "booklore";
+        subdomain = cfg.subdomain;
         aclSubjects = cfg.aclSubjects;
         port = cfg.booklorePort;
       };
       oidcClients.booklore = {
         displayName = "Booklore";
         redirectUrls = [
-          "https://booklore.${config.reverse_proxy_with_auth.domain}/oauth2-callback"
-          "https://booklore.${config.reverse_proxy_with_auth.domain}/*"
+          "https://${cfg.subdomain}.${config.reverse_proxy_with_auth.domain}/oauth2-callback"
+          "https://${cfg.subdomain}.${config.reverse_proxy_with_auth.domain}/*"
         ];
       };
       autheliaRules = [
         {
-          domain = "booklore.${config.reverse_proxy_with_auth.domain}";
+          domain = "${cfg.subdomain}.${config.reverse_proxy_with_auth.domain}";
           policy = "bypass";
           resources = [
             "^/api/v1/public-settings$"

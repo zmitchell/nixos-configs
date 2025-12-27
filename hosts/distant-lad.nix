@@ -45,13 +45,9 @@
     enable = true;
     domain = "zmitchell.dev";
   };
-  calibre = {
-    enable = true;
-    useReverseProxy = true;
-    aclSubjects = [ "group:friends" ];
-  };
   booklore = {
     enable = true;
+    subdomain = "books";
     useReverseProxy = true;
     aclSubjects = [ "group:friends" ];
   };
