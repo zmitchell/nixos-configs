@@ -115,7 +115,8 @@ in
           concat(
             "JJ: Short description limit (50 characters)",
             "\nJJ: ----------------------------------------------\n",
-            "\nJJ: Body limit (72 characters)",
+            coalesce(description, default_commit_description, "\n"),
+            "JJ: Body limit (72 characters)",
             "\nJJ: --------------------------------------------------------------------",
             "\nJJ: <type>[scope]: <description>",
             "\nJJ: Types:",
@@ -127,7 +128,6 @@ in
             "\nJJ: - style",
             "\nJJ: - refactor",
             "\nJJ: - test",
-            coalesce(description, default_commit_description, ""),
             "\n",
             "JJ: Change ID: " ++ format_short_change_id(change_id),
             "\n",
