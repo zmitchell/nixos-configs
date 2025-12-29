@@ -49,6 +49,11 @@ in
 
   # Otherwise it often fails during switch
   systemd.services.NetworkManager-wait-online.enable = false;
+  networking.networkmanager.settings.connectivity = {
+    uri = "http://network-test.debian.org/nm";
+    response = "NetworkManager is online";
+    interval = 300;
+  };
 
   # Custom modules
   generic_desktop = {
