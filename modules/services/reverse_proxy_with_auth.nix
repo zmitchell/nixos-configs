@@ -25,6 +25,20 @@
 {config, lib, user, pkgs, ...}:
 with lib; let
   cfg = config.reverse_proxy_with_auth;
+  routeRedirect = {
+    options = with types; {
+      from = mkOption {
+        type = str;
+        description = "The route to redirect from.";
+        example = "/";
+      };
+      to = mkOption {
+        type = str;
+        description = "The route to redirect to.";
+        example = "/foo";
+      };
+    };
+  };
   service = {
     options = with types; {
       subdomain = mkOption {
@@ -45,6 +59,15 @@ with lib; let
         default = [ "group:people" ];
         description = "The list of ACL subjects that may access this subdomain. See the Authelia documentation for details.";
         example = [ "group:people" "user:bob" ];
+      };
+      routeRedirects = mkOption {
+        type = listOf (submodule routeRedirect);
+        default = [];
+        description = "The list of routes for the proxy to redirect for this service.";
+        example = {
+          from = "/";
+          to = "/foo";
+        };
       };
     };
   };
@@ -131,6 +154,7 @@ in
     authDomain = "${cfg.authSubdomain}.${cfg.domain}";
     ldapDomain = "${cfg.ldapSubdomain}.${cfg.domain}";
     ldapDn = builtins.concatStringsSep "," (builtins.map (part: "dc=${part}") (lib.strings.splitString "." cfg.domain));
+    mkRedirects = service: builtins.concatStringsSep "\n" (builtins.map (r: "redir ${r.from} ${r.to} permanent") service.routeRedirects);
     mkServiceConfig = service: ''
         ${if !service.public then ''
         forward_auth 127.0.0.1:${builtins.toString cfg.authPort} {
@@ -138,6 +162,7 @@ in
           copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
         }
         '' else null}
+        ${if (builtins.length service.routeRedirects) != 0 then mkRedirects service else ""}
         reverse_proxy localhost:${builtins.toString service.port}
         log
     '';

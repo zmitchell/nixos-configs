@@ -66,6 +66,12 @@ in
       subdomain = cfg.metrics.subdomain;
       aclSubjects = ["user:${user.username}"];
       port = cfg.metrics.port;
+      routeRedirects = [
+        {
+          from = "/";
+          to = "/vmui";
+        }
+      ];
     };
 
     # The node exporter to collect metrics from the host
@@ -89,6 +95,12 @@ in
       subdomain = cfg.logs.subdomain;
       aclSubjects = ["user:${user.username}"];
       port = cfg.logs.port;
+      routeRedirects = [
+        {
+          from = "/";
+          to = "/select/vmui";
+        }
+      ];
     };
     systemd.services.victorialogs = {
       # Make sure that we don't start the journald upload
