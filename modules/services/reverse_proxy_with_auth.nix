@@ -331,7 +331,6 @@ in
         http_port = cfg.ldapUIPort;
         ldap_base_dn = ldapDn;
         ldap_user_dn = user.username;
-        verbose = true;
       };
       environment = {
         LLDAP_JWT_SECRET_FILE = "/var/lib/lldap/jwt-secret";

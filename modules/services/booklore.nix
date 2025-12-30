@@ -164,12 +164,6 @@ in
         # - MYSQL_ROOT_PASSWORD
         "/var/lib/booklore/envs"
       ];
-      extraOptions = [
-        "--health-cmd=mariadb-admin ping -h localhost"
-        "--health-interval=5s"
-        "--health-timeout=5s"
-        "--health-retries=10"
-      ];
       volumes = [
         "/var/lib/booklore/config:/config"
       ];
