@@ -1,38 +1,6 @@
 {config, lib, pkgs, user, ...}:
 with lib; let
   cfg = config.monitoring;
-  grafanaLdapConfig = (pkgs.formats.toml {}).generate "ldap.toml" {
-    servers = [
-      {
-        host = "127.0.0.1";
-        port = config.reverse_proxy_with_auth.ldapPort;
-        use_ssl = false;
-        start_tls = false;
-        bind_dn = "uid=grafana_lookup,ou=people,dc=zmitchell,dc=dev";
-        bind_password = "$__file{/var/lib/grafana/ldap-secret}";
-        search_base_dns = ["ou=people,dc=zmitchell,dc=dev"];
-        search_filter = "(uid=%s)";
-      
-        attributes = {
-          username = "uid";
-          member_of = "memberOf";
-          email = "mail";
-          name = "cn";
-        };
-
-        group_mappings = [
-          {
-            group_dn = "cn=grafana_admins,ou=groups,dc=zmitchell,dc=dev";
-            org_role = "Admin";
-          }
-          {
-            group_dn = "cn=friends,ou=groups,dc=zmitchell,dc=dev";
-            org_role = "Viewer";
-          }
-        ];
-      }
-    ];
-  };
 in
 {
   options.monitoring = {
@@ -170,15 +138,22 @@ in
         server.http_addr = "127.0.0.1";
         server.http_port = cfg.graphs.port;
         plugins.allow_loading_unsigned_plugins = "victoriametrics-metrics-datasource,victoriametrics-logs-datasource";
-        "auth.ldap" = {
-          # Note that this is "enabled" not "enable", it's a Grafana
-          # option not a Nix option
-          enabled = true;
-          allow_sign_up = true;
-          config_file = "${grafanaLdapConfig}";
-        };
+
         database.type = "sqlite3";
         database.wal = true;
+
+        "auth.proxy" = {
+          enabled = true;
+          header_name = "Remote-User";
+          header_property = "username";
+          auto_sign_up = true;
+          headers = "Email:Remote-Email Name:Remote-Name Groups:Remote-Groups";
+        };
+  
+        users = {
+          auto_assign_org = true;
+          auto_assign_org_role = "Admin";
+        };
       };
 
       declarativePlugins = with pkgs.grafanaPlugins; [
@@ -207,7 +182,7 @@ in
     };
     reverse_proxy_with_auth.services.graphs = {
       subdomain = cfg.graphs.subdomain;
-      aclSubjects = ["user:${user.username}"];
+      aclSubjects = ["group:grafana_admins"];
       port = cfg.graphs.port;
     };
   };
