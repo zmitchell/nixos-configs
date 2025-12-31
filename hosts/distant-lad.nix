@@ -51,7 +51,7 @@
     useReverseProxy = true;
     aclSubjects = [ "group:friends" ];
   };
-  victoria = {
+  monitoring = {
     enable = true;
     useReverseProxy = true;    
   };

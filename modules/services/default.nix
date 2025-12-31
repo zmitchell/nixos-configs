@@ -5,7 +5,7 @@
     ./media_server.nix    
     ./mealie.nix
     ./booklore.nix
-    ./victoria.nix
+    ./monitoring.nix
     ./reverse_proxy_with_auth.nix
   ];
 }
