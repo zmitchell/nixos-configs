@@ -25,6 +25,7 @@ in
     vesktop
     zeal
     obsidian
+    localsend
   ];
 
   programs.ghostty = {
