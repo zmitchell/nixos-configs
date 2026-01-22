@@ -196,6 +196,11 @@ in
           80
           120
         ];
+        text-width = 100;
+        soft-wrap = {
+          enable = true;
+          wrap-at-text-width = true;
+        };
         statusline.center = ["file-type"];
         statusline.right = [
           "diagnostics"
@@ -206,17 +211,17 @@ in
           "file-encoding"
         ];
         cursor-shape.insert = "bar";
+        cursorline = true;
+        smart-tab = {
+          enable = false;
+        };
         lsp.snippets = false;
         auto-pairs = {
           "(" = ")";
           "{" = "}";
           "[" = "]";
         };
-        text-width = 100;
-        soft-wrap = {
-          enable = true;
-          wrap-at-text-width = true;
-        };
+        trim-trailing-whitespace = true;
       };
       keys = {
         normal = {
@@ -261,6 +266,13 @@ in
           block-comment-tokens = {
             start = "<!--";
             end = "-->";
+          };
+          indent = {
+            # What to insert when hitting tab
+            # Note that this is two spaces, not one
+            unit = "  ";
+            # How many spaces to use when rendering a tab character
+            tab-width = 2;
           };
         }
         {
