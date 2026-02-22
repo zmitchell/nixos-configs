@@ -32,7 +32,7 @@ in
     enable = true;
     settings = {
       font-family = "Hack Nerd Font Mono";
-      font-size = 14;
+      font-size = 12;
       font-feature = [ "-calt" "-liga" "-dlig" ];
       keybind = [
         "ctrl+shift+h=goto_split:left"
