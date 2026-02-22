@@ -27,7 +27,6 @@ in
     tealdeer
     nix-tree
     unstable.nil
-    jrnl
     nix-output-monitor
     watchexec
     fx
@@ -39,6 +38,7 @@ in
     delta
     unstable.lazyjj
     kondo
+    difftastic
   ];
 
   programs.htop.enable = true;
@@ -81,7 +81,11 @@ in
     };
     ignores = import ./../data/git-ignores.nix;
   };
-  programs.difftastic.git.enable = true;
+
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
+  };
 
   programs.jujutsu = {
     enable = true;
@@ -108,7 +112,7 @@ in
         tug = ["bookmark" "move" "--from" "heads(::@ & bookmarks())" "--to" "closest_pushable(@)"];
       };
       templates = {
-        log_node = 
+        log_node =
             "label(\"node\",coalesce(if(!self, label(\"elided\", \"~\")),if(current_working_copy, label(\"working_copy\", \"@\")),if(conflict, label(\"conflict\", \"×\")),if(immutable, label(\"immutable\", \"*\")),label(\"normal\", \"·\")))";
         # draft_commit_description = "concat(builtin_draft_commit_description,\"\nJJ: ignore-rest\n\",diff.git(),)";
         draft_commit_description = ''
@@ -158,14 +162,14 @@ in
         #   # "builtin_draft_commit_description,"
         #   "coalesce(description, default_commit_description, \"\"),"
         #   "\"\n\""
-          
+
         #   "\"\nJJ: ignore-rest\n\","
         #   "diff.git())"
         # ];
       };
     };
   };
-  
+
   programs.yazi = {
     enable = true;
     settings.mgr = {
@@ -173,7 +177,7 @@ in
       show_hidden = true;
     };
   };
-  
+
   programs.ssh = {
     enable = true;
   };
@@ -333,7 +337,7 @@ in
 
   programs.fish = {
     enable = true;
-    loginShellInit = 
+    loginShellInit =
     let
       # This naive quoting is good enough in this case. There shouldn't be any
       # double quotes in the input string, and it needs to be double quoted in case
@@ -386,6 +390,10 @@ in
         set repo_name (basename $argv[1])
         jj git clone "git@github.com:$argv[1].git" --colocate
         cd $repo_name
+      '';
+
+      jjdiff = ''
+        jj diff --color=always --context 5 | delta
       '';
 
       y = ''
