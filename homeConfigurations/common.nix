@@ -392,10 +392,6 @@ in
         cd $repo_name
       '';
 
-      jjdiff = ''
-        jj diff --color=always --context 5 | delta
-      '';
-
       y = ''
       	set tmp (mktemp -t "yazi-cwd.XXXXXX")
       	yazi $argv --cwd-file="$tmp"
@@ -408,6 +404,7 @@ in
     shellAbbrs = {
       nrs = lib.mkIf pkgs.hostPlatform.isLinux "sudo nixos-rebuild switch --flake .#${host}";
       drs = lib.mkIf pkgs.hostPlatform.isDarwin "sudo darwin-rebuild switch --flake .#${host}";
+      jjdiff = "jj diff --color always --context 5 | delta";
     };
   };
 
