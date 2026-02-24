@@ -1,10 +1,10 @@
 {config, lib, pkgs, inputs, user, ...}:
 {
-  
+
   # imports = [
   #   (import ./flox-remote-builders.nix (builtins.getAttr "chonker" (import ./../data/keys.nix)))
   # ];
- 
+
   environment.systemPackages = with pkgs; [
     vim
     gitFull
@@ -22,9 +22,7 @@
     user.username
   ];
   nix.linux-builder.enable = true;
-  nix.settings.trusted-substituters = [ "https://cache.flox.dev" ];
-  nix.settings.trusted-public-keys = [
-    "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+  nix.settings.extra-trusted-public-keys = [
     # Public key for my private catalog
     "signing-key:a7ifhEZBmx+mP+z6cDgcBQzTZmtjHssCFkWWyI1dApg="
     # Meetrlyio catalog key
@@ -35,7 +33,7 @@
   environment.pathsToLink = [
     "/share/man"
   ];
- 
+
   programs.fish.enable = true;
   programs.zsh.enable = true;
   programs.bash.enable = true;
