@@ -1,13 +1,26 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 let
-    bootHelpers = pkgs.callPackage ../command_sets/boot.nix {};
+  bootHelpers = pkgs.callPackage ../command_sets/boot.nix { };
 in
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "ahci"
+    "usb_storage"
+    "usbhid"
+    "sd_mod"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   # Necessary for profiling
@@ -47,7 +60,7 @@ in
 
   # GPU settings
   hardware.graphics.enable32Bit = true;
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -95,17 +108,20 @@ in
     # Enable nvenc support
     package = pkgs.withCudaSupport.sunshine;
   };
-  
-  environment.systemPackages = with pkgs; [
-    perf
-    vscode
-    linuxHeaders
-    unstable.bpftrace
-    fwupd
-    xow_dongle-firmware # Xbox controller dongle firmware
-  ] ++ [
-    bootHelpers
-  ];
+
+  environment.systemPackages =
+    with pkgs;
+    [
+      perf
+      vscode
+      linuxHeaders
+      unstable.bpftrace
+      fwupd
+      xow_dongle-firmware # Xbox controller dongle firmware
+    ]
+    ++ [
+      bootHelpers
+    ];
   services.fwupd.enable = true;
 
   environment.localBinInPath = true;
@@ -115,7 +131,7 @@ in
 
   # Unnecessary for high DPI displays
   fonts.fontconfig.hinting.enable = false;
-  
+
   # Custom modules
   # media_server.enable = true;
   generic_desktop = {

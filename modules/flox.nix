@@ -1,9 +1,16 @@
-{pkgs, config, lib, inputs, user, ...}:
+{
+  pkgs,
+  config,
+  lib,
+  inputs,
+  user,
+  ...
+}:
 let
   cfg = config.flox;
 in
 {
-	options = {
+  options = {
     flox.enable = lib.mkEnableOption "Install Flox";
   };
 
@@ -14,6 +21,8 @@ in
 
     # Add the Flox substituters
     nix.settings.extra-substituters = [ "https://cache.flox.dev" ];
-    nix.settings.extra-trusted-public-keys = [ "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs=" ];
+    nix.settings.extra-trusted-public-keys = [
+      "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+    ];
   };
 }

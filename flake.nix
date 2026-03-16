@@ -43,40 +43,51 @@
       ...
     }:
     let
-      mkConfig = { system, host, user, extraModules }: {
-        inherit system;
-        specialArgs = {
-          inherit inputs host user;
+      mkConfig =
+        {
+          system,
+          host,
+          user,
+          extraModules,
+        }:
+        {
+          inherit system;
+          specialArgs = {
+            inherit inputs host user;
+          };
+          modules = [
+            disko.nixosModules.disko
+            home-manager.nixosModules.home-manager
+            stylix.nixosModules.stylix
+            flake-programs-sqlite.nixosModules.programs-sqlite
+            ./modules
+            ./hosts/${host}.nix
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs host user;
+              };
+              flox.enable = true;
+              addStableBranchToRegistry.enable = true;
+            }
+            (
+              { user, host, ... }:
+              {
+                home-manager.users.${user.username} = import ./homeConfigurations/${host}.nix;
+              }
+            )
+          ]
+          ++ extraModules;
         };
-        modules = [
-          disko.nixosModules.disko
-          home-manager.nixosModules.home-manager
-          stylix.nixosModules.stylix
-          flake-programs-sqlite.nixosModules.programs-sqlite
-          ./modules
-          ./hosts/${host}.nix
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.extraSpecialArgs = {
-              inherit inputs host user;
-            };
-            flox.enable = true;
-            addStableBranchToRegistry.enable = true;
-          }
-          ({user, host, ...}: {
-            home-manager.users.${user.username} = import ./homeConfigurations/${host}.nix;
-          })
-        ] ++ extraModules;
-      };
       user = {
         fullName = "Zach Mitchell";
         username = "zmitchell";
         email = "zmitchell@fastmail.com";
       };
-    in {
+    in
+    {
       nixosConfigurations = {
-        smolboi = nixpkgs.lib.nixosSystem (
-         mkConfig {
+        smolboi = nixpkgs.lib.nixosSystem (mkConfig {
           system = "x86_64-linux";
           host = "smolboi";
           inherit user;
@@ -87,65 +98,58 @@
             }
           ];
         });
-        chungus = nixpkgs.lib.nixosSystem (
-          mkConfig {
-            system = "x86_64-linux";
-            host = "chungus";
-            inherit user;
-            extraModules = [
-              (import ./setup/zfs_single_drive.nix {
-                device = "/dev/nvme1n1";
-                user = "zmitchell";
-              })
-              {
-                networking.hostName = "chungus";
-                networking.hostId = "10042069";
-              }
-            ];
-          }
-        );
-        slim = nixpkgs.lib.nixosSystem (
-          mkConfig {
-            system = "x86_64-linux";
-            host = "slim";
-            inherit user;
-            extraModules = [
-              {
-                imports = [
-                  ./hosts/slim_disk_config.nix
-                ];
-              }
-              {
-                networking.hostName = "slim";
-                networking.hostId = "30042069";
-                flox.enable = true;
-              }
-            ];
-          }
-        );
-        lima-vm = nixpkgs.lib.nixosSystem (
-          mkConfig {
-            system = "aarch64-linux";
-            host = "lima-vm";
-            extraModules = [];
-            inherit user;
-          }
-        );
-        distant-lad = nixpkgs.lib.nixosSystem (
-         mkConfig {
+        chungus = nixpkgs.lib.nixosSystem (mkConfig {
+          system = "x86_64-linux";
+          host = "chungus";
+          inherit user;
+          extraModules = [
+            (import ./setup/zfs_single_drive.nix {
+              device = "/dev/nvme1n1";
+              user = "zmitchell";
+            })
+            {
+              networking.hostName = "chungus";
+              networking.hostId = "10042069";
+            }
+          ];
+        });
+        slim = nixpkgs.lib.nixosSystem (mkConfig {
+          system = "x86_64-linux";
+          host = "slim";
+          inherit user;
+          extraModules = [
+            {
+              imports = [
+                ./hosts/slim_disk_config.nix
+              ];
+            }
+            {
+              networking.hostName = "slim";
+              networking.hostId = "30042069";
+              flox.enable = true;
+            }
+          ];
+        });
+        lima-vm = nixpkgs.lib.nixosSystem (mkConfig {
+          system = "aarch64-linux";
+          host = "lima-vm";
+          extraModules = [ ];
+          inherit user;
+        });
+        distant-lad = nixpkgs.lib.nixosSystem (mkConfig {
           system = "x86_64-linux";
           host = "distant-lad";
           inherit user;
-            extraModules = [
-              (import ./setup/zfs_single_drive_legacy_boot.nix {
-                device = "/dev/sda";
-                user = user.username;
-              })
-              {
-                networking.hostName = "distant-lad";
-                networking.hostId = "30042069";
-              }
-            ];
+          extraModules = [
+            (import ./setup/zfs_single_drive_legacy_boot.nix {
+              device = "/dev/sda";
+              user = user.username;
+            })
+            {
+              networking.hostName = "distant-lad";
+              networking.hostId = "30042069";
+            }
+          ];
         });
       };
       darwinConfigurations = {
@@ -158,17 +162,26 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.users.zmitchell = import ./homeConfigurations/chonker.nix;
-              home-manager.extraSpecialArgs = { inherit user inputs; host = "chonker"; };
+              home-manager.extraSpecialArgs = {
+                inherit user inputs;
+                host = "chonker";
+              };
               flox.enable = true;
             }
             stylix.darwinModules.stylix
-            ({ pkgs, config, inputs, ... }: {
+            (
+              { ... }:
+              {
                 home-manager.sharedModules = [
                   mac-app-util.homeManagerModules.default
                 ];
-            })
+              }
+            )
           ];
-          specialArgs = { inherit user inputs; host = "chonker"; };
+          specialArgs = {
+            inherit user inputs;
+            host = "chonker";
+          };
         };
       };
     };

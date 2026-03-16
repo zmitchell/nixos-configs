@@ -1,7 +1,7 @@
-{pkgs, user, ...}:
+{ pkgs, user, ... }:
 let
   shellAliases = import ./shell-aliases.nix;
-  deploy-config = pkgs.callPackage ../pkgs/deploy-config/default.nix {};
+  deploy-config = pkgs.callPackage ../pkgs/deploy-config/default.nix { };
 in
 {
   imports = [
@@ -10,14 +10,17 @@ in
 
   home.stateVersion = "24.05";
 
-  home.packages = with pkgs; [
-    bacon
-    utm
-    unstable.kitty
-    podman
-  ] ++ [
-    deploy-config
-  ];
+  home.packages =
+    with pkgs;
+    [
+      bacon
+      utm
+      unstable.kitty
+      podman
+    ]
+    ++ [
+      deploy-config
+    ];
 
   # Configure zsh so it's not terrible when we need to use it
   programs.zsh = {

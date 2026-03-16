@@ -1,4 +1,9 @@
-{ config, lib, host, ... }:
+{
+  config,
+  lib,
+  host,
+  ...
+}:
 let
   cfg = config.shell_config;
 in

@@ -1,4 +1,10 @@
-{pkgs, config, lib, user, ...}:
+{
+  pkgs,
+  config,
+  lib,
+  user,
+  ...
+}:
 let
   cfg = config.hyprland;
 in
@@ -15,7 +21,7 @@ in
     # screen when the system goes idle, but these are actually two separate
     # things.
     services.greetd = {
-      enable = true;      
+      enable = true;
     };
     programs.regreet = {
       enable = true;

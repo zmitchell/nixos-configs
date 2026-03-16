@@ -1,4 +1,10 @@
-{pkgs, lib, inputs, user, ...}:
+{
+  pkgs,
+  lib,
+  inputs,
+  user,
+  ...
+}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
@@ -10,4 +16,3 @@ in
   home.stateVersion = "24.11";
 
 }
-

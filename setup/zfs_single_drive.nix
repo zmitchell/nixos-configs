@@ -2,7 +2,7 @@
   device,
   user,
 }:
-{...}:
+{ ... }:
 {
   disko.devices = {
     disk.main = {

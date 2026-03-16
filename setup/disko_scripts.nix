@@ -7,8 +7,8 @@
     #   ln -s ${config.system.build.formatScript} $out/bin/disko-format
     #   ln -s ${config.system.build.mountScript} $out/bin/mount-script
     #   '')
-     config.system.build.diskoScript
-     config.system.build.formatScript
-     config.system.build.mountScript
+    config.system.build.diskoScript
+    config.system.build.formatScript
+    config.system.build.mountScript
   ];
 }

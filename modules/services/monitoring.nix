@@ -1,15 +1,24 @@
-{config, lib, pkgs, user, ...}:
-with lib; let
+{
+  config,
+  lib,
+  pkgs,
+  user,
+  ...
+}:
+with lib;
+let
   cfg = config.monitoring;
 in
 {
   options.monitoring = {
     enable = mkEnableOption "Enable metrics, logs, and dashboards.";
-    useReverseProxy = with types; mkOption {
-      type = bool;
-      default = false;
-      description = "Whether to serve logs/metrics/dashboards behind an authenticated proxy.";
-    };
+    useReverseProxy =
+      with types;
+      mkOption {
+        type = bool;
+        default = false;
+        description = "Whether to serve logs/metrics/dashboards behind an authenticated proxy.";
+      };
     metrics = with types; {
       nodeExporterPort = mkOption {
         type = port;
@@ -66,7 +75,7 @@ in
             job_name = "node";
             static_configs = [
               {
-                targets = [ "127.0.0.1:${builtins.toString cfg.metrics.nodeExporterPort}"];
+                targets = [ "127.0.0.1:${builtins.toString cfg.metrics.nodeExporterPort}" ];
               }
             ];
           }
@@ -75,7 +84,7 @@ in
     };
     reverse_proxy_with_auth.services.victoriametrics = {
       subdomain = cfg.metrics.subdomain;
-      aclSubjects = ["user:${user.username}"];
+      aclSubjects = [ "user:${user.username}" ];
       port = cfg.metrics.port;
       routeRedirects = [
         {
@@ -104,7 +113,7 @@ in
     };
     reverse_proxy_with_auth.services.logs = {
       subdomain = cfg.logs.subdomain;
-      aclSubjects = ["user:${user.username}"];
+      aclSubjects = [ "user:${user.username}" ];
       port = cfg.logs.port;
       routeRedirects = [
         {
@@ -149,7 +158,7 @@ in
           auto_sign_up = true;
           headers = "Email:Remote-Email Name:Remote-Name Groups:Remote-Groups";
         };
-  
+
         users = {
           auto_assign_org = true;
           auto_assign_org_role = "Admin";
@@ -182,7 +191,7 @@ in
     };
     reverse_proxy_with_auth.services.graphs = {
       subdomain = cfg.graphs.subdomain;
-      aclSubjects = ["group:grafana_admins"];
+      aclSubjects = [ "group:grafana_admins" ];
       port = cfg.graphs.port;
     };
   };

@@ -1,4 +1,10 @@
-{ pkgs, config, lib, user, ...}:
+{
+  pkgs,
+  config,
+  lib,
+  user,
+  ...
+}:
 let
   cfg = config.styles;
   wallpaperRoot = ./../wallpapers;
@@ -43,7 +49,7 @@ in
           name = "Noto Sans";
         };
         monospace = {
-          package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+          package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
           name = "JetBrainsMono Nerd Font Mono";
         };
         emoji = {

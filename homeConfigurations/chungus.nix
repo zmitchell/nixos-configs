@@ -1,4 +1,10 @@
-{pkgs, lib, inputs, user, ...}:
+{
+  pkgs,
+  lib,
+  inputs,
+  user,
+  ...
+}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
@@ -17,7 +23,11 @@ in
     settings = {
       font-family = "Hack Nerd Font Mono";
       font-size = 14;
-      font-feature = [ "-calt" "-liga" "-dlig" ];
+      font-feature = [
+        "-calt"
+        "-liga"
+        "-dlig"
+      ];
     };
   };
 
@@ -96,4 +106,3 @@ in
   };
 
 }
-

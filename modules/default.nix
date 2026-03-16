@@ -1,4 +1,4 @@
-{...}:
+{ ... }:
 {
   imports = [
     ./base_system.nix

@@ -1,4 +1,12 @@
-{config, pkgs, lib, user, host, osConfig, ...}:
+{
+  config,
+  pkgs,
+  lib,
+  user,
+  host,
+  osConfig,
+  ...
+}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
@@ -64,7 +72,8 @@ in
       show_startup_tips = false;
     };
   };
-  home.file."${config.xdg.configHome}/zellij/layouts/default.kdl".source = ./../data/zellij_layout_default.kdl;
+  home.file."${config.xdg.configHome}/zellij/layouts/default.kdl".source =
+    ./../data/zellij_layout_default.kdl;
 
   programs.git = {
     enable = true;
@@ -97,23 +106,43 @@ in
       };
       ui = {
         paginate = "never";
-        default-command = ["status"];
+        default-command = [ "status" ];
       };
       git = {
         write-change-id-header = true;
       };
       revset-aliases = {
         branch = "main::@";
-        "closest_pushable(to)" = "heads(::to & mutable() & ~description(exact:\"\") & (~empty() | merges()))";
+        "closest_pushable(to)" =
+          "heads(::to & mutable() & ~description(exact:\"\") & (~empty() | merges()))";
       };
       aliases = {
-        l = ["log" "-r" "(trunk()..@):: | (trunk()..@)-" "--reversed"];
-        lpr = ["log" "-r" "(trunk()..@):: | (trunk()..@)" "-T" "description ++ \"\n\"" "--no-graph" "--reversed"];
-        tug = ["bookmark" "move" "--from" "heads(::@ & bookmarks())" "--to" "closest_pushable(@)"];
+        l = [
+          "log"
+          "-r"
+          "(trunk()..@):: | (trunk()..@)-"
+          "--reversed"
+        ];
+        lpr = [
+          "log"
+          "-r"
+          "(trunk()..@):: | (trunk()..@)"
+          "-T"
+          "description ++ \"\n\""
+          "--no-graph"
+          "--reversed"
+        ];
+        tug = [
+          "bookmark"
+          "move"
+          "--from"
+          "heads(::@ & bookmarks())"
+          "--to"
+          "closest_pushable(@)"
+        ];
       };
       templates = {
-        log_node =
-            "label(\"node\",coalesce(if(!self, label(\"elided\", \"~\")),if(current_working_copy, label(\"working_copy\", \"@\")),if(conflict, label(\"conflict\", \"×\")),if(immutable, label(\"immutable\", \"*\")),label(\"normal\", \"·\")))";
+        log_node = "label(\"node\",coalesce(if(!self, label(\"elided\", \"~\")),if(current_working_copy, label(\"working_copy\", \"@\")),if(conflict, label(\"conflict\", \"×\")),if(immutable, label(\"immutable\", \"*\")),label(\"normal\", \"·\")))";
         # draft_commit_description = "concat(builtin_draft_commit_description,\"\nJJ: ignore-rest\n\",diff.git(),)";
         draft_commit_description = ''
           concat(
@@ -205,7 +234,7 @@ in
           enable = true;
           wrap-at-text-width = true;
         };
-        statusline.center = ["file-type"];
+        statusline.center = [ "file-type" ];
         statusline.right = [
           "diagnostics"
           "selections"
@@ -252,7 +281,7 @@ in
         pyright = {
           command = "pyright-langserver";
           args = [ "--stdio" ];
-          config = {};
+          config = { };
         };
         rust-analyzer.config.check = {
           command = "clippy";
@@ -263,7 +292,7 @@ in
       language = [
         {
           name = "python";
-          language-servers = ["pyright"];
+          language-servers = [ "pyright" ];
         }
         {
           name = "markdown";
@@ -334,31 +363,37 @@ in
     };
   };
 
-
   programs.fish = {
     enable = true;
     loginShellInit =
-    let
-      # This naive quoting is good enough in this case. There shouldn't be any
-      # double quotes in the input string, and it needs to be double quoted in case
-      # it contains a space (which is unlikely!)
-      dquote = str: "\"" + str + "\"";
+      let
+        # This naive quoting is good enough in this case. There shouldn't be any
+        # double quotes in the input string, and it needs to be double quoted in case
+        # it contains a space (which is unlikely!)
+        dquote = str: "\"" + str + "\"";
 
-      makeBinPathList = map (path: path + "/bin");
-      fixPaths = if pkgs.hostPlatform.isDarwin then ''
-        # Fix nix-darwin provided paths because fish uses its own path_helper routine
-        # https://github.com/LnL7/nix-darwin/issues/122#issuecomment-1659465635
-        fish_add_path --move --prepend --path ${lib.concatMapStringsSep " " dquote (makeBinPathList osConfig.environment.profiles)}
-        set fish_user_paths $fish_user_paths
+        makeBinPathList = map (path: path + "/bin");
+        fixPaths =
+          if pkgs.hostPlatform.isDarwin then
+            ''
+              # Fix nix-darwin provided paths because fish uses its own path_helper routine
+              # https://github.com/LnL7/nix-darwin/issues/122#issuecomment-1659465635
+              fish_add_path --move --prepend --path ${
+                lib.concatMapStringsSep " " dquote (makeBinPathList osConfig.environment.profiles)
+              }
+              set fish_user_paths $fish_user_paths
 
-      '' else "";
-    in ''
-      ${fixPaths}
-      # My actual customizations
-      set -U fish_greeting # disable login message
-      fish_add_path -g "$HOME/bin"
-      set -gx GIT_EDITOR hx
-    '';
+            ''
+          else
+            "";
+      in
+      ''
+        ${fixPaths}
+        # My actual customizations
+        set -U fish_greeting # disable login message
+        fish_add_path -g "$HOME/bin"
+        set -gx GIT_EDITOR hx
+      '';
     inherit shellAliases;
     functions = {
       # Renames the current working directory
@@ -393,12 +428,12 @@ in
       '';
 
       y = ''
-      	set tmp (mktemp -t "yazi-cwd.XXXXXX")
-      	yazi $argv --cwd-file="$tmp"
-      	if read -z cwd < "$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-      		builtin cd -- "$cwd"
-      	end
-      	rm -f -- "$tmp"
+        	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+        	yazi $argv --cwd-file="$tmp"
+        	if read -z cwd < "$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+        		builtin cd -- "$cwd"
+        	end
+        	rm -f -- "$tmp"
       '';
     };
     shellAbbrs = {

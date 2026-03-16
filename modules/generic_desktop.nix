@@ -1,4 +1,10 @@
-{pkgs, config, lib, user, ...}:
+{
+  pkgs,
+  config,
+  lib,
+  user,
+  ...
+}:
 let
   cfg = config.generic_desktop;
 in

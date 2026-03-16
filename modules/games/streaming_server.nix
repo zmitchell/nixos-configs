@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ...}:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.games.streaming_server;
 in

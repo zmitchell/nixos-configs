@@ -1,81 +1,113 @@
-{ config, lib, pkgs, ...}:
-with lib; let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
+let
   cfg = config.booklore;
 in
 {
   options.booklore = {
     enable = mkEnableOption "Run the Booklore server.";
-    useReverseProxy = with types; mkOption {
-      type = bool;
-      default = false;
-      description = "Whether to serve Booklore behind an authenticated proxy.";
-    };
-    subdomain = with types; mkOption {
-      type = str;
-      default = "books";
-      description = "The subdomain to host Booklore on.";
-      example = "books";
-    };
+    useReverseProxy =
+      with types;
+      mkOption {
+        type = bool;
+        default = false;
+        description = "Whether to serve Booklore behind an authenticated proxy.";
+      };
+    subdomain =
+      with types;
+      mkOption {
+        type = str;
+        default = "books";
+        description = "The subdomain to host Booklore on.";
+        example = "books";
+      };
     aclSubjects = lib.mkOption {
       type = lib.types.nullOr (lib.types.listOf lib.types.str);
       default = null;
       description = "ACL subjects";
     };
-    user = with types; mkOption {
-      type = str;
-      default = "booklore";
-      description = "The user to run booklore as.";
-    };
-    userID = with types; mkOption {
-      type = int;
-      default = 4100;
-      description = "The user ID of the Booklore user.";
-    };
-    group = with types; mkOption {
-      type = str;
-      default = "booklore";
-      description = "The group to run booklore as.";
-    };
-    groupID = with types; mkOption {
-      type = int;
-      default = 4100;
-      description = "The group ID of the Booklore user.";
-    };
-    bookloreImage = with types; mkOption {
-      type = str;
-      default = "ghcr.io/booklore-app/booklore";
-      description = "The image URL of the Booklore container to run.";
-    };
-    bookloreImageTag = with types; mkOption {
-      type = str;
-      default = "latest";
-      description = "The tag for the Booklore container image";
-    };
-    mariadbImage = with types; mkOption {
-      type = str;
-      default = "lscr.io/linuxserver/mariadb";
-      description = "The image URL of the MariaDB container to run.";
-    };
-    mariadbImageTag = with types; mkOption {
-      type = str;
-      default = "latest";
-      description = "The tag for the MariadDB container image";
-    };
-    booklorePort = with types; mkOption {
-      type = port;
-      default = 6060;
-      description = "The port to run Booklore on.";
-    };
-    mariadbPort = with types; mkOption {
-      type = port;
-      default = 3306;
-      description = "The port to run Booklore's database on.";
-    };
-    timezone = with types; mkOption {
-      type = str;
-      default = "America/Denver";
-      description = "The timezone for Booklore and its database";
-    };
+    user =
+      with types;
+      mkOption {
+        type = str;
+        default = "booklore";
+        description = "The user to run booklore as.";
+      };
+    userID =
+      with types;
+      mkOption {
+        type = int;
+        default = 4100;
+        description = "The user ID of the Booklore user.";
+      };
+    group =
+      with types;
+      mkOption {
+        type = str;
+        default = "booklore";
+        description = "The group to run booklore as.";
+      };
+    groupID =
+      with types;
+      mkOption {
+        type = int;
+        default = 4100;
+        description = "The group ID of the Booklore user.";
+      };
+    bookloreImage =
+      with types;
+      mkOption {
+        type = str;
+        default = "ghcr.io/booklore-app/booklore";
+        description = "The image URL of the Booklore container to run.";
+      };
+    bookloreImageTag =
+      with types;
+      mkOption {
+        type = str;
+        default = "latest";
+        description = "The tag for the Booklore container image";
+      };
+    mariadbImage =
+      with types;
+      mkOption {
+        type = str;
+        default = "lscr.io/linuxserver/mariadb";
+        description = "The image URL of the MariaDB container to run.";
+      };
+    mariadbImageTag =
+      with types;
+      mkOption {
+        type = str;
+        default = "latest";
+        description = "The tag for the MariadDB container image";
+      };
+    booklorePort =
+      with types;
+      mkOption {
+        type = port;
+        default = 6060;
+        description = "The port to run Booklore on.";
+      };
+    mariadbPort =
+      with types;
+      mkOption {
+        type = port;
+        default = 3306;
+        description = "The port to run Booklore's database on.";
+      };
+    timezone =
+      with types;
+      mkOption {
+        type = str;
+        default = "America/Denver";
+        description = "The timezone for Booklore and its database";
+      };
   };
 
   config = mkIf cfg.enable {
@@ -108,14 +140,14 @@ in
         ExecStart = "${pkgs.runtimeShell} -c \"${pkgs.podman}/bin/podman network exists booklore || ${pkgs.podman}/bin/podman network create --driver bridge --subnet 10.111.42.0/24 --gateway 10.111.42.1 booklore\"";
       };
     };
-    systemd.services."podman-booklore".after =
-      lib.mkAfter [ "podman-network-booklore.service" ];
-    systemd.services."podman-booklore".requires =
-      lib.mkAfter [ "podman-network-booklore.service" ];
-    systemd.services."podman-booklore-mariadb".after =
-      lib.mkAfter [ "podman-network-booklore.service" ];
-    systemd.services."podman-booklore-mariadb".requires =
-      lib.mkAfter [ "podman-network-booklore.service" ];
+    systemd.services."podman-booklore".after = lib.mkAfter [ "podman-network-booklore.service" ];
+    systemd.services."podman-booklore".requires = lib.mkAfter [ "podman-network-booklore.service" ];
+    systemd.services."podman-booklore-mariadb".after = lib.mkAfter [
+      "podman-network-booklore.service"
+    ];
+    systemd.services."podman-booklore-mariadb".requires = lib.mkAfter [
+      "podman-network-booklore.service"
+    ];
 
     # Booklore container
     virtualisation.oci-containers.containers.booklore = {
@@ -207,7 +239,7 @@ in
     };
 
     reverse_proxy_with_auth = mkIf cfg.useReverseProxy {
-      services.booklore =  {
+      services.booklore = {
         subdomain = cfg.subdomain;
         aclSubjects = cfg.aclSubjects;
         port = cfg.booklorePort;

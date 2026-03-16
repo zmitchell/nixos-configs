@@ -1,14 +1,19 @@
-{pkgs, config, lib, ...}:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
-	mediaDir = "/var/lib/media";
-	mediaGroup = "media";
-	plexPort = 32400;
-	radarrPort = 7878;
-	sonarrPort = 8989;
-	bazarrPort = 6767;
-	prowlarrPort = 9696;
-	transmissionPort = 9091;
-	tld = "home";
+  mediaDir = "/var/lib/media";
+  mediaGroup = "media";
+  plexPort = 32400;
+  radarrPort = 7878;
+  sonarrPort = 8989;
+  bazarrPort = 6767;
+  prowlarrPort = 9696;
+  transmissionPort = 9091;
+  tld = "home";
   cfg = config.media_server;
 in
 {
@@ -24,8 +29,8 @@ in
   config = lib.mkIf cfg.enable {
     # Set up the users/groups
     users.groups = {
-      streamer = {};
-      torrenter = {};
+      streamer = { };
+      torrenter = { };
       ${mediaGroup} = {
         members = [
           "radarr"
@@ -67,7 +72,7 @@ in
       group = mediaGroup;
       openFirewall = true;
     };
-    services.sonarr= {
+    services.sonarr = {
       # The package is broken at the moment
       # enable = true;
       group = mediaGroup;

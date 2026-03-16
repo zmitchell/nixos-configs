@@ -1,4 +1,10 @@
-{config, lib, user, host, ...}:
+{
+  config,
+  lib,
+  user,
+  host,
+  ...
+}:
 let
   cfg = config.populate_authorized_keys;
 in
@@ -10,6 +16,7 @@ in
   config = lib.mkIf cfg.enable {
     # Pre-populate SSH keys from other machines
     users.users.${user.username}.openssh.authorizedKeys.keys = lib.attrValues (
-      lib.filterAttrs (k: v: k != host) (import ../data/keys.nix));
+      lib.filterAttrs (k: v: k != host) (import ../data/keys.nix)
+    );
   };
 }

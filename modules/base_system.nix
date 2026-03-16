@@ -1,20 +1,25 @@
-{ inputs, pkgs, user, ... }:
+{
+  inputs,
+  pkgs,
+  user,
+  ...
+}:
 {
   config = {
     system.stateVersion = "23.11";
     nixpkgs.config.allowUnfree = true;
     nixpkgs.overlays = [
       (final: _prev: {
-          unstable = import inputs.nixpkgs-unstable {
-            inherit (final) system;
-            config.allowUnfree = true;
-          };
-          withCudaSupport = import inputs.nixpkgs-unstable {
-            inherit (final) system;
-            config.cudaSupport = true;
-            config.allowUnfree = true;
-          };
-        })
+        unstable = import inputs.nixpkgs-unstable {
+          inherit (final) system;
+          config.allowUnfree = true;
+        };
+        withCudaSupport = import inputs.nixpkgs-unstable {
+          inherit (final) system;
+          config.cudaSupport = true;
+          config.allowUnfree = true;
+        };
+      })
     ];
 
     nix.settings.auto-optimise-store = true;

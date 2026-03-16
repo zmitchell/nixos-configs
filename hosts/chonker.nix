@@ -1,4 +1,11 @@
-{config, lib, pkgs, inputs, user, ...}:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  user,
+  ...
+}:
 {
 
   # imports = [
@@ -10,7 +17,6 @@
     gitFull
     lima
   ];
-
 
   nix.enable = true;
   nix.channel.enable = false;
@@ -47,11 +53,11 @@
   nixpkgs.config.allowUnfreeRedistributable = true;
   nixpkgs.overlays = [
     (final: _prev: {
-        unstable = import inputs.nixpkgs-unstable {
-          inherit (final) system;
-          config.allowUnfree = true;
-        };
-      })
+      unstable = import inputs.nixpkgs-unstable {
+        inherit (final) system;
+        config.allowUnfree = true;
+      };
+    })
   ];
 
   networking.hostName = "chonker";

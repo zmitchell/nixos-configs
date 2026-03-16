@@ -1,4 +1,10 @@
-{pkgs, lib, inputs, user, ...}:
+{
+  pkgs,
+  lib,
+  inputs,
+  user,
+  ...
+}:
 let
   shellAliases = import ./shell-aliases.nix;
 in
@@ -33,7 +39,11 @@ in
     settings = {
       font-family = "Hack Nerd Font Mono";
       font-size = 12;
-      font-feature = [ "-calt" "-liga" "-dlig" ];
+      font-feature = [
+        "-calt"
+        "-liga"
+        "-dlig"
+      ];
       keybind = [
         "ctrl+shift+h=goto_split:left"
         "ctrl+shift+l=goto_split:right"
@@ -143,5 +153,3 @@ in
   };
 
 }
-
-

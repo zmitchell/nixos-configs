@@ -1,21 +1,26 @@
-{pkgs, config, lib, ...}:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
   cfg = config.gnome;
   defaultPackages = with pkgs; [
-      pkgs.dconf-editor
-      dconf2nix
-      gnomeExtensions.dash-to-dock
-      gnomeExtensions.just-perfection
-      gnomeExtensions.appindicator
-      gnomeExtensions.logo-menu
-      pkgs.gnome-tweaks
-      gnome-usage
-      pkgs.evince
-      pkgs.gedit
-      pkgs.eog
-      pkgs.sushi
-      gnome-console
-    ];
+    pkgs.dconf-editor
+    dconf2nix
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.just-perfection
+    gnomeExtensions.appindicator
+    gnomeExtensions.logo-menu
+    pkgs.gnome-tweaks
+    gnome-usage
+    pkgs.evince
+    pkgs.gedit
+    pkgs.eog
+    pkgs.sushi
+    gnome-console
+  ];
 in
 {
   options = {
