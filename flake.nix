@@ -184,5 +184,33 @@
           };
         };
       };
+      homeConfigurations = {
+        thiccness = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+            overlays = [
+              (final: _prev: {
+                unstable = import inputs.nixpkgs-unstable {
+                  inherit (final) system;
+                  config.allowUnfree = true;
+                };
+                withCudaSupport = import inputs.nixpkgs-unstable {
+                  inherit (final) system;
+                  config.cudaSupport = true;
+                  config.allowUnfree = true;
+                };
+              })
+            ];
+          };
+          extraSpecialArgs = {
+            inherit user inputs;
+            host = "thiccness";
+          };
+          modules = [
+            ./homeConfigurations/thiccness.nix
+          ];
+        };
+      };
     };
 }
