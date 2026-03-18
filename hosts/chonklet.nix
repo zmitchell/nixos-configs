@@ -74,9 +74,9 @@
     orientation = "left";
     persistent-apps = [
       "/System/Applications/Calendar.app"
-      "/System/Applications/Firefox.app"
-      "/System/Application/Ghostty.app"
-      "/System/Application/Slack.app"
+      "/Applications/Firefox.app"
+      "/Applications/Ghostty.app"
+      "/Applications/Slack.app"
     ];
   };
 
