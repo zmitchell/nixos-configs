@@ -436,19 +436,19 @@ in
           cd $repo_name
         '';
         description = "Clone <owner>/<name> into $PWD/<name>";
-        argumentNames = "<owner>/<name>";
+        argumentNames = "repo";
       };
 
       jjb = {
         body = "jj bookmark create -r @ $argv[1]";
         description = "Create a new bookmark at the current change";
-        argumentNames = "bookmark name";
+        argumentNames = "bookmark";
       };
 
       jjtb = {
         body = "jj bookmark create -r @ $argv[1] && jj bookmark track --remote origin $argv[1]";
         description = "Create a new bookmark and track it on the 'origin' remote";
-        argumentNames = "bookmark name";
+        argumentNames = "bookmark";
       };
 
       y = ''

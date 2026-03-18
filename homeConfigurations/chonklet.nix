@@ -1,4 +1,4 @@
-{ pkgs, user, ... }:
+{ pkgs, ... }:
 let
   shellAliases = import ./shell-aliases.nix;
   deploy-config = pkgs.callPackage ../pkgs/deploy-config/default.nix { };
