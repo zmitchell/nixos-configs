@@ -183,6 +183,36 @@
             host = "chonker";
           };
         };
+        chonklet = nix-darwin.lib.darwinSystem {
+          modules = [
+            ./hosts/chonklet.nix
+            ./modules/flox.nix
+            home-manager.darwinModules.home-manager
+            mac-app-util.darwinModules.default
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.zmitchell = import ./homeConfigurations/chonklet.nix;
+              home-manager.extraSpecialArgs = {
+                inherit user inputs;
+                host = "chonklet";
+              };
+              flox.enable = true;
+            }
+            stylix.darwinModules.stylix
+            (
+              { ... }:
+              {
+                home-manager.sharedModules = [
+                  mac-app-util.homeManagerModules.default
+                ];
+              }
+            )
+          ];
+          specialArgs = {
+            inherit user inputs;
+            host = "chonklet";
+          };
+        };
       };
       homeConfigurations = {
         thiccness = home-manager.lib.homeManagerConfiguration {

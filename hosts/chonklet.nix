@@ -44,9 +44,8 @@
   programs.zsh.enable = true;
   programs.bash.enable = true;
 
-  system.stateVersion = 4;
+  system.stateVersion = 6;
   system.primaryUser = user.username;
-  ids.gids.nixbld = 350;
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true;
@@ -60,7 +59,7 @@
     })
   ];
 
-  networking.hostName = "chonker";
+  networking.hostName = "chonklet";
 
   users.users.${user.username} = {
     name = user.username;
@@ -74,13 +73,10 @@
     mru-spaces = false;
     orientation = "left";
     persistent-apps = [
-      "/System/Applications/Messages.app"
       "/System/Applications/Calendar.app"
       "/System/Applications/Firefox.app"
-      "/System/Application/Signal.app"
-      "/System/Application/Obsidian.app"
       "/System/Application/Ghostty.app"
-      "/System/Application/1Password.app"
+      "/System/Application/Slack.app"
     ];
   };
 
@@ -106,13 +102,6 @@
   };
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToControl = true;
-  # This path definitely exists, but `defaults` says it doesn't.
-  # Might be a permissions issue.
-  # system.defaults.CustomUserPreferences = {
-  #   "/Users/${user.username}/Library/Containers/com.apple.mail/Data/Library/Preferences/com.apple.mail.plist" = {
-  #     "MailUserNotificationScope" = 2;
-  #   };
-  # };
 
   # Color schemes, fonts, etc
   stylix.enable = true;
