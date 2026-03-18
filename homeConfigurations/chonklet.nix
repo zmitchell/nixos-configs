@@ -24,6 +24,10 @@ in
       deploy-config
     ];
 
+  programs.fish.loginShellInit = ''
+    fish_add_path -g "$HOME/.cargo/bin"
+  '';
+
   # Same for Bash
   programs.bash = {
     enable = true;
