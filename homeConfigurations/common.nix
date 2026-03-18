@@ -35,6 +35,7 @@ in
     tealdeer
     nix-tree
     unstable.nil
+    unstable.nixd
     nix-output-monitor
     watchexec
     fx
