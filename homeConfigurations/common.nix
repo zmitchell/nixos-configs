@@ -140,6 +140,12 @@ in
           "--to"
           "closest_pushable(@)"
         ];
+        init = [
+          "git"
+          "init"
+          "--colocate"
+          "."
+        ];
       };
       templates = {
         log_node = "label(\"node\",coalesce(if(!self, label(\"elided\", \"~\")),if(current_working_copy, label(\"working_copy\", \"@\")),if(conflict, label(\"conflict\", \"×\")),if(immutable, label(\"immutable\", \"*\")),label(\"normal\", \"·\")))";
@@ -420,12 +426,28 @@ in
         nix develop --command ff b
       '';
 
-      jjghclone = ''
-        cd ~/src
-        set repo_name (basename $argv[1])
-        jj git clone "git@github.com:$argv[1].git" --colocate
-        cd $repo_name
-      '';
+      jjghclone = {
+        body = ''
+          cd ~/src
+          set repo_name (basename $argv[1])
+          jj git clone "git@github.com:$argv[1].git" --colocate
+          cd $repo_name
+        '';
+        description = "Clone <owner>/<name> into $PWD/<name>";
+        argumentNames = "<owner>/<name>";
+      };
+
+      jjb = {
+        body = "jj bookmark create -r @ $argv[1]";
+        description = "Create a new bookmark at the current change";
+        argumentNames = "bookmark name";
+      };
+
+      jjtb = {
+        body = "jj bookmark create -r @ $argv[1] && jj bookmark track --remote origin $argv[1]";
+        description = "Create a new bookmark and track it on the 'origin' remote";
+        argumentNames = "bookmark name";
+      };
 
       y = ''
         	set tmp (mktemp -t "yazi-cwd.XXXXXX")
