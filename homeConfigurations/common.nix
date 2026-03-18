@@ -108,6 +108,7 @@ in
       ui = {
         paginate = "never";
         default-command = [ "status" ];
+        diff-editor = ":builtin";
       };
       git = {
         write-change-id-header = true;
