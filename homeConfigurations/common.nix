@@ -464,6 +464,7 @@ in
       nrs = lib.mkIf pkgs.hostPlatform.isLinux "sudo nixos-rebuild switch --flake .#${host}";
       drs = lib.mkIf pkgs.hostPlatform.isDarwin "sudo darwin-rebuild switch --flake .#${host}";
       jjdiff = "jj diff --color always --context 5 | delta";
+      expush = "GIT_SSH_COMMAND=\"ssh -i ~/.ssh/id_ed25519_external\" jj git push";
     };
   };
 
