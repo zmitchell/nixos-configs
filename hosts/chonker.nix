@@ -34,6 +34,7 @@
     # Meetrlyio catalog key
     "floxhub-meetrlyio-1:UVrkk/hwRCX8DEjrYF+2JjVP2ad3KUeya/1C5b3lsR8="
   ];
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # Enables some commands to provide completions, etc for system-provided stuff
   environment.pathsToLink = [
