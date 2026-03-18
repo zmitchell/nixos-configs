@@ -12,6 +12,10 @@ in
   ];
   home.stateVersion = "25.11";
   home.homeDirectory = "/home/${user.username}";
+  home.sessionPath = [
+    "/home/${user.username}/bin"
+    "/home/${user.username}/.cargo/bin"
+  ];
 
   home.packages = with pkgs; [
     bustle
@@ -21,26 +25,10 @@ in
     powertop
     zeal
   ];
-
-  programs.ghostty = {
-    enable = true;
-    settings = {
-      font-family = "Hack Nerd Font Mono";
-      font-size = 12;
-      font-feature = [
-        "-calt"
-        "-liga"
-        "-dlig"
-      ];
-      keybind = [
-        "ctrl+shift+h=goto_split:left"
-        "ctrl+shift+l=goto_split:right"
-        "ctrl+shift+k=goto_split:up"
-        "ctrl+shift+j=goto_split:down"
-        "ctrl+t=new_tab"
-        "ctrl+shift+[=previous_tab"
-        "ctrl+shift+]=next_tab"
-      ];
+  programs.fish = {
+    shellAbbrs = {
+      hms = "home-manager switch --flake .#thiccness";
+      jjdiff = "jj diff --color always --context 5 | delta";
     };
   };
 
