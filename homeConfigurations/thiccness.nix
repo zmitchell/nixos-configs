@@ -25,7 +25,7 @@ in
     powertop
     zeal
     marksman
-    lima
+    unstable.lima
   ];
   programs.fish = {
     shellAbbrs = {
