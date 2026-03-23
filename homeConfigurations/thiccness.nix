@@ -24,6 +24,8 @@ in
     tlp
     powertop
     zeal
+    marksman
+    lima
   ];
   programs.fish = {
     shellAbbrs = {
@@ -54,5 +56,11 @@ in
 
   programs.starship = {
     enableBashIntegration = true;
+  };
+
+  programs.gnome-shell = {
+    extensions = [
+      { package = pkgs.gnomeExtensions.dash-to-panel; }
+    ];
   };
 }
