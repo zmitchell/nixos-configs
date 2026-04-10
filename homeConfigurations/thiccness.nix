@@ -1,6 +1,7 @@
 {
   pkgs,
   user,
+  inputs,
   ...
 }:
 let
@@ -26,6 +27,7 @@ in
     zeal
     marksman
     unstable.lima
+    inputs.flox.packages.x86_64-linux.flox
   ];
   programs.fish = {
     shellAbbrs = {
