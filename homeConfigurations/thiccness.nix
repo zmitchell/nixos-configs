@@ -19,12 +19,9 @@ in
   ];
 
   home.packages = with pkgs; [
-    bustle
-    d-spy
     sysprof
     tlp
     powertop
-    zeal
     marksman
     unstable.lima
     inputs.flox.packages.x86_64-linux.flox
