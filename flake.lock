@@ -301,11 +301,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1775666200,
-        "narHash": "sha256-h7TUTx6+Lk7l8NfKuNjp+6UzIYDuHyWN56OrxorUZ3w=",
+        "lastModified": 1778002469,
+        "narHash": "sha256-Q4Qi/0vRsZNEIGHR1ULcMT2azex+bQFGQDtuvdF2W8g=",
         "owner": "flox",
         "repo": "flox",
-        "rev": "3f61438a9a47336205da884a93e14a414a146a39",
+        "rev": "dab5625212523e787ce6cf9b467829a72133b68d",
         "type": "github"
       },
       "original": {
