@@ -193,7 +193,12 @@
               home-manager.useGlobalPkgs = true;
               home-manager.users.zmitchell = import ./homeConfigurations/chonklet.nix;
               home-manager.extraSpecialArgs = {
-                inherit user inputs;
+                inherit inputs;
+                user = {
+                  fullName = "Zach Mitchell";
+                  username = "zmitchell";
+                  email = "zmitchell@halcyon.ai";
+                };
                 host = "chonklet";
               };
               flox.enable = true;
@@ -234,7 +239,12 @@
             ];
           };
           extraSpecialArgs = {
-            inherit user inputs;
+            inherit inputs;
+            user = {
+              fullName = "Zach Mitchell";
+              username = "zmitchell";
+              email = "zmitchell@halcyon.ai";
+            };
             host = "thiccness";
           };
           modules = [
@@ -255,7 +265,12 @@
             ];
           };
           extraSpecialArgs = {
-            inherit user inputs;
+            inherit inputs;
+            user = {
+              fullName = "Zach Mitchell";
+              username = "zmitchell.guest";
+              email = "zmitchell@halcyon.ai";
+            };
             host = "lima-fedora-43";
           };
           modules = [
