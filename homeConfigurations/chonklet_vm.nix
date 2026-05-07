@@ -1,6 +1,7 @@
 {
   pkgs,
   user,
+  inputs,
   ...
 }:
 let
@@ -17,11 +18,14 @@ in
     "/home/${user.username}/.cargo/bin"
   ];
 
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     sysprof
     tlp
     marksman
     # inputs.flox.packages.x86_64-linux.flox
+  ]) ++ [
+    # inputs.flox.packages.aarch64-linux.flox
+    inputs.home-manager.packages.aarch64-linux.default
   ];
   programs.fish = {
     shellAbbrs = {
@@ -31,6 +35,7 @@ in
   };
 
   programs.fish.loginShellInit = ''
+    source /etc/profile.d/nix.fish
     fish_add_path -g "$HOME/.cargo/bin"
   '';
 

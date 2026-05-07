@@ -268,7 +268,7 @@
             inherit inputs;
             user = {
               fullName = "Zach Mitchell";
-              username = "zmitchell.guest";
+              username = "zmitchell";
               email = "zmitchell@halcyon.ai";
             };
             host = "lima-fedora-43";
