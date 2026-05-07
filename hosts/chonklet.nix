@@ -13,7 +13,6 @@
   environment.systemPackages = with pkgs; [
     vim
     gitFull
-    lima
   ];
 
   nix.enable = true;

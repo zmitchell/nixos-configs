@@ -15,8 +15,8 @@ in
     [
       bacon
       utm
-      lima
-      colima
+      unstable.lima
+      unstable.colima
       docker-client
       docker-compose
     ]
