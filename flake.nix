@@ -277,6 +277,27 @@
             ./homeConfigurations/chonklet_vm.nix
           ];
         };
+        chonker_vm = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            config.allowUnfree = true;
+            overlays = [
+              (final: _prev: {
+                unstable = import inputs.nixpkgs-unstable {
+                  inherit (final) system;
+                  config.allowUnfree = true;
+                };
+              })
+            ];
+          };
+          extraSpecialArgs = {
+            inherit user inputs;
+            host = "lima-fedora-43";
+          };
+          modules = [
+            ./homeConfigurations/chonklet_vm.nix
+          ];
+        };
       };
     };
 }

@@ -8,14 +8,10 @@
 }:
 {
 
-  # imports = [
-  #   (import ./flox-remote-builders.nix (builtins.getAttr "chonker" (import ./../data/keys.nix)))
-  # ];
-
   environment.systemPackages = with pkgs; [
     vim
     gitFull
-    lima
+    unstable.lima
   ];
 
   nix.enable = true;

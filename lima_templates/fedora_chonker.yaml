@@ -1,0 +1,40 @@
+minimumLimaVersion: 2.0.0
+
+base:
+- template:_images/fedora-43
+- template:_default/mounts
+
+user:
+  name: zmitchell
+  home: "/home/{{.User}}"
+
+mounts:
+- location: "/Users/zmitchell/src/nix-config"
+  mountPoint: "/home/{{.User}}/config"
+
+
+ssh:
+  loadDotSSHPubKeys: true
+
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+
+      # Install the basics
+      dnf install -y git helix nix
+
+      systemctl enable nix-daemon
+      systemctl start nix-daemon
+  - mode: user
+    script: |
+      #!/bin/bash
+
+      cd "/home/{{.User}}/config"
+      nix run --extra-experimental-features "nix-command flakes" --accept-flake-config github:nix-community/home-manager -- switch --flake .#chonklet_vm -b bak
+      echo "/home/{{.User}}/.nix-profile/bin/fish"  | sudo tee -a /etc/shells
+      sudo chsh -s "/home/{{.User}}/.nix-profile/bin/fish" {{.User}}
+      mkdir "/home/{{.User}}/src"
+
+
+
