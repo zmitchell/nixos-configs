@@ -24,13 +24,6 @@
     "@admin" # necessary for Linux builder
     user.username
   ];
-  nix.linux-builder.enable = true;
-  nix.settings.extra-trusted-public-keys = [
-    # Public key for my private catalog
-    "signing-key:a7ifhEZBmx+mP+z6cDgcBQzTZmtjHssCFkWWyI1dApg="
-    # Meetrlyio catalog key
-    "floxhub-meetrlyio-1:UVrkk/hwRCX8DEjrYF+2JjVP2ad3KUeya/1C5b3lsR8="
-  ];
   security.pam.services.sudo_local.touchIdAuth = true;
 
   # Enables some commands to provide completions, etc for system-provided stuff
@@ -58,6 +51,21 @@
   ];
 
   networking.hostName = "chonklet";
+
+  nix.linux-builder = {
+    enable = true;
+    ephemeral = true;
+    maxJobs = 4;
+    config = {
+      virtualisation = {
+        darwin-builder = {
+          diskSize = 40 * 1024;
+          memorySize = 8 * 1024;
+        };
+        cores = 6;
+      };
+    };
+  };
 
   users.users.${user.username} = {
     name = user.username;
