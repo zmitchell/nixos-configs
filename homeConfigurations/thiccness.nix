@@ -25,6 +25,7 @@ in
     marksman
     unstable.lima
     inputs.flox.packages.x86_64-linux.flox
+    inputs.nix-auth.packages.x86_64-linux.nix-auth
   ];
   programs.fish = {
     shellAbbrs = {

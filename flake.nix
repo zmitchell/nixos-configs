@@ -25,6 +25,9 @@
   inputs.stylix.url = "github:danth/stylix/release-25.11";
   # For creating Linux VMs on macOS
   inputs.nixos-lima.url = "github:nixos-lima/nixos-lima/";
+  # For managing auth tokens to prevent GitHub API rate limiting
+  inputs.nix-auth.url = "github:numtide/nix-auth";
+  inputs.nix-auth.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
   outputs =
     inputs@{
