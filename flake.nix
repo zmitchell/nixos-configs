@@ -52,6 +52,7 @@
           host,
           user,
           extraModules,
+          useDisko ? true
         }:
         {
           inherit system;
@@ -59,7 +60,6 @@
             inherit inputs host user;
           };
           modules = [
-            disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             stylix.nixosModules.stylix
             flake-programs-sqlite.nixosModules.programs-sqlite
@@ -70,7 +70,7 @@
               home-manager.extraSpecialArgs = {
                 inherit inputs host user;
               };
-              flox.enable = true;
+              # flox.enable = true;
               addStableBranchToRegistry.enable = true;
             }
             (
@@ -80,7 +80,10 @@
               }
             )
           ]
-          ++ extraModules;
+          ++ extraModules
+          ++ nixpkgs.lib.optional useDisko [
+            disko.nixosModules.disko
+          ];
         };
       user = {
         fullName = "Zach Mitchell";
@@ -106,15 +109,16 @@
           host = "chungus";
           inherit user;
           extraModules = [
-            (import ./setup/zfs_single_drive.nix {
-              device = "/dev/nvme1n1";
-              user = "zmitchell";
-            })
+            # (import ./setup/zfs_single_drive.nix {
+            #   device = "/dev/nvme1n1";
+            #   user = "zmitchell";
+            # })
             {
               networking.hostName = "chungus";
               networking.hostId = "10042069";
             }
           ];
+          useDisko = false;
         });
         slim = nixpkgs.lib.nixosSystem (mkConfig {
           system = "x86_64-linux";

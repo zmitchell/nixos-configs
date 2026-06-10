@@ -49,7 +49,6 @@
 
     # Packages that should be installed on all systems
     environment.systemPackages = with pkgs; [
-      lazygit
       binutils
       pciutils
     ];

@@ -33,30 +33,46 @@ in
   # Extra boot settings
   boot.loader.timeout = 0; # we have scripts for booting
 
-  # Use a static IP address
-  networking.interfaces.wlp11s0.useDHCP = false;
-  networking.interfaces.eno1 = {
-    useDHCP = false;
-    ipv4.addresses = [
-      {
-        address = "10.0.0.234";
-        prefixLength = 24;
-      }
-    ];
+  networking.defaultGateway = "192.168.8.1";
+  networking.interfaces.wlp8s0 = {
+    useDHCP = true;
   };
-  networking.defaultGateway = "10.0.0.1";
+  networking.networkmanager.enable = true;
   networking.nameservers = [
     "1.1.1.1"
     "4.4.4.4"
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  nixpkgs.config.permittedInsecurePackages = [
-    # I think these are from sonarr
-    "dotnet-sdk-6.0.428"
-    "aspnetcore-runtime-6.0.36"
-  ];
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/b08db9b4-938a-4582-9b33-c5fe48380430";
+      fsType = "btrfs";
+    };
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/b08db9b4-938a-4582-9b33-c5fe48380430";
+      fsType = "btrfs";
+      options = [ "subvol=home" ];
+    };
+
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/b08db9b4-938a-4582-9b33-c5fe48380430";
+      fsType = "btrfs";
+      options = [ "subvol=nix" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/6907-AB2C";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/559cf400-aac1-4289-87aa-4ef8a23a71cd"; }
+    ];
+
 
   # GPU settings
   hardware.graphics.enable32Bit = true;
@@ -138,8 +154,16 @@ in
     enable = true;
     allowSleep = false;
   };
-  gnome.enable = true;
-  static_ip.enable = true;
+  services.xserver.enable = true;
+  services.displayManager.defaultSession = "plasma";
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # gnome.enable = true;
+
+  # static_ip.enable = true;
   populate_authorized_keys.enable = true;
   nix_community_cachix.enable = true;
   libvirt_qemu = {
@@ -153,4 +177,5 @@ in
   #     hyprland.enable = true;
   #   };
   # };
+  programs.partition-manager.enable = true;
 }
