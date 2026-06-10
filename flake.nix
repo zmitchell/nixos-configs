@@ -298,7 +298,7 @@
             host = "lima-fedora-43";
           };
           modules = [
-            ./homeConfigurations/chonklet_vm.nix
+            ./homeConfigurations/chonker_vm.nix
           ];
         };
       };

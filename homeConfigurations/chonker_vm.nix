@@ -19,12 +19,11 @@ in
   ];
 
   home.packages = (with pkgs; [
-    sysprof
     tlp
     marksman
-    # inputs.flox.packages.x86_64-linux.flox
+    strace
   ]) ++ [
-    # inputs.flox.packages.aarch64-linux.flox
+    inputs.flox.packages.aarch64-linux.flox
     inputs.home-manager.packages.aarch64-linux.default
   ];
   programs.fish = {
