@@ -3,6 +3,7 @@
   lib,
   pkgs,
   modulesPath,
+  user,
   ...
 }:
 let
@@ -33,15 +34,7 @@ in
   # Extra boot settings
   boot.loader.timeout = 0; # we have scripts for booting
 
-  networking.defaultGateway = "192.168.8.1";
-  networking.interfaces.wlp8s0 = {
-    useDHCP = true;
-  };
   networking.networkmanager.enable = true;
-  networking.nameservers = [
-    "1.1.1.1"
-    "4.4.4.4"
-  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -55,6 +48,16 @@ in
     { device = "/dev/disk/by-uuid/b08db9b4-938a-4582-9b33-c5fe48380430";
       fsType = "btrfs";
       options = [ "subvol=home" ];
+    };
+
+  fileSystems."/home/${user.username}/games" =
+    { device = "/dev/disk/by-uuid/51816679-6159-466c-8f73-0bccccb006ef";
+      fsType = "btrfs";
+      options = [
+        "subvol=games"
+        "nofail"
+        "x-systemd.device-timeout=5s"
+      ];
     };
 
   fileSystems."/nix" =
