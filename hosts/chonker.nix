@@ -74,10 +74,10 @@
       "/System/Applications/Messages.app"
       "/System/Applications/Calendar.app"
       "/System/Applications/Firefox.app"
-      "/System/Application/Signal.app"
-      "/System/Application/Obsidian.app"
-      "/System/Application/Ghostty.app"
-      "/System/Application/1Password.app"
+      "/System/Applications/Signal.app"
+      "/System/Applications/Obsidian.app"
+      "/System/Applications/Ghostty.app"
+      "/System/Applications/1Password.app"
     ];
   };
 
