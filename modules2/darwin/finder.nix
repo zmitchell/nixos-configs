@@ -1,11 +1,5 @@
-{config, lib, ...}:
-let
-  cfg = config.finder;
-in
 {
-  options.finder.enable = lib.mkEnableOption "Enable finder configuration.";
-
-  config = lib.mkIf cfg.enable {
+  flake.modules.darwin.finder = {
     system.defaults.finder = {
       ShowPathbar = true;
       ShowStatusBar = true;

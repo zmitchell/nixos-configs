@@ -1,310 +1,334 @@
 {
   description = "A very basic flake";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
-  # Pinned for sunshine support at the moment
-  inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-  # Used to get pre-built databases for 'nix-index',
-  inputs.nix-index-database.url = "github:Mic92/nix-index-database";
-  inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-  # For fixing the 'command-not-found' script that's broken on flake-based systems
-  inputs.flake-programs-sqlite.url = "github:wamserma/flake-programs-sqlite";
-  inputs.flake-programs-sqlite.inputs.nixpkgs.follows = "nixpkgs";
-  # Declarative filesystem setup
-  inputs.disko.url = "github:nix-community/disko";
-  inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
-  # Home manager
-  inputs.home-manager.url = "github:nix-community/home-manager/release-25.11";
-  # flox
-  inputs.flox.url = "github:flox/flox/latest";
-  # nix-darwin
-  inputs.nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
-  # Provides a fix for launching Nix-provided Mac apps
-  inputs.mac-app-util.url = "github:hraban/mac-app-util";
-  # Color schemes and fonts
-  inputs.stylix.url = "github:danth/stylix/release-25.11";
-  # For creating Linux VMs on macOS
-  inputs.nixos-lima.url = "github:nixos-lima/nixos-lima/";
-  # For managing auth tokens to prevent GitHub API rate limiting
-  inputs.nix-auth.url = "github:numtide/nix-auth";
-  inputs.nix-auth.inputs.nixpkgs.follows = "nixpkgs-unstable";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+    };
+
+    nix-index = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # For fixing the 'command-not-found' script that's broken on flake-based systems
+    flake-programs-sqlite = {
+      url = "github:wamserma/flake-programs-sqlite";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    flox.url = "github:flox/flox/latest";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
+    # Provides a fix for launching Nix-provided Mac apps
+    mac-app-util.url = "github:hraban/mac-app-util";
+    stylix.url = "github:danth/stylix/release-25.11";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-lima.url = "github:nixos-lima/nixos-lima/";
+    # For managing auth tokens to prevent GitHub API rate limiting
+    nix-auth = {
+      url = "github:numtide/nix-auth";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+  };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      nix-index-database,
-      flake-programs-sqlite,
-      disko,
-      home-manager,
-      nix-darwin,
-      stylix,
-      mac-app-util,
-      flox,
-      nixos-lima,
-      ...
-    }:
-    let
-      mkConfig =
-        {
-          system,
-          host,
-          user,
-          extraModules,
-          useDisko ? true
-        }:
-        {
-          inherit system;
-          specialArgs = {
-            inherit inputs host user;
-          };
-          modules = [
-            home-manager.nixosModules.home-manager
-            stylix.nixosModules.stylix
-            flake-programs-sqlite.nixosModules.programs-sqlite
-            ./modules
-            ./hosts/${host}.nix
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs host user;
-              };
-              # flox.enable = true;
-              addStableBranchToRegistry.enable = true;
-            }
-            (
-              { user, host, ... }:
-              {
-                home-manager.users.${user.username} = import ./homeConfigurations/${host}.nix;
-              }
-            )
-          ]
-          ++ extraModules
-          ++ nixpkgs.lib.optional useDisko [
-            disko.nixosModules.disko
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      {
+        lib,
+        ...
+      }:
+      {
+        imports =
+          (lib.filter (
+            path:
+            lib.hasSuffix ".nix" path
+            && baseNameOf path != "default.nix"
+            && !(lib.hasPrefix "_" (baseNameOf path))
+          ) (lib.filesystem.listFilesRecursive ./modules2))
+          ++ [
+            inputs.flake-parts.flakeModules.modules
           ];
-        };
-      user = {
-        fullName = "Zach Mitchell";
-        username = "zmitchell";
-        email = "zmitchell@fastmail.com";
-      };
-    in
-    {
-      nixosConfigurations = {
-        smolboi = nixpkgs.lib.nixosSystem (mkConfig {
-          system = "x86_64-linux";
-          host = "smolboi";
-          inherit user;
-          extraModules = [
-            {
-              networking.hostName = "smolboi";
-              networking.hostId = "20042069";
-            }
-          ];
-        });
-        chungus = nixpkgs.lib.nixosSystem (mkConfig {
-          system = "x86_64-linux";
-          host = "chungus";
-          inherit user;
-          extraModules = [
-            # (import ./setup/zfs_single_drive.nix {
-            #   device = "/dev/nvme1n1";
-            #   user = "zmitchell";
-            # })
-            {
-              networking.hostName = "chungus";
-              networking.hostId = "10042069";
-            }
-          ];
-          useDisko = false;
-        });
-        slim = nixpkgs.lib.nixosSystem (mkConfig {
-          system = "x86_64-linux";
-          host = "slim";
-          inherit user;
-          extraModules = [
-            {
-              imports = [
-                ./hosts/slim_disk_config.nix
-              ];
-            }
-            {
-              networking.hostName = "slim";
-              networking.hostId = "30042069";
-              flox.enable = true;
-            }
-          ];
-        });
-        lima-vm = nixpkgs.lib.nixosSystem (mkConfig {
-          system = "aarch64-linux";
-          host = "lima-vm";
-          extraModules = [ ];
-          inherit user;
-        });
-        distant-lad = nixpkgs.lib.nixosSystem (mkConfig {
-          system = "x86_64-linux";
-          host = "distant-lad";
-          inherit user;
-          extraModules = [
-            (import ./setup/zfs_single_drive_legacy_boot.nix {
-              device = "/dev/sda";
-              user = user.username;
-            })
-            {
-              networking.hostName = "distant-lad";
-              networking.hostId = "30042069";
-            }
-          ];
-        });
-      };
-      darwinConfigurations = {
-        chonker = nix-darwin.lib.darwinSystem {
-          modules = [
-            ./hosts/chonker.nix
-            ./modules/flox.nix
-            home-manager.darwinModules.home-manager
-            mac-app-util.darwinModules.default
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.users.zmitchell = import ./homeConfigurations/chonker.nix;
-              home-manager.extraSpecialArgs = {
-                inherit user inputs;
-                host = "chonker";
-              };
-              flox.enable = true;
-            }
-            stylix.darwinModules.stylix
-            (
-              { ... }:
-              {
-                home-manager.sharedModules = [
-                  mac-app-util.homeManagerModules.default
-                ];
-              }
-            )
-          ];
-          specialArgs = {
-            inherit user inputs;
-            host = "chonker";
-          };
-        };
-        chonklet = nix-darwin.lib.darwinSystem {
-          modules = [
-            ./hosts/chonklet.nix
-            ./modules/flox.nix
-            home-manager.darwinModules.home-manager
-            mac-app-util.darwinModules.default
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.users.zmitchell = import ./homeConfigurations/chonklet.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                user = {
-                  fullName = "Zach Mitchell";
-                  username = "zmitchell";
-                  email = "zmitchell@halcyon.ai";
-                };
-                host = "chonklet";
-              };
-              flox.enable = true;
-            }
-            stylix.darwinModules.stylix
-            (
-              { ... }:
-              {
-                home-manager.sharedModules = [
-                  mac-app-util.homeManagerModules.default
-                ];
-              }
-            )
-          ];
-          specialArgs = {
-            inherit user inputs;
-            host = "chonklet";
-          };
-        };
-      };
-      homeConfigurations = {
-        thiccness = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-            overlays = [
-              (final: _prev: {
-                unstable = import inputs.nixpkgs-unstable {
-                  inherit (final) system;
-                  config.allowUnfree = true;
-                };
-                withCudaSupport = import inputs.nixpkgs-unstable {
-                  inherit (final) system;
-                  config.cudaSupport = true;
-                  config.allowUnfree = true;
-                };
-              })
-            ];
-          };
-          extraSpecialArgs = {
-            inherit inputs;
-            user = {
-              fullName = "Zach Mitchell";
-              username = "zmitchell";
-              email = "zmitchell@halcyon.ai";
-            };
-            host = "thiccness";
-          };
-          modules = [
-            ./homeConfigurations/thiccness.nix
-          ];
-        };
-        chonklet_vm = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = "aarch64-linux";
-            config.allowUnfree = true;
-            overlays = [
-              (final: _prev: {
-                unstable = import inputs.nixpkgs-unstable {
-                  inherit (final) system;
-                  config.allowUnfree = true;
-                };
-              })
-            ];
-          };
-          extraSpecialArgs = {
-            inherit inputs;
-            user = {
-              fullName = "Zach Mitchell";
-              username = "zmitchell";
-              email = "zmitchell@halcyon.ai";
-            };
-            host = "lima-fedora-43";
-          };
-          modules = [
-            ./homeConfigurations/chonklet_vm.nix
-          ];
-        };
-        chonker_vm = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = "aarch64-linux";
-            config.allowUnfree = true;
-            overlays = [
-              (final: _prev: {
-                unstable = import inputs.nixpkgs-unstable {
-                  inherit (final) system;
-                  config.allowUnfree = true;
-                };
-              })
-            ];
-          };
-          extraSpecialArgs = {
-            inherit user inputs;
-            host = "lima-fedora-43";
-          };
-          modules = [
-            ./homeConfigurations/chonker_vm.nix
-          ];
-        };
-      };
-    };
+      }
+    );
 }
+# outputs =
+#   inputs@{
+#     self,
+#     nixpkgs,
+#     nixpkgs-unstable,
+#     nix-index-database,
+#     flake-programs-sqlite,
+#     disko,
+#     home-manager,
+#     nix-darwin,
+#     stylix,
+#     mac-app-util,
+#     flox,
+#     nixos-lima,
+#     ...
+#   }:
+#   let
+#     mkConfig =
+#       {
+#         system,
+#         host,
+#         user,
+#         extraModules,
+#       }:
+#       {
+#         inherit system;
+#         specialArgs = {
+#           inherit inputs host user;
+#         };
+#         modules = [
+#           disko.nixosModules.disko
+#           home-manager.nixosModules.home-manager
+#           stylix.nixosModules.stylix
+#           flake-programs-sqlite.nixosModules.programs-sqlite
+#           ./modules
+#           ./hosts/${host}.nix
+#           {
+#             home-manager.useGlobalPkgs = true;
+#             home-manager.extraSpecialArgs = {
+#               inherit inputs host user;
+#             };
+#             flox.enable = true;
+#             addStableBranchToRegistry.enable = true;
+#           }
+#           (
+#             { user, host, ... }:
+#             {
+#               home-manager.users.${user.username} = import ./homeConfigurations/${host}.nix;
+#             }
+#           )
+#         ]
+#         ++ extraModules;
+#       };
+#     user = {
+#       fullName = "Zach Mitchell";
+#       username = "zmitchell";
+#       email = "zmitchell@fastmail.com";
+#     };
+#   in
+#   {
+#     nixosConfigurations = {
+#       smolboi = nixpkgs.lib.nixosSystem (mkConfig {
+#         system = "x86_64-linux";
+#         host = "smolboi";
+#         inherit user;
+#         extraModules = [
+#           {
+#             networking.hostName = "smolboi";
+#             networking.hostId = "20042069";
+#           }
+#         ];
+#       });
+#       chungus = nixpkgs.lib.nixosSystem (mkConfig {
+#         system = "x86_64-linux";
+#         host = "chungus";
+#         inherit user;
+#         extraModules = [
+#           (import ./setup/zfs_single_drive.nix {
+#             device = "/dev/nvme1n1";
+#             user = "zmitchell";
+#           })
+#           {
+#             networking.hostName = "chungus";
+#             networking.hostId = "10042069";
+#           }
+#         ];
+#       });
+#       slim = nixpkgs.lib.nixosSystem (mkConfig {
+#         system = "x86_64-linux";
+#         host = "slim";
+#         inherit user;
+#         extraModules = [
+#           {
+#             imports = [
+#               ./hosts/slim_disk_config.nix
+#             ];
+#           }
+#           {
+#             networking.hostName = "slim";
+#             networking.hostId = "30042069";
+#             flox.enable = true;
+#           }
+#         ];
+#       });
+#       lima-vm = nixpkgs.lib.nixosSystem (mkConfig {
+#         system = "aarch64-linux";
+#         host = "lima-vm";
+#         extraModules = [ ];
+#         inherit user;
+#       });
+#       distant-lad = nixpkgs.lib.nixosSystem (mkConfig {
+#         system = "x86_64-linux";
+#         host = "distant-lad";
+#         inherit user;
+#         extraModules = [
+#           (import ./setup/zfs_single_drive_legacy_boot.nix {
+#             device = "/dev/sda";
+#             user = user.username;
+#           })
+#           {
+#             networking.hostName = "distant-lad";
+#             networking.hostId = "30042069";
+#           }
+#         ];
+#       });
+#     };
+#     darwinConfigurations = {
+#       chonker = nix-darwin.lib.darwinSystem {
+#         modules = [
+#           ./hosts/chonker.nix
+#           ./modules/flox.nix
+#           home-manager.darwinModules.home-manager
+#           mac-app-util.darwinModules.default
+#           {
+#             home-manager.useGlobalPkgs = true;
+#             home-manager.users.zmitchell = import ./homeConfigurations/chonker.nix;
+#             home-manager.extraSpecialArgs = {
+#               inherit user inputs;
+#               host = "chonker";
+#             };
+#             flox.enable = true;
+#           }
+#           stylix.darwinModules.stylix
+#           (
+#             { ... }:
+#             {
+#               home-manager.sharedModules = [
+#                 mac-app-util.homeManagerModules.default
+#               ];
+#             }
+#           )
+#         ];
+#         specialArgs = {
+#           inherit user inputs;
+#           host = "chonker";
+#         };
+#       };
+#       chonklet = nix-darwin.lib.darwinSystem {
+#         modules = [
+#           ./hosts/chonklet.nix
+#           ./modules/flox.nix
+#           home-manager.darwinModules.home-manager
+#           mac-app-util.darwinModules.default
+#           {
+#             home-manager.useGlobalPkgs = true;
+#             home-manager.users.zmitchell = import ./homeConfigurations/chonklet.nix;
+#             home-manager.extraSpecialArgs = {
+#               inherit inputs;
+#               user = {
+#                 fullName = "Zach Mitchell";
+#                 username = "zmitchell";
+#                 email = "zmitchell@halcyon.ai";
+#               };
+#               host = "chonklet";
+#             };
+#             flox.enable = true;
+#           }
+#           stylix.darwinModules.stylix
+#           (
+#             { ... }:
+#             {
+#               home-manager.sharedModules = [
+#                 mac-app-util.homeManagerModules.default
+#               ];
+#             }
+#           )
+#         ];
+#         specialArgs = {
+#           inherit user inputs;
+#           host = "chonklet";
+#         };
+#       };
+#     };
+#     homeConfigurations = {
+#       thiccness = home-manager.lib.homeManagerConfiguration {
+#         pkgs = import nixpkgs {
+#           system = "x86_64-linux";
+#           config.allowUnfree = true;
+#           overlays = [
+#             (final: _prev: {
+#               unstable = import inputs.nixpkgs-unstable {
+#                 inherit (final) system;
+#                 config.allowUnfree = true;
+#               };
+#               withCudaSupport = import inputs.nixpkgs-unstable {
+#                 inherit (final) system;
+#                 config.cudaSupport = true;
+#                 config.allowUnfree = true;
+#               };
+#             })
+#           ];
+#         };
+#         extraSpecialArgs = {
+#           inherit inputs;
+#           user = {
+#             fullName = "Zach Mitchell";
+#             username = "zmitchell";
+#             email = "zmitchell@halcyon.ai";
+#           };
+#           host = "thiccness";
+#         };
+#         modules = [
+#           ./homeConfigurations/thiccness.nix
+#         ];
+#       };
+#       chonklet_vm = home-manager.lib.homeManagerConfiguration {
+#         pkgs = import nixpkgs {
+#           system = "aarch64-linux";
+#           config.allowUnfree = true;
+#           overlays = [
+#             (final: _prev: {
+#               unstable = import inputs.nixpkgs-unstable {
+#                 inherit (final) system;
+#                 config.allowUnfree = true;
+#               };
+#             })
+#           ];
+#         };
+#         extraSpecialArgs = {
+#           inherit inputs;
+#           user = {
+#             fullName = "Zach Mitchell";
+#             username = "zmitchell";
+#             email = "zmitchell@halcyon.ai";
+#           };
+#           host = "lima-fedora-43";
+#         };
+#         modules = [
+#           ./homeConfigurations/chonklet_vm.nix
+#         ];
+#       };
+#       chonker_vm = home-manager.lib.homeManagerConfiguration {
+#         pkgs = import nixpkgs {
+#           system = "aarch64-linux";
+#           config.allowUnfree = true;
+#           overlays = [
+#             (final: _prev: {
+#               unstable = import inputs.nixpkgs-unstable {
+#                 inherit (final) system;
+#                 config.allowUnfree = true;
+#               };
+#             })
+#           ];
+#         };
+#         extraSpecialArgs = {
+#           inherit user inputs;
+#           host = "lima-fedora-43";
+#         };
+#         modules = [
+#           ./homeConfigurations/chonker_vm.nix
+#         ];
+#       };
+#     };
+#   };
+# }

@@ -1,11 +1,5 @@
-{config, lib, ...}:
-let
-  cfg = config.trackpad;
-in
 {
-  options.trackpad.enable = lib.mkEnableOption "Enable trackpad configuration.";
-
-  config = lib.mkIf cfg.enable {
+  flake.modules.darwin.touchpad = {
     system.defaults.trackpad = {
       TrackpadThreeFingerDrag = true;
       TrackpadRightClick = true;
