@@ -14,7 +14,6 @@ let
     host
     nixpkgs_unstable
     system_fonts
-    user_profile_home
   ];
   darwin_modules = with config.flake.modules.darwin; [
     base
@@ -50,7 +49,7 @@ in
             };
 
             home-manager.useGlobalPkgs = true;
-            home-manager.backupFileExtension = ".before-home-manager";
+            home-manager.backupFileExtension = "before-home-manager";
             home-manager.sharedModules = [
               inputs.mac-app-util.homeManagerModules.default
             ];
@@ -71,6 +70,7 @@ in
                 fish.enable = true;
                 starship.enable = true;
                 zoxide.enable = true;
+                broot.enable = true;
               };
             };
           }

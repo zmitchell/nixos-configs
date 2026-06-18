@@ -32,8 +32,8 @@
         tealdeer
         tomlq
         tre-command
-        unstable.nil
         unstable.nixd
+        unstable.npins
         unzip
         watchexec
       ];

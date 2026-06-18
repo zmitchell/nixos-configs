@@ -8,6 +8,7 @@
     modules = [
       # Contains the base configuration with good defaults
       config.flake.modules.darwin.mac_interactive
+      config.flake.modules.generic.user_profile_home
       (
         { config, pkgs, ... }:
         {
@@ -21,6 +22,7 @@
           # Nix.
           ids.gids.nixbld = 350;
 
+          # System-level module customizations
           dock.apps = {
             system = [
               "Finder"
@@ -38,8 +40,10 @@
           };
 
           home-manager.users.${config.user_profile.username} = {
+            # Never change this
             home.stateVersion = "24.05";
 
+            # User-level module customizations
             ghostty = {
               font_size = 13;
               keybinds = [
@@ -47,6 +51,7 @@
                 "alt+j=goto_split:down"
                 "alt+k=goto_split:up"
                 "alt+l=goto_split:right"
+                "ctrl+tab=unbind"
               ];
             };
             ssh_hosts.hosts = {
@@ -61,6 +66,10 @@
               smolboi = {
                 host = "smolboi";
                 hostname = "192.168.8.166";
+              };
+              smolboi-ts = {
+                host = "smolboi-ts";
+                hostname = "smolboi";
               };
             };
           };

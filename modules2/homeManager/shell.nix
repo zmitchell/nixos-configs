@@ -27,6 +27,7 @@
         zoxide.enable = lib.mkEnableOption "Enables zoxide integration in configured shells";
         starship.enable = lib.mkEnableOption "Enables starship integration in configured shells";
         delta.enable = lib.mkEnableOption "Enables the delta pager with git and jj integration.";
+        broot.enable = lib.mkEnableOption "Enables the broot file navigator in configured shells.";
       };
 
       config = {
@@ -186,6 +187,94 @@
           enable = true;
         };
 
+        programs.broot = lib.mkIf cfg.broot.enable {
+          enable = true;
+          package = pkgs.unstable.broot;
+          enableBashIntegration = lib.mkIf cfg.bash.enable true;
+          enableZshIntegration = lib.mkIf cfg.zsh.enable true;
+          enableFishIntegration = lib.mkIf cfg.fish.enable true;
+          settings = {
+            default_flags = "--hidden --show-git-info";
+            show_selection_mark = true;
+            icon_theme = "nerdfonts";
+            special_paths =
+              let
+                never = {
+                  show = "never";
+                  list = "never";
+                  sum = "always";
+                };
+              in
+              {
+                "/media" = {
+                  list = "never";
+                  sum = "never";
+                };
+                "~/.config" = {
+                  show = "always";
+                  list = "always";
+                  sum = "never";
+                };
+                ".git" = never;
+                ".flox/cache" = never;
+                ".flox/log" = never;
+                ".flox/run" = never;
+                ".flox/.gitignore" = never;
+              };
+            content_search_max_file_size = "10MB";
+            enable_kitty_keyboard = false;
+            lines_before_match_in_preview = 1;
+            lines_after_match_in_preview = 1;
+            preview_transformers = [
+              # Use jq to beautify JSON
+              {
+                  input_extensions = [ "json" ];
+                  output_extension = "json";
+                  mode = "text";
+                  command = [ "jq" ];
+              }
+            ];
+            verbs = [
+              {
+                invocation = "edit";
+                shortcut = "e";
+                key = "enter";
+                apply_to = "text_file";
+                external = "''$EDITOR {file:space-separated}:{line}";
+                leave_broot = false;
+              }
+              {
+                invocation = "create {subpath}";
+                external = "''$EDITOR {directory}/{subpath}";
+                leave_broot = false;
+              }
+              {
+                  key = "ctrl-k";
+                  internal = ":line_up";
+              }
+              {
+                  key = "ctrl-j";
+                  internal = ":line_down";
+              }
+              {
+                  key = "ctrl-u";
+                  internal = ":page_up";
+              }
+              {
+                  key = "ctrl-d";
+                  internal = ":page_down";
+              }
+              {
+                key = "ctrl-shift-h";
+                internal = ":panel_left_no_open";
+              }
+              {
+                key = "ctrl-shift-l";
+                internal = ":panel_right";
+              }
+            ];
+          };
+        };
       };
     };
 }

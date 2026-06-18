@@ -104,6 +104,11 @@
                 tab-width = 2;
               };
             }
+            {
+              name = "nix";
+              language-servers = [ "nixd" ];
+              formatter = { command = "nixfmt"; };
+            }
           ];
         };
       };
