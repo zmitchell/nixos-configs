@@ -1,7 +1,6 @@
 { pkgs, ... }:
 let
   shellAliases = import ./shell-aliases.nix;
-  deploy-config = pkgs.callPackage ../pkgs/deploy-config/default.nix { };
 in
 {
   imports = [
@@ -10,19 +9,14 @@ in
 
   home.stateVersion = "24.05";
 
-  home.packages =
-    with pkgs;
-    [
-      bacon
-      utm
-      unstable.lima
-      unstable.colima
-      docker-client
-      docker-compose
-    ]
-    ++ [
-      deploy-config
-    ];
+  home.packages = with pkgs; [
+    bacon
+    utm
+    unstable.lima
+    unstable.colima
+    docker-client
+    docker-compose
+  ];
 
   programs.fish.loginShellInit = ''
     fish_add_path -g "$HOME/.cargo/bin"
