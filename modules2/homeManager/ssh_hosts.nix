@@ -33,13 +33,31 @@
         };
       };
 
-      config.programs.ssh.matchBlocks = lib.mapAttrs (_: opts: {
-        inherit (opts) host hostname;
-        forwardAgent = true;
-        user = osConfig.user_profile.username;
-        serverAliveInterval = 60;
-        serverAliveCountMax = 10080;
-        setEnv.TERM = "xterm-256color";
-      }) cfg.hosts;
+      config.programs.ssh = {
+        enable = true;
+        matchBlocks = (lib.mapAttrs (_: opts: {
+          inherit (opts) host hostname;
+          forwardAgent = true;
+          user = osConfig.user_profile.username;
+          serverAliveInterval = 60;
+          serverAliveCountMax = 10080;
+          setEnv.TERM = "xterm-256color";
+        }) cfg.hosts) // {
+          "*" = {
+            forwardAgent = false;
+            addKeysToAgent = "no";
+            compression = false;
+            serverAliveInterval = 0;
+            serverAliveCountMax = 3;
+            hashKnownHosts = false;
+            userKnownHostsFile = "~/.ssh/known_hosts";
+            controlMaster = "no";
+            controlPath = "~/.ssh/master-%r@%n:%p";
+            controlPersist = "no";
+          };
+        };
+        enableDefaultConfig = false;
+
+      };
     };
 }
