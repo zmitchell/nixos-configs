@@ -22,8 +22,6 @@
             "ctrl+t=new_tab"
             "ctrl+shift+[=previous_tab"
             "ctrl+shift+]=next_tab"
-            # Otherwise we have two bindings for "next tab"
-            "ctrl+tab=unbind"
           ];
         };
         font_size = lib.mkOption {
@@ -48,7 +46,10 @@
               "-liga"
               "-dlig"
             ];
-            keybind = cfg.keybinds;
+            keybind = cfg.keybinds ++ [
+              # Otherwise we can have two bindings for "next tab"
+              "ctrl+tab=unbind"
+            ];
           };
         };
       };

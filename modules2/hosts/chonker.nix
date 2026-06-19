@@ -51,7 +51,6 @@
                 "alt+j=goto_split:down"
                 "alt+k=goto_split:up"
                 "alt+l=goto_split:right"
-                "ctrl+tab=unbind"
               ];
             };
             ssh_hosts.hosts = {

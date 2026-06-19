@@ -20,5 +20,8 @@
       services.udev.packages = with pkgs; [
         game-devices-udev-rules
       ];
+      environment.systemPackages = with pkgs; [
+        xow_dongle-firmware # Xbox controller dongle firmware
+      ];
     };
 }

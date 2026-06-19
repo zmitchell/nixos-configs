@@ -39,9 +39,6 @@
             # User-level module customizations
             ghostty = {
               font_size = 13;
-              keybinds = [
-                "ctrl+tab=unbind"
-              ];
             };
             home.packages = with pkgs; [
               docker-client
