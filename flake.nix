@@ -50,7 +50,7 @@
             lib.hasSuffix ".nix" path
             && baseNameOf path != "default.nix"
             && !(lib.hasPrefix "_" (baseNameOf path))
-          ) (lib.filesystem.listFilesRecursive ./modules2))
+          ) (lib.filesystem.listFilesRecursive ./modules))
           ++ [
             inputs.flake-parts.flakeModules.modules
           ];
